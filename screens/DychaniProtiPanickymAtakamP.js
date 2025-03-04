@@ -9,20 +9,19 @@ const DychaniProtiPanickymAtakamP = () => {
 
   return (
     <View style={styles.container}>
-      {/* 🔙 Šipka zpět */}
+      {/* Šipka zpět */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={32} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.title}>DÝCHÁNÍ PŘED SPANÍM</Text>
+        <Text style={styles.title}>DÝCHÁNÍ PROTI PANICKÝM ATAKÁM</Text>
       </View>
 
       <Text style={styles.description}>
-        Wim Hofova metoda je intenzivní dechová technika, která pomáhá probudit
-        tělo a mysl. Podporuje okysličení, zvyšuje soustředění a dodává energii na celý den.
+      Panické ataky jsou často spojeny s hyperventilací, kdy dochází k přílišnému vydechování oxidu uhličitého, což může vést k pocitům dušnosti, závratím a dalším nepříjemným stavům. Dýchání do dlaní pomáhá obnovit rovnováhu CO₂ v krvi. Spočívá v pomalém a kontrolovaném dýchání do vlastních spojených dlaní, což umožňuje opětovné vdechování vydechnutého vzduchu a tím zabránění hyperventilaci. Tato metoda pomáhá rychle stabilizovat dech a uklidnit mysl.
       </Text>
 
-      {/* 🕒 Výběr délky cvičení */}
+      {/* Výběr délky cvičení */}
       <View style={styles.buttonGroup}>
         {[2, 5, 10].map((time) => (
           <TouchableOpacity
@@ -39,7 +38,7 @@ const DychaniProtiPanickymAtakamP = () => {
         ))}
       </View>
 
-      {/* ▶ Pokračovat na cvičení */}
+      {/* Pokračovat na cvičení */}
       <TouchableOpacity
         style={styles.startButton}
         onPress={() => navigation.navigate("DenBezStresuC", { selectedTime })}

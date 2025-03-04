@@ -9,7 +9,7 @@ const DenBezStresuP = () => {
 
   return (
     <View style={styles.container}>
-      {/* 🔙 Šipka zpět */}
+      {/* Šipka zpět */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={32} color="#000" />
@@ -18,8 +18,7 @@ const DenBezStresuP = () => {
       </View>
 
       <Text style={styles.description}>
-        Wim Hofova metoda je intenzivní dechová technika, která pomáhá probudit
-        tělo a mysl. Podporuje okysličení, zvyšuje soustředění a dodává energii na celý den.
+      Box Breathing je technika používaná i speciálními jednotkami pro zvládání stresu. Spočívá v rovnoměrných fázích dýchání: nádech po dobu 4 sekund, zadržení dechu na 4 sekundy, výdech po dobu 4 sekund a opět zadržení na 4 sekundy. Tento cyklus se několikrát opakuje. Tato metoda pomáhá stabilizovat srdeční tep, snižovat hladinu kortizolu a udržovat klidnou a soustředěnou mysl, což je ideální pro stresové situace během dne.
       </Text>
 
       {/* 🕒 Výběr délky cvičení */}
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
   backButton: {
     position: "absolute",
     left: 0,
-    zIndex: 10, // ✅ Zajišťuje, že šipka je kliknutelná
+    zIndex: 10, 
   },
   title: {
     fontSize: 24,

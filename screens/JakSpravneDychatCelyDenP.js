@@ -14,12 +14,11 @@ const JakSpravneDychatCelyDenP = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={32} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.title}>DÝCHÁNÍ PŘED SPANÍM</Text>
+        <Text style={styles.title}>JAK SPRÁVNĚ DÝCHAT CELÝ DEN</Text>
       </View>
 
       <Text style={styles.description}>
-        Wim Hofova metoda je intenzivní dechová technika, která pomáhá probudit
-        tělo a mysl. Podporuje okysličení, zvyšuje soustředění a dodává energii na celý den.
+      Správné dýchání během dne zahrnuje využití bráničního dýchání a dýchání nosem. Nosní dýchání pomáhá filtrovat a zvlhčovat vzduch, zatímco brániční dýchání umožňuje hlubší a efektivnější přísun kyslíku. Doporučuje se pravidelně kontrolovat svůj dechový vzorec a vyvarovat se povrchnímu dýchání do hrudníku, které může přispívat k napětí a stresu.
       </Text>
 
       {/* 🕒 Výběr délky cvičení */}

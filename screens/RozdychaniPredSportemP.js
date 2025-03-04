@@ -9,20 +9,19 @@ const RozdychaniPredSportemP = () => {
 
   return (
     <View style={styles.container}>
-      {/* 🔙 Šipka zpět */}
+      {/* Šipka zpět */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={32} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.title}>DÝCHÁNÍ PŘED SPANÍM</Text>
+        <Text style={styles.title}>ROZDÝCHÁNÍ PŘED SPORTEM</Text>
       </View>
 
       <Text style={styles.description}>
-        Wim Hofova metoda je intenzivní dechová technika, která pomáhá probudit
-        tělo a mysl. Podporuje okysličení, zvyšuje soustředění a dodává energii na celý den.
+      Dýchání do břicha pomáhá aktivovat parasympatický nervový systém a připravit tělo na fyzickou aktivitu. Cyklické dýchání pak zahrnuje kontrolovaný rytmus mezi nádechem a výdechem, což umožňuje tělu lépe regulovat kyslíkový deficit při fyzické zátěži. Tato metoda pomáhá snížit riziko křečí a zlepšit celkový výkon při sportu.
       </Text>
 
-      {/* 🕒 Výběr délky cvičení */}
+      {/* Výběr délky cvičení */}
       <View style={styles.buttonGroup}>
         {[2, 5, 10].map((time) => (
           <TouchableOpacity

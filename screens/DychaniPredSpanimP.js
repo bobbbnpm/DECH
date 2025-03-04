@@ -18,8 +18,7 @@ const DychaniPredSpanimP = () => {
       </View>
 
       <Text style={styles.description}>
-        Wim Hofova metoda je intenzivní dechová technika, která pomáhá probudit
-        tělo a mysl. Podporuje okysličení, zvyšuje soustředění a dodává energii na celý den.
+      Stejně jako při zvládání stresu se i před spaním doporučuje technika 4-7-8, která pomáhá zpomalit srdeční rytmus a připravit tělo na hluboký spánek. Pomalé výdechy aktivují parasympatický nervový systém, což snižuje stres a napomáhá rychlejšímu usnutí. Tato metoda je účinná zejména pro lidi trpící nespavostí nebo úzkostí.
       </Text>
 
       {/* 🕒 Výběr délky cvičení */}

@@ -14,12 +14,11 @@ const RozdychaniPredPotapenimP = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={32} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.title}>DÝCHÁNÍ PŘED SPANÍM</Text>
+        <Text style={styles.title}>ROZDÝCHÁNÍ PŘED POTÁPENÍM</Text>
       </View>
 
       <Text style={styles.description}>
-        Wim Hofova metoda je intenzivní dechová technika, která pomáhá probudit
-        tělo a mysl. Podporuje okysličení, zvyšuje soustředění a dodává energii na celý den.
+      Před potápěním je důležité zklidnit dech a připravit tělo na zadržení dechu pod vodou. K tomu se využívá technika hlubokého bráničního dýchání v kombinaci s pomalými a kontrolovanými nádechy a výdechy. Pomalé dýchání pomáhá zvýšit zásoby kyslíku v krvi a snížit spotřebu kyslíku pod vodou. Důležité je vyvarovat se hyperventilaci, která může vést k nebezpečnému poklesu CO₂ a zvýšenému riziku ztráty vědomí.
       </Text>
 
       {/* 🕒 Výběr délky cvičení */}

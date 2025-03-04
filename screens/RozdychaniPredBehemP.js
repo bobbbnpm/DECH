@@ -14,12 +14,11 @@ const RozdychaniPredBehemP = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={32} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.title}>DÝCHÁNÍ PŘED SPANÍM</Text>
+        <Text style={styles.title}>ROZDÝCHÁNÍ PŘED BĚHEM</Text>
       </View>
 
       <Text style={styles.description}>
-        Wim Hofova metoda je intenzivní dechová technika, která pomáhá probudit
-        tělo a mysl. Podporuje okysličení, zvyšuje soustředění a dodává energii na celý den.
+      Tato technika pomáhá optimalizovat přísun kyslíku při běhu a minimalizovat únavu. Rytmické dýchání znamená nádech na dva kroky a výdech na dva kroky. Tento způsob dýchání pomáhá udržet stabilní dechový vzorec, snižuje napětí v těle a podporuje efektivnější využití energie. Důležitou součástí je nosní dýchání, které filtruje a zvlhčuje vzduch, a brániční dýchání, které zajišťuje hlubší přísun kyslíku.
       </Text>
 
       {/* 🕒 Výběr délky cvičení */}
