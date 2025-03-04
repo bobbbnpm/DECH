@@ -4,7 +4,6 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 const OnboardingScreen1 = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      {/* ✅ Změněno: Místo kruhu je zde PNG obrázek */}
       <Image source={require("../assets/logo.png")} style={styles.logo} />
       
       <Text style={styles.text}>
@@ -27,10 +26,10 @@ const styles = StyleSheet.create({
     padding: 20 
   },
   logo: { 
-    width: 150,  // ✅ Nastav šířku loga
-    height: 150, // ✅ Nastav výšku loga
+    width: 150,  
+    height: 150,
     marginBottom: 20, 
-    resizeMode: "contain" // ✅ Logo se přizpůsobí velikosti
+    resizeMode: "contain" 
   },
   text: { 
     fontSize: 16, 

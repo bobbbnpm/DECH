@@ -7,16 +7,16 @@ const OnboardingScreen2 = ({ navigation, setShowOnboarding }) => {
 
   const handleSelection = async (category) => {
     setSelectedCategory(category);
-    await AsyncStorage.setItem("selectedCategory", category); 
+    await AsyncStorage.setItem("selectedCategory", category);
   };
 
   const finishOnboarding = async () => {
     if (!selectedCategory) return;
 
-    await AsyncStorage.setItem("hasSeenOnboarding", "true");
+    await AsyncStorage.setItem("hasSeenOnboarding", "true"); 
     await AsyncStorage.setItem("selectedCategory", selectedCategory);
 
-    setShowOnboarding(false); 
+    setShowOnboarding(false);
   };
 
   return (

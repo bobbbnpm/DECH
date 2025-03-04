@@ -14,12 +14,30 @@ import PanickaAtakaScreen from "./screens/PanickaAtakaScreen";
 import SnadneUsinaniScreen from "./screens/SnadneUsinaniScreen";
 import OnboardingScreen1 from "./screens/OnboardingScreen1";
 import OnboardingScreen2 from "./screens/OnboardingScreen2";
+import GoodMorningDescript from "./screens/GoodMorningDescript";
+import GoodMorningExercise from "./screens/GoodMorningExercise";
+import DenBezStresuP from "./screens/DenBezStresuP";
+import DenBezStresuC from "./screens/DenBezStresuC";
+import DychaniPredSpanimP from "./screens/DychaniPredSpanimP";
+import DychaniPredSpanimC from "./screens/DychaniPredSpanimC";
+import ZmirneniStresuPredZkouskouP from "./screens/ZmirneniStresuPredZkouskouP";
+import ZmirneniStresuPredZkouskouC from "./screens/ZmirneniStresuPredZkouskouC";
+import DychaniProtiPanickymAtakamP from "./screens/DychaniProtiPanickymAtakamP";
+import DychaniProtiPanickymAtakamC from "./screens/DychaniProtiPanickymAtakamC";
+import JakSpravneDychatCelyDenP from "./screens/JakSpravneDychatCelyDenP";
+import JakSpravneDychatCelyDenC from "./screens/JakSpravneDychatCelyDenC";
+import RozdychaniPredBehemP from "./screens/RozdychaniPredBehemP";
+import RozdychaniPredBehemC from "./screens/RozdychaniPredBehemC";
+import RozdychaniPredSportemP from "./screens/RozdychaniPredSportemP";
+import RozdychaniPredSportemC from "./screens/RozdychaniPredSportemC";
+import RozdychaniPredPotapenimP from "./screens/RozdychaniPredPotapenimP";
+import RozdychaniPredPotapenimC from "./screens/RozdychaniPredPotapenimC";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const OnboardingStack = createStackNavigator();
 
-// ✅ **Spodní menu (hlavní aplikace)**
+// **Spodní menu (hlavní aplikace)**
 const TabNavigator = () => {
   return (
     <Tab.Navigator
@@ -43,7 +61,7 @@ const TabNavigator = () => {
   );
 };
 
-// ✅ **Navigace pro onboarding**
+// **Navigace pro onboarding**
 const OnboardingNavigator = ({ setShowOnboarding }) => {
   return (
     <OnboardingStack.Navigator screenOptions={{ headerShown: false }}>
@@ -56,23 +74,23 @@ const OnboardingNavigator = ({ setShowOnboarding }) => {
   );
 };
 
-// ✅ **Hlavní navigace aplikace**
+// **Hlavní navigace aplikace**
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [showOnboarding, setShowOnboarding] = useState(true); // ✅ Onboarding vždy při startu
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
-    const resetOnboarding = async () => {
+    const checkOnboarding = async () => {
       try {
-        await AsyncStorage.removeItem("hasSeenOnboarding"); // ✅ Vždy resetuj onboarding při spuštění
-        setShowOnboarding(true);
+        const seen = await AsyncStorage.getItem("hasSeenOnboarding");
+        setShowOnboarding(seen !== "true"); 
       } catch (error) {
-        console.error("Chyba při resetování onboardingu:", error);
+        console.error("Chyba při načítání onboardingu:", error);
       }
       setIsLoading(false);
     };
 
-    resetOnboarding();
+    checkOnboarding();
   }, []);
 
   if (isLoading) return null;
@@ -85,11 +103,29 @@ const App = () => {
             {() => <OnboardingNavigator setShowOnboarding={setShowOnboarding} />}
           </Stack.Screen>
         ) : (
-          <Stack.Screen name="TabNavigator" component={TabNavigator} /> // ✅ Navigace na hlavní aplikaci
+          <Stack.Screen name="TabNavigator" component={TabNavigator} />
         )}
         <Stack.Screen name="ZklidnitStres" component={ZklidnitStresScreen} />
         <Stack.Screen name="PanickaAtaka" component={PanickaAtakaScreen} />
         <Stack.Screen name="SnadneUsinani" component={SnadneUsinaniScreen} />
+        <Stack.Screen name="GoodMorningDescript" component={GoodMorningDescript} />
+        <Stack.Screen name="GoodMorningExercise" component={GoodMorningExercise} />
+        <Stack.Screen name="DenBezStresuP" component={DenBezStresuP} />
+        <Stack.Screen name="DenBezStresuC" component={DenBezStresuC} />
+        <Stack.Screen name="DychaniPredSpanimP" component={DychaniPredSpanimP} />
+        <Stack.Screen name="DychaniPredSpanimC" component={DychaniPredSpanimC} />
+        <Stack.Screen name="ZmirneniStresuPredZkouskouP" component={ZmirneniStresuPredZkouskouP} />
+        <Stack.Screen name="ZmirneniStresuPredZkouskouC" component={ZmirneniStresuPredZkouskouC} />
+        <Stack.Screen name="DychaniProtiPanickymAtakamP" component={DychaniProtiPanickymAtakamP} />
+        <Stack.Screen name="DychaniProtiPanickymAtakamC" component={DychaniProtiPanickymAtakamC} />
+        <Stack.Screen name="JakSpravneDychatCelyDenP" component={JakSpravneDychatCelyDenP} />
+        <Stack.Screen name="JakSpravneDychatCelyDenC" component={JakSpravneDychatCelyDenC} />
+        <Stack.Screen name="RozdychaniPredBehemP" component={RozdychaniPredBehemP} />
+        <Stack.Screen name="RozdychaniPredBehemC" component={RozdychaniPredBehemC} />
+        <Stack.Screen name="RozdychaniPredSportemP" component={RozdychaniPredSportemP} />
+        <Stack.Screen name="RozdychaniPredSportemC" component={RozdychaniPredSportemC} />
+        <Stack.Screen name="RozdychaniPredPotapenimP" component={RozdychaniPredPotapenimP} />
+        <Stack.Screen name="RozdychaniPredPotapenimC" component={RozdychaniPredPotapenimC} />
       </Stack.Navigator>
     </NavigationContainer>
   );
