@@ -7,14 +7,14 @@ const ExercisesScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>CVIČENÍ</Text>
+      <Text style={styles.header}>VYBER SI CVIČENÍ</Text>
 
       {[
         { key: "GoodMorningDescript", title: "DOBRÉ RÁNO", description: "Probuzení pomocí Wim Hofovy metody." },
         { key: "DenBezStresuP", title: "DEN BEZ STRESU", description: "Box breathing 4-4-4-4 pro redukci stresu." },
         { key: "DychaniPredSpanimP", title: "DÝCHÁNÍ PŘED SPANÍM", description: "4-7-8 dýchání pro lepší spánek." },
         { key: "ZmirneniStresuPredZkouskouP", title: "ZMÍRNĚNÍ STRESU PŘED ZKOUŠKOU", description: "3-3-3-3 Box Breathing" },
-        { key: "DychaniProtiPanickymAtakamP", title: "DÝCHÁNÍ PROTI PANICKÝM ATAKÁM", description: "Dýchání do dlaní, Box breathing (4-4-4-4)" },
+        { key: "DychaniProtiPanickymAtakamP", title: "DÝCHÁNÍ PROTI PANICKÝM ATAKÁM", description: "Dýchání do dlaní, Box breathing 4-4-4-4" },
         { key: "JakSpravneDychatCelyDenP", title: "JAK SPRÁVNĚ DÝCHAT CELÝ DEN", description: "Nauč se techniku, jak správně dýchat po celý den" },
         { key: "RozdychaniPredBehemP", title: "ROZDÝCHÁNÍ PŘED BĚHEM", description: "Rytmické dýchání (2-2), nosní dýchání pro vytrvalost, brániční dýchání" },
         { key: "RozdychaniPredSportemP", title: "ROZDÝCHÁNÍ PŘED SPORTEM", description: "Dýchání do břicha, cyklické dýchání." },
@@ -39,41 +39,53 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     alignItems: "center",
-    backgroundColor: "#F5F2F4",
+    backgroundColor: "#f7f4fb",
     paddingVertical: 20,
   },
   header: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
+    color: "#5A189A",
     textAlign: "center",
   },
   card: {
     width: "90%",
-    backgroundColor: "#E3E1E3",
+    backgroundColor: "#ECE4FF",
     padding: 20,
     borderRadius: 15,
     marginBottom: 15,
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 5,
     textAlign: "center",
+    color: "#4A148C",
   },
   description: {
     fontSize: 14,
-    color: "#333",
+    color: "#6B728E",
     textAlign: "center",
     marginBottom: 10,
   },
   button: {
-    backgroundColor: "#d6eadf",
+    backgroundColor: "#9B5DE5",
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 10,
+    borderRadius: 25,
     marginTop: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
   },
   buttonText: {
     color: "#fff",
@@ -81,5 +93,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
 
 export default ExercisesScreen;

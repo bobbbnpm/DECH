@@ -9,7 +9,7 @@ const RozdychaniPredPotapenimP = () => {
 
   return (
     <View style={styles.container}>
-      {/* 🔙 Šipka zpět */}
+      {/* Šipka zpět */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={32} color="#000" />
@@ -21,7 +21,7 @@ const RozdychaniPredPotapenimP = () => {
       Před potápěním je důležité zklidnit dech a připravit tělo na zadržení dechu pod vodou. K tomu se využívá technika hlubokého bráničního dýchání v kombinaci s pomalými a kontrolovanými nádechy a výdechy. Pomalé dýchání pomáhá zvýšit zásoby kyslíku v krvi a snížit spotřebu kyslíku pod vodou. Důležité je vyvarovat se hyperventilaci, která může vést k nebezpečnému poklesu CO₂ a zvýšenému riziku ztráty vědomí.
       </Text>
 
-      {/* 🕒 Výběr délky cvičení */}
+      {/* Výběr délky cvičení */}
       <View style={styles.buttonGroup}>
         {[2, 5, 10].map((time) => (
           <TouchableOpacity
@@ -38,7 +38,7 @@ const RozdychaniPredPotapenimP = () => {
         ))}
       </View>
 
-      {/* ▶ Pokračovat na cvičení */}
+      {/* Pokračovat na cvičení */}
       <TouchableOpacity
         style={styles.startButton}
         onPress={() => navigation.navigate("DenBezStresuC", { selectedTime })}
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   backButton: {
     position: "absolute",
     left: 0,
-    zIndex: 10, // ✅ Zajišťuje, že šipka je kliknutelná
+    zIndex: 10, 
   },
   title: {
     fontSize: 24,

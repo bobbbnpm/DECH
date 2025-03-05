@@ -1,183 +1,141 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions, SafeAreaView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { LinearGradient } from "expo-linear-gradient"; // Gradient pozadí
+import LottieView from "lottie-react-native"; // Animace bublin
 
 const { width, height } = Dimensions.get("window");
 
 const breathCycle = [
-  { phase: "Nádech", duration: 4000, scale: 1.3 },
-  { phase: "Zadržet dech", duration: 4000, scale: 1.3 },
-  { phase: "Výdech", duration: 6000, scale: 1 },
+  { phase: "Nádech", duration: 4000, scale: 1.3, color: "#66CCFF" },
+  { phase: "Zadržet dech", duration: 4000, scale: 1.3, color: "#3388CC" },
+  { phase: "Výdech", duration: 6000, scale: 1, color: "#004488" },
 ];
 
 const RozdychaniPredPotapenimC = () => {
   const navigation = useNavigation();
-  const route = useRoute();
-
-  // Převzetí vybrané délky cvičení z předchozí obrazovky
-  const selectedTime = (route.params?.selectedTime || 5) * 60000; // Defaultně 5 minut
-  const [remainingTime, setRemainingTime] = useState(selectedTime);
-  const [phaseIndex, setPhaseIndex] = useState(0);
-  const [phaseTime, setPhaseTime] = useState(breathCycle[0].duration / 1000);
-  const scaleAnim = useState(new Animated.Value(1))[0];
   const [breathing, setBreathing] = useState(false);
+  const [phaseIndex, setPhaseIndex] = useState(0);
+  const [showBubbles, setShowBubbles] = useState(true);
+  const scaleAnim = useState(new Animated.Value(1))[0];
+  const buttonAnim = useState(new Animated.Value(1))[0];
+  const circleColor = useState(new Animated.Value(0))[0];
 
   useEffect(() => {
-    let phaseTimer;
-    let countdown;
-
     if (breathing) {
-      const { duration, scale } = breathCycle[phaseIndex];
-
-      Animated.timing(scaleAnim, {
-        toValue: scale,
-        duration: duration,
-        useNativeDriver: true,
-      }).start();
-
-      setPhaseTime(duration / 1000);
-      phaseTimer = setInterval(() => {
-        setPhaseTime((prev) => {
-          if (prev <= 1) {
-            clearInterval(phaseTimer);
-            setPhaseIndex((prevIndex) => (prevIndex + 1) % breathCycle.length);
-            return breathCycle[(phaseIndex + 1) % breathCycle.length].duration / 1000;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-
-      // Hlavní časovač podle vybraného času
-      countdown = setInterval(() => {
-        setRemainingTime((prev) => {
-          if (prev <= 1000) {
-            clearInterval(countdown);
-            setBreathing(false);
-            return 0;
-          }
-          return prev - 1000;
-        });
-      }, 1000);
-    } else {
-      clearInterval(countdown);
-      clearInterval(phaseTimer);
-      setRemainingTime(selectedTime);
-      setPhaseTime(breathCycle[0].duration / 1000);
-      scaleAnim.setValue(1);
-      setPhaseIndex(0);
+      console.log("Dýchání zahájeno!");
+      cycleBreath();
     }
+  }, [breathing]);
 
-    return () => {
-      clearInterval(phaseTimer);
-      clearInterval(countdown);
-    };
-  }, [breathing, phaseIndex]);
+  const cycleBreath = () => {
+    if (!breathing) return;
 
-  // Převod milisekund na minuty a sekundy
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60000);
-    const seconds = ((time % 60000) / 1000).toFixed(0);
-    return `${minutes}:${seconds.padStart(2, "0")}`;
+    const { duration, scale, color } = breathCycle[phaseIndex];
+
+    Animated.parallel([
+      Animated.timing(scaleAnim, { toValue: scale, duration: duration, useNativeDriver: true }),
+      Animated.timing(circleColor, { toValue: phaseIndex, duration: duration, useNativeDriver: false }),
+    ]).start(() => {
+      setPhaseIndex((prevIndex) => (prevIndex + 1) % breathCycle.length);
+      cycleBreath();
+    });
   };
 
+  const startBreathing = () => {
+    setBreathing(!breathing);
+    setPhaseIndex(0);
+
+    if (!breathing) {
+      cycleBreath();
+      if (showBubbles) setTimeout(() => setShowBubbles(false), 3000);
+    }
+  };
+
+  const animateButton = () => {
+    Animated.sequence([
+      Animated.timing(buttonAnim, { toValue: 1.2, duration: 200, useNativeDriver: true }),
+      Animated.timing(buttonAnim, { toValue: 1, duration: 200, useNativeDriver: true }),
+    ]).start();
+  };
+
+  const interpolatedColor = circleColor.interpolate({
+    inputRange: breathCycle.map((_, i) => i),
+    outputRange: breathCycle.map((b) => b.color),
+  });
+
   return (
-    <View style={styles.container}>
-      {/* Hlavička s tlačítkem zpět */}
+    <SafeAreaView style={styles.container}>
+      {/* Mořské pozadí pomocí gradientu */}
+      <LinearGradient colors={["#0099FF", "#003366"]} style={StyleSheet.absoluteFill} />
+
+      {/* Animace bublin (pouze při prvním spuštění) */}
+      {showBubbles && (
+        <LottieView
+          source={require("../assets/bubbles.json")}
+          autoPlay
+          loop={false}
+          style={styles.bubbles}
+        />
+      )}
+
+      {/* Zpětné tlačítko */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={32} />
+          <Ionicons name="arrow-back" size={32} color="white" />
         </TouchableOpacity>
-        <Text style={styles.title}>DEN BEZ STRESU</Text>
       </View>
 
-      {/* Časovač odpočítávající do konce cvičení */}
-      <Text style={styles.timer}>{formatTime(remainingTime)}</Text>
+      {/* Kruh s animací */}
+      <Animated.View
+        style={[
+          styles.circle,
+          {
+            transform: [{ scale: scaleAnim }],
+            backgroundColor: interpolatedColor,
+          },
+        ]}
+      >
+        <Text style={styles.circleText}>{breathCycle[phaseIndex].phase}</Text>
+      </Animated.View>
 
-      {/* Animovaný kruh s odpočtem uvnitř */}
-      <View style={styles.circleContainer}>
-        <Animated.View style={[styles.circle, { transform: [{ scale: scaleAnim }] }]}>
-          <Text style={styles.circleText}>{phaseTime}</Text>
-        </Animated.View>
-      </View>
-
-      {/* Text fáze dýchání pod kruhem */}
-      <Text style={styles.phaseText}>{breathCycle[phaseIndex].phase}</Text>
-
-      {/* Tlačítko Start/Stop */}
-      <TouchableOpacity style={styles.button} onPress={() => setBreathing(!breathing)}>
-        <Text style={styles.buttonText}>{breathing ? "Zastavit" : "Začít"}</Text>
-      </TouchableOpacity>
-    </View>
+      {/* Tlačítko Start/Zastavit */}
+      <Animated.View style={{ transform: [{ scale: buttonAnim }] }}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            startBreathing();
+            animateButton();
+          }}
+        >
+          <Text style={styles.buttonText}>{breathing ? "Zastavit" : "Začít"}</Text>
+        </TouchableOpacity>
+      </Animated.View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    backgroundColor: "#F5F2F4",
-    paddingHorizontal: width * 0.05,
-    justifyContent: "space-between",
-    paddingVertical: height * 0.05
-  },
-  header: { 
-    flexDirection: "row", 
-    alignItems: "center", 
-    justifyContent: "center",
-    marginTop: height * 0.02
-  },
-  backButton: {
-    position: "absolute",
-    left: width * 0.02,
-  },
-  title: { 
-    fontSize: width * 0.06, 
-    fontWeight: "bold", 
-    textAlign: "center",
-  },
-  timer: { 
-    fontSize: width * 0.05, 
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: height * 0.02
-  },
-  circleContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: height * 0.015
-  },
+  container: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#003366" },
+  bubbles: { position: "absolute", width: 300, height: 300, top: -50 },
+  header: { position: "absolute", top: height * 0.02, left: width * 0.02 },
+  backButton: { padding: 10 },
   circle: {
     width: width * 0.6,
     height: width * 0.6,
     borderRadius: width * 0.3,
-    backgroundColor: "#A0A0A0",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
-  circleText: {
-    fontSize: width * 0.09,
-    fontWeight: "bold",
-    color: "#fff"
+  circleText: { fontSize: width * 0.07, fontWeight: "bold", color: "white" },
+  button: {
+    backgroundColor: "#00bfff",
+    padding: 15,
+    borderRadius: 25,
+    marginTop: 20,
   },
-  phaseText: { 
-    fontSize: width * 0.05, 
-    fontWeight: "bold", 
-    textAlign: "center",
-    marginBottom: height * 0.02
-  },
-  button: { 
-    backgroundColor: "#8D8891", 
-    padding: height * 0.015, 
-    borderRadius: 10, 
-    width: "90%", 
-    alignSelf: "center",
-    alignItems: "center" 
-  },
-  buttonText: { 
-    color: "#FFF", 
-    fontSize: width * 0.045, 
-    fontWeight: "bold" 
-  },
+  buttonText: { color: "white", fontSize: 18, fontWeight: "bold" },
 });
 
 export default RozdychaniPredPotapenimC;

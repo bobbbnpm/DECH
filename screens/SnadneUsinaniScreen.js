@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions, Platform } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
-// Dechová technika optimalizovaná pro zklidnění stresu
+// Dechová technika optimalizovaná pro snadné usínání
 const breathCycle = [
   { phase: "Nádech", duration: 4000, scale: 1.3 },
   { phase: "Zadržet dech", duration: 4000, scale: 1.3 },
@@ -13,13 +14,13 @@ const breathCycle = [
   { phase: "Zadržet dech", duration: 2000, scale: 1 }
 ];
 
-const totalExerciseTime = 300000; // 5 minut v milisekundách
-
 const SnadneUsinaniScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const selectedTime = (route.params?.selectedTime || 5) * 60000; // Výchozí doba 5 minut
+  const [remainingTime, setRemainingTime] = useState(selectedTime);
   const [breathing, setBreathing] = useState(false);
   const [phaseIndex, setPhaseIndex] = useState(0);
-  const [remainingTime, setRemainingTime] = useState(totalExerciseTime);
   const [phaseTime, setPhaseTime] = useState(breathCycle[0].duration / 1000);
   const scaleAnim = useState(new Animated.Value(1))[0];
 
@@ -30,14 +31,12 @@ const SnadneUsinaniScreen = () => {
     if (breathing) {
       const { duration, scale } = breathCycle[phaseIndex];
 
-      // Animace pro danou fázi
       Animated.timing(scaleAnim, {
         toValue: scale,
         duration: duration,
         useNativeDriver: true,
       }).start();
 
-      // Odpočet pro aktuální fázi
       setPhaseTime(duration / 1000);
       phaseTimer = setInterval(() => {
         setPhaseTime((prev) => {
@@ -50,7 +49,6 @@ const SnadneUsinaniScreen = () => {
         });
       }, 1000);
 
-      // Hlavní časovač (5 minut)
       countdown = setInterval(() => {
         setRemainingTime((prev) => {
           if (prev <= 1000) {
@@ -64,7 +62,7 @@ const SnadneUsinaniScreen = () => {
     } else {
       clearInterval(countdown);
       clearInterval(phaseTimer);
-      setRemainingTime(totalExerciseTime);
+      setRemainingTime(selectedTime);
       setPhaseTime(breathCycle[0].duration / 1000);
       scaleAnim.setValue(1);
       setPhaseIndex(0);
@@ -84,50 +82,45 @@ const SnadneUsinaniScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* Hlavička s tlačítkem zpět */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={32} />
+    <SafeAreaView style={styles.safeContainer}>
+      <View style={styles.container}>
+        {/* Hlavička s tlačítkem zpět */}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+            <Ionicons name="arrow-back" size={32} color="black" />
+          </TouchableOpacity>
+          <Text style={styles.title}>SNADNÉ USÍNÁNÍ</Text>
+        </View>
+
+        {/* Časovač odpočítávající do konce cvičení */}
+        <Text style={styles.timer}>{formatTime(remainingTime)}</Text>
+
+        {/* Animovaný kruh s odpočtem uvnitř */}
+        <View style={styles.circleContainer}>
+          <Animated.View style={[styles.circle, { transform: [{ scale: scaleAnim }] }]}>
+            <Text style={styles.circleText}>{phaseTime}</Text>
+          </Animated.View>
+        </View>
+
+        {/* Text fáze dýchání pod kruhem */}
+        <Text style={styles.phaseText}>{breathCycle[phaseIndex].phase}</Text>
+
+        {/* Tlačítko Start/Stop */}
+        <TouchableOpacity style={styles.button} onPress={() => setBreathing(!breathing)}>
+          <Text style={styles.buttonText}>{breathing ? "Zastavit" : "Začít"}</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>SNADNÉ USÍNÁNÍ</Text>
       </View>
-
-      {/* Ikony pod nadpisem */}
-      <View style={styles.iconRow}>
-        <TouchableOpacity>
-          <Ionicons name="volume-high" size={28} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Ionicons name="cloud" size={28} />
-        </TouchableOpacity>
-      </View>
-
-      {/* Časovač odpočítávající do konce cvičení */}
-      <Text style={styles.timer}>{formatTime(remainingTime)}</Text>
-
-      {/* Animovaný kruh s odpočtem uvnitř */}
-      <View style={styles.circleContainer}>
-        <Animated.View style={[styles.circle, { transform: [{ scale: scaleAnim }] }]}>
-          <Text style={styles.circleText}>{phaseTime}</Text>
-        </Animated.View>
-      </View>
-
-      {/* Text fáze dýchání pod kruhem */}
-      <Text style={styles.phaseText}>{breathCycle[phaseIndex].phase}</Text>
-
-      {/* Tlačítko Start/Stop */}
-      <TouchableOpacity style={styles.button} onPress={() => setBreathing(!breathing)}>
-        <Text style={styles.buttonText}>{breathing ? "Zastavit" : "Začít"}</Text>
-      </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    backgroundColor: "#F5F2F4"
+  },
   container: { 
     flex: 1, 
-    backgroundColor: "#F5F2F4",
     paddingHorizontal: width * 0.05,
     justifyContent: "space-between",
     paddingVertical: height * 0.05
@@ -146,13 +139,6 @@ const styles = StyleSheet.create({
     fontSize: width * 0.06, 
     fontWeight: "bold", 
     textAlign: "center",
-  },
-  iconRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: width * 0.08,
-    marginBottom: height * 0.015,
-    marginTop: height * 0.01
   },
   timer: { 
     fontSize: width * 0.05, 
