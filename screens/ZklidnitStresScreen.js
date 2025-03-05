@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions, Platform } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { Audio } from "expo-av";
 import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
-// Dechová technika optimalizovaná pro zklidnění stresu
+// Správná cesta k souboru deště
+const rainSoundUri = require("../assets/rain.mp3");
+
 const breathCycle = [
   { phase: "Nádech", duration: 4000, scale: 1.3 },
   { phase: "Zadržet dech", duration: 4000, scale: 1.3 },
@@ -17,10 +21,13 @@ const totalExerciseTime = 300000; // 5 minut v milisekundách
 
 const ZklidnitStresScreen = () => {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets(); 
   const [breathing, setBreathing] = useState(false);
   const [phaseIndex, setPhaseIndex] = useState(0);
   const [remainingTime, setRemainingTime] = useState(totalExerciseTime);
   const [phaseTime, setPhaseTime] = useState(breathCycle[0].duration / 1000);
+  const [rainSound, setRainSound] = useState(null);
+  const [rainPlaying, setRainPlaying] = useState(false);
   const scaleAnim = useState(new Animated.Value(1))[0];
 
   useEffect(() => {
@@ -30,14 +37,12 @@ const ZklidnitStresScreen = () => {
     if (breathing) {
       const { duration, scale } = breathCycle[phaseIndex];
 
-      // Animace pro danou fázi
       Animated.timing(scaleAnim, {
         toValue: scale,
         duration: duration,
         useNativeDriver: true,
       }).start();
 
-      // Odpočet pro aktuální fázi
       setPhaseTime(duration / 1000);
       phaseTimer = setInterval(() => {
         setPhaseTime((prev) => {
@@ -50,12 +55,12 @@ const ZklidnitStresScreen = () => {
         });
       }, 1000);
 
-      // Hlavní časovač (5 minut)
       countdown = setInterval(() => {
         setRemainingTime((prev) => {
           if (prev <= 1000) {
             clearInterval(countdown);
             setBreathing(false);
+            stopRain();
             return 0;
           }
           return prev - 1000;
@@ -76,6 +81,32 @@ const ZklidnitStresScreen = () => {
     };
   }, [breathing, phaseIndex]);
 
+  // Spuštění/zastavení deště
+  const toggleRain = async () => {
+    if (rainPlaying) {
+      stopRain();
+    } else {
+      const { sound } = await Audio.Sound.createAsync(rainSoundUri, {
+        isLooping: true,
+        volume: 1.0,
+        shouldPlay: true,
+      });
+      setRainSound(sound);
+      await sound.playAsync();
+      setRainPlaying(true);
+    }
+  };
+
+  // Zastavení zvuku deště
+  const stopRain = async () => {
+    if (rainSound) {
+      await rainSound.stopAsync();
+      await rainSound.unloadAsync();
+      setRainSound(null);
+    }
+    setRainPlaying(false);
+  };
+
   // Převod milisekund na minuty a sekundy
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60000);
@@ -83,9 +114,19 @@ const ZklidnitStresScreen = () => {
     return `${minutes}:${seconds.padStart(2, "0")}`;
   };
 
+  // Zastavení cvičení i zvuku deště
+  const stopExercise = () => {
+    setBreathing(false);
+    stopRain();
+  };
+
   return (
+     <SafeAreaView style={[styles.safeContainer, { 
+          paddingTop: insets.top, 
+          paddingBottom: insets.bottom, 
+          paddingLeft: insets.left, 
+          paddingRight: insets.right }]}>
     <View style={styles.container}>
-      {/* Hlavička s tlačítkem zpět */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={32} />
@@ -93,71 +134,83 @@ const ZklidnitStresScreen = () => {
         <Text style={styles.title}>ZKLIDNIT STRES</Text>
       </View>
 
-      {/* Ikony pod nadpisem */}
       <View style={styles.iconRow}>
-        <TouchableOpacity>
-          <Ionicons name="volume-high" size={28} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Ionicons name="cloud" size={28} />
-        </TouchableOpacity>
+      <TouchableOpacity onPress={toggleRain} style={styles.soundToggle}>
+        <Ionicons name={rainPlaying ? "cloud" : "cloud-offline"} size={32} color="#445D48" />
+      </TouchableOpacity>
       </View>
 
-      {/* Časovač odpočítávající do konce cvičení */}
       <Text style={styles.timer}>{formatTime(remainingTime)}</Text>
 
-      {/* Animovaný kruh s odpočtem uvnitř */}
       <View style={styles.circleContainer}>
         <Animated.View style={[styles.circle, { transform: [{ scale: scaleAnim }] }]}>
           <Text style={styles.circleText}>{phaseTime}</Text>
         </Animated.View>
       </View>
 
-      {/* Text fáze dýchání pod kruhem */}
       <Text style={styles.phaseText}>{breathCycle[phaseIndex].phase}</Text>
 
-      {/* Tlačítko Start/Stop */}
-      <TouchableOpacity style={styles.button} onPress={() => setBreathing(!breathing)}>
+      <TouchableOpacity style={styles.button} onPress={breathing ? stopExercise : () => setBreathing(true)}>
         <Text style={styles.buttonText}>{breathing ? "Zastavit" : "Začít"}</Text>
       </TouchableOpacity>
     </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    backgroundColor: "#F1F0EB", // Jemná krémová pro klidný pocit
+  },
   container: { 
     flex: 1, 
-    backgroundColor: "#F5F2F4",
-    paddingHorizontal: width * 0.05,
+    backgroundColor: "#F1F0EB",
+    paddingHorizontal: width * 0.03,
     justifyContent: "space-between",
-    paddingVertical: height * 0.05
+    paddingVertical: height * 0.01
   },
   header: { 
     flexDirection: "row", 
     alignItems: "center", 
     justifyContent: "center",
-    marginTop: height * 0.02
+    marginTop: height * 0.02,
+    position: "relative",
   },
   backButton: {
     position: "absolute",
     left: width * 0.02,
+    top: height * 0.01, 
+    padding: 10, 
+    backgroundColor: "#A8B5A2", // Jemná přírodní zelená
+    borderRadius: 50, 
   },
   title: { 
     fontSize: width * 0.06, 
+    position: "absolute",
+    top: height * 0.02, 
+    alignSelf: "center", // Zarovná text na střed v rámci `header`
     fontWeight: "bold", 
-    textAlign: "center",
+    color: "#445D48",
   },
-  iconRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: width * 0.08,
-    marginBottom: height * 0.015,
-    marginTop: height * 0.01
+  soundToggle: {
+    position: "absolute",
+    right: width * 0.4, 
+    top: height * 0.06, 
+    backgroundColor: "#A8B5A2", 
+    padding: 10,
+    borderRadius: 50,
+    shadowColor: "#3C493F",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
   timer: { 
+    marginTop: height * 0.1,
     fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
+    color: "#3C493F", // Jemnější tmavá zelená
     marginBottom: height * 0.02
   },
   circleContainer: {
@@ -169,31 +222,42 @@ const styles = StyleSheet.create({
     width: width * 0.6,
     height: width * 0.6,
     borderRadius: width * 0.3,
-    backgroundColor: "#A0A0A0",
+    backgroundColor: "#DDE2C6", // Jemná pastelová zelená místo hnědé
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: "#445D48", // Kontrastní tlumená zelená
+    shadowColor: "#A8B5A2",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
   },
   circleText: {
     fontSize: width * 0.09,
     fontWeight: "bold",
-    color: "#fff"
+    color: "#445D48", // Kontrastní tmavší zelená
   },
   phaseText: { 
     fontSize: width * 0.05, 
     fontWeight: "bold", 
     textAlign: "center",
+    color: "#445D48", 
     marginBottom: height * 0.02
   },
   button: { 
-    backgroundColor: "#8D8891", 
-    padding: height * 0.015, 
+    backgroundColor: "#445D48", // Zklidňující tmavší zelená
+    paddingVertical: height * 0.02, 
     borderRadius: 10, 
     width: "90%", 
     alignSelf: "center",
-    alignItems: "center" 
+    alignItems: "center",
+    shadowColor: "#3C493F",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
   },
   buttonText: { 
-    color: "#FFF", 
+    color: "#F1F0EB", // Světlejší béžová pro dobrý kontrast
     fontSize: width * 0.045, 
     fontWeight: "bold" 
   },
