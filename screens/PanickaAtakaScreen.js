@@ -25,7 +25,7 @@ const totalExerciseTime = 300000; // 5 minut v milisekundách
 
 const PanickaAtakaScreen = () => {
   const navigation = useNavigation();
-  const insets = useSafeAreaInsets(); // Dynamické hodnoty bezpečných okrajů
+  const insets = useSafeAreaInsets(); 
   const [breathing, setBreathing] = useState(false);
   const [phaseIndex, setPhaseIndex] = useState(0);
   const [remainingTime, setRemainingTime] = useState(totalExerciseTime);
@@ -143,14 +143,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#121212", 
     paddingHorizontal: width * 0.03,
     justifyContent: "space-between",
-    paddingVertical: height * 0.01
+    paddingVertical: height * 0.02
   },
   header: { 
   flexDirection: "row", 
   alignItems: "center", 
   justifyContent: "center",
   marginTop: height * 0.02,
-  position: "relative", // Umožní správné umístění prvků
+  position: "relative",
   },
   backButton: {
     position: "absolute",
