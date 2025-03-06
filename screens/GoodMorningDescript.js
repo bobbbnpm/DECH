@@ -4,12 +4,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
-// Získání šířky a výšky okna
 const { width, height } = Dimensions.get("window");
 
 const GoodMorningDescript = () => {
   const navigation = useNavigation();
-  const [selectedTime, setSelectedTime] = useState(5); // Výchozí hodnota 5 minut
+  const [selectedTime, setSelectedTime] = useState(5); 
   const insets = useSafeAreaInsets();
 
   return (
@@ -20,7 +19,6 @@ const GoodMorningDescript = () => {
       paddingRight: insets.right 
     }]}>
       <View style={styles.container}>
-        {/* 🔙 Šipka zpět */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <Ionicons name="arrow-back" size={24} color="#FFF" />
@@ -28,20 +26,18 @@ const GoodMorningDescript = () => {
           <Text style={styles.title}>DOBRÉ RÁNO</Text>
         </View>
 
-        {/* Popis metody */}
         <Text style={styles.description}>
           Wim Hofova metoda je intenzivní dechová technika, která pomáhá probudit
           tělo a mysl. Podporuje okysličení, zvyšuje soustředění a dodává energii na celý den.
         </Text>
 
-        {/* Výběr délky cvičení */}
         <View style={styles.buttonGroup}>
           {[2, 5, 10].map((time) => (
             <TouchableOpacity
               key={time}
               style={[styles.timeButton, selectedTime === time && styles.timeButtonSelected]}
-              onPress={() => setSelectedTime(time)}
-            >
+              onPress={() => setSelectedTime(time)}>
+
               <Text style={[styles.timeButtonText, selectedTime === time && styles.timeButtonTextSelected]}>
                 {time} min
               </Text>
@@ -49,7 +45,7 @@ const GoodMorningDescript = () => {
           ))}
         </View>
 
-        {/* ▶ Pokračovat na cvičení */}
+        {/* Pokračovat na cvičení */}
         <TouchableOpacity
           style={styles.startButton}
           onPress={() => navigation.navigate("GoodMorningExercise", { selectedTime })}
