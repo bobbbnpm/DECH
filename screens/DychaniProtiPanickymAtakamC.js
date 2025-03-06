@@ -131,9 +131,12 @@ const styles = StyleSheet.create({
     left: width * 0.02,
   },
   title: { 
-    fontSize: width * 0.06, 
-    fontWeight: "bold", 
+    fontSize: width * 0.07, 
+    fontWeight: "bold",
     textAlign: "center",
+    color: "#333",
+    marginLeft: width * 0.13,
+    marginTop: height * 0.03,
   },
   timer: { 
     fontSize: width * 0.05, 
