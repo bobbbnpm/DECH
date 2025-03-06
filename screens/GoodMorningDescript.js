@@ -4,6 +4,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
+// Získání šířky a výšky okna
+const { width, height } = Dimensions.get("window");
+
 const GoodMorningDescript = () => {
   const navigation = useNavigation();
   const [selectedTime, setSelectedTime] = useState(5); // Výchozí hodnota 5 minut
@@ -11,12 +14,13 @@ const GoodMorningDescript = () => {
 
   return (
     <SafeAreaView style={[styles.safeContainer, { 
-        paddingTop: insets.top, 
-        paddingBottom: insets.bottom, 
-        paddingLeft: insets.left, 
-        paddingRight: insets.right }]}>
+      paddingTop: insets.top, 
+      paddingBottom: insets.bottom, 
+      paddingLeft: insets.left, 
+      paddingRight: insets.right 
+    }]}>
       <View style={styles.container}>
-        {/* Šipka zpět */}
+        {/* 🔙 Šipka zpět */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <Ionicons name="arrow-back" size={24} color="#FFF" />
@@ -24,6 +28,7 @@ const GoodMorningDescript = () => {
           <Text style={styles.title}>DOBRÉ RÁNO</Text>
         </View>
 
+        {/* Popis metody */}
         <Text style={styles.description}>
           Wim Hofova metoda je intenzivní dechová technika, která pomáhá probudit
           tělo a mysl. Podporuje okysličení, zvyšuje soustředění a dodává energii na celý den.
@@ -37,9 +42,7 @@ const GoodMorningDescript = () => {
               style={[styles.timeButton, selectedTime === time && styles.timeButtonSelected]}
               onPress={() => setSelectedTime(time)}
             >
-              <Text
-                style={[styles.timeButtonText, selectedTime === time && styles.timeButtonTextSelected]}
-              >
+              <Text style={[styles.timeButtonText, selectedTime === time && styles.timeButtonTextSelected]}>
                 {time} min
               </Text>
             </TouchableOpacity>
@@ -65,6 +68,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: "#F5F2F4",
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: width * 0.05,
