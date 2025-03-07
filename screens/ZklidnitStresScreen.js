@@ -81,6 +81,13 @@ const ZklidnitStresScreen = () => {
     };
   }, [breathing, phaseIndex]);
 
+  // Automatické zastavení zvuku při opuštění obrazovky
+  useEffect(() => {
+    return () => {
+      stopRain(); 
+    };
+  }, []);  
+
   // Spuštění/zastavení deště
   const toggleRain = async () => {
     if (rainPlaying) {

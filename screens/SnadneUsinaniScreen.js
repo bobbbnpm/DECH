@@ -8,11 +8,11 @@ import * as Speech from "expo-speech";
 const { width, height } = Dimensions.get("window");
 
 const breathCycle = [
-  { phase: "Nádech", duration: 4000, scale: 1.3 },
-  { phase: "Zadržet dech", duration: 4000, scale: 1.3 },
-  { phase: "Výdech", duration: 6000, scale: 1 },
-  { phase: "Zadržet dech", duration: 2000, scale: 1 }
+  { phase: "Nádech", duration: 4000, scale: 1.3 },   
+  { phase: "Zadržet dech", duration: 7000, scale: 1.3 },  
+  { phase: "Výdech", duration: 8000, scale: 1 },  
 ];
+
 
 const SnadneUsinaniScreen = () => {
   const navigation = useNavigation();
