@@ -24,12 +24,16 @@ const RozdychaniPredPotapenimP = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.title}>ROZDÝCHÁNÍ PŘED POTÁPENÍM</Text>
+        <Text style={styles.title}>ROZDÝCHÁNÍ {"\n"}PŘED POTÁPENÍM</Text>
       </View>
 
+      <View style={styles.descriptionBox}>
       <Text style={styles.description}>
-      Před potápěním je důležité zklidnit dech a připravit tělo na zadržení dechu pod vodou. K tomu se využívá technika hlubokého bráničního dýchání v kombinaci s pomalými a kontrolovanými nádechy a výdechy. Pomalé dýchání pomáhá zvýšit zásoby kyslíku v krvi a snížit spotřebu kyslíku pod vodou. Důležité je vyvarovat se hyperventilaci, která může vést k nebezpečnému poklesu CO₂ a zvýšenému riziku ztráty vědomí.
+        Než se ponoříš pod vodu, je důležité zklidnit dech a připravit tělo na zadržení dechu. Správné dýchání ti pomůže zvýšit množství kyslíku v krvi a snížit jeho spotřebu pod vodou, takže vydržíš déle bez nádechu.
+        {"\n\n"}
+        Klíčem je hluboké a pomalé dýchání do břicha, díky kterému se tělo lépe okysličí a zároveň zpomalí srdeční tep. Nádechy musí být klidné a plynulé, výdechy dlouhé a kontrolované. Nesmíš prudce vydechnout, jinak tělo přijde o příliš mnoho kyslíku.
       </Text>
+      </View>
 
       {/* Výběr délky cvičení */}
       <View style={styles.buttonGroup}>
@@ -49,7 +53,7 @@ const RozdychaniPredPotapenimP = () => {
       {/* Pokračovat na cvičení */}
       <TouchableOpacity
         style={styles.startButton}
-        onPress={() => navigation.navigate("DenBezStresuC", { selectedTime })}>
+        onPress={() => navigation.navigate("RozdychaniPredPotapenimC", { selectedTime })}>
         <Text style={styles.startButtonText}>Pokračovat</Text>
       </TouchableOpacity>
     </View>
@@ -90,19 +94,29 @@ const styles = StyleSheet.create({
     elevation: 3, 
   },
   title: {
-    fontSize: width * 0.06, 
+    fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
     color: "#333",
-    marginLeft: width * 0.13,
-    marginTop: height * 0.03,
+    marginLeft: width * 0.05,
+    marginTop: height * 0.02,
+    marginBottom: height * 0.02,
   },
   description: {
-    fontSize: width * 0.05,
+    fontSize: width * 0.045,
     textAlign: "center",
-    marginTop: height * 0.1,
-    marginBottom: height * 0.1,
     color: "#444",
+  },
+  descriptionBox: {
+    borderWidth: 2,
+    borderColor: "#9B5DE5",
+    borderRadius: 12,
+    padding: width * 0.05,
+    marginTop: height * 0.13,
+    marginBottom: height * 0.05,
+    backgroundColor: "#EDE7F6",
+    width: "90%",
+    alignSelf: "center",
   },
   buttonGroup: {
     flexDirection: "row",
