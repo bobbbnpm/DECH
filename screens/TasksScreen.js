@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ConfettiCannon from "react-native-confetti-cannon";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 const tasksData = {
   Stres: [
@@ -52,7 +51,6 @@ const TasksScreen = () => {
   const [tasks, setTasks] = useState([]);
   const [confettiPosition, setConfettiPosition] = useState(null);
   const confettiRef = useRef(null);
-  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     const loadCategory = async () => {
@@ -94,67 +92,63 @@ const TasksScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeContainer}>
-      <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={styles.container}>
 
-        {/* 📌 nad vybranou kategorií */}
-        <View style={styles.filterWrapper}>
-          {["Stres", "Panika", "Spánek"].map((category) => (
-            <View key={category} style={styles.filterColumn}>
-              {selectedCategory === category && <Text style={styles.pin}>📌</Text>}
-              <TouchableOpacity
-                style={[
-                  styles.filterButton,
-                  selectedCategory === category && styles.selectedFilterButton,
-                  styles.loweredCategory
-                ]}
-                onPress={() => changeCategory(category)}
-              >
-                <Text style={styles.filterText}>{category}</Text>
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
-
-        {/* Seznam úkolů */}
-        <ScrollView contentContainerStyle={styles.taskList}>
-          {tasks.map((task) => (
+      {/* 📌 nad vybranou kategorií */}
+      <View style={styles.filterWrapper}>
+        {["Stres", "Panika", "Spánek"].map((category) => (
+          <View key={category} style={styles.filterColumn}>
+            {selectedCategory === category && <Text style={styles.pin}>📌</Text>}
             <TouchableOpacity
-              key={task.id}
-              style={[styles.taskCard, task.completed && styles.taskCompleted]}
-              onPress={(event) => toggleTask(task.id, event)}
+              style={[
+                styles.filterButton,
+                selectedCategory === category && styles.selectedFilterButton,
+                styles.loweredCategory
+              ]}
+              onPress={() => changeCategory(category)}
             >
-              <Text style={[styles.taskTitle, task.completed && styles.taskTitleCompleted]}>{task.title}</Text>
-              <Text style={styles.taskDescription}>{task.description}</Text>
-              {task.completed && <Text style={styles.completedText}>✔️ Splněno!</Text>}
+              <Text style={styles.filterText}>{category}</Text>
             </TouchableOpacity>
-          ))}
-        </ScrollView>
-
-        {/* Animace konfet */}
-        {confettiPosition && (
-          <ConfettiCannon
-            count={40}
-            origin={{ x: confettiPosition.x, y: confettiPosition.y }}
-            fadeOut={true}
-            autoStart={false}
-            ref={confettiRef}
-          />
-        )}
-
+          </View>
+        ))}
       </View>
-    </SafeAreaView>
+
+      {/* Seznam úkolů */}
+      <ScrollView contentContainerStyle={styles.taskList}>
+        {tasks.map((task) => (
+          <TouchableOpacity
+            key={task.id}
+            style={[styles.taskCard, task.completed && styles.taskCompleted]}
+            onPress={(event) => toggleTask(task.id, event)}
+          >
+            <Text style={[styles.taskTitle, task.completed && styles.taskTitleCompleted]}>{task.title}</Text>
+            <Text style={styles.taskDescription}>{task.description}</Text>
+            {task.completed && <Text style={styles.completedText}>✔️ Splněno!</Text>}
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+
+      {/* Animace konfet */}
+      {confettiPosition && (
+        <ConfettiCannon
+          count={40}
+          origin={{ x: confettiPosition.x, y: confettiPosition.y }}
+          fadeOut={true}
+          autoStart={false}
+          ref={confettiRef}
+        />
+      )}
+
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  safeContainer: {
-    flex: 1,
-    backgroundColor: "#f7f4fb",
-  },
   container: {
     flex: 1,
+    backgroundColor: "#f7f4fb",
     alignItems: "center",
+    paddingTop: 20, 
   },
   filterWrapper: {
     flexDirection: "row",
@@ -164,14 +158,14 @@ const styles = StyleSheet.create({
   },
   filterColumn: {
     alignItems: "center",
-    marginHorizontal: 10,
+    marginHorizontal: 8,
   },
   pin: {
     fontSize: 20,
-    marginBottom: 5,
+    marginBottom: 3,
   },
   loweredCategory: {
-    marginTop: 20, // Posune tlačítka dolů, ale 📌 zůstává nahoře
+    marginTop: 10, 
   },
   filterButton: {
     padding: 10,
@@ -191,11 +185,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   taskCard: {
+    width: "100%", 
+    maxWidth: 350,
+    minWidth: 350,
     backgroundColor: "#ECE4FF",
     padding: 20,
     borderRadius: 15,
     marginBottom: 15,
-    width: "100%",
+    alignSelf: "center", 
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
