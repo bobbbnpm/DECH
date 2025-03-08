@@ -24,12 +24,18 @@ const RozdychaniPredBehemP = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.title}>ROZDÝCHÁNÍ PŘED BĚHEM</Text>
+        <Text style={styles.title}>ROZDÝCHÁNÍ{"\n"}PŘED BĚHEM</Text>
       </View>
 
+      <View style={styles.descriptionBox}>
       <Text style={styles.description}>
-      Tato technika pomáhá optimalizovat přísun kyslíku při běhu a minimalizovat únavu. Rytmické dýchání znamená nádech na dva kroky a výdech na dva kroky. Tento způsob dýchání pomáhá udržet stabilní dechový vzorec, snižuje napětí v těle a podporuje efektivnější využití energie. Důležitou součástí je nosní dýchání, které filtruje a zvlhčuje vzduch, a brániční dýchání, které zajišťuje hlubší přísun kyslíku.
+      Správné dýchání před během pomáhá připravit tělo na výkon, zlepšit okysličení svalů a snížit riziko rychlého vyčerpání. 
+      Pokud se rozdýcháš před během, tvé tělo lépe zvládne zátěž a budeš se cítit méně unaveně.{"\n\n"}
+      Při této dechové technice se doporučuje chodit. Nadechni se na dva kroky, vydechni na dva kroky. 
+      Dýchej nosem pro lepší filtraci vzduchu.
       </Text>
+      </View>
+
 
       {/* Výběr délky cvičení */}
       <View style={styles.buttonGroup}>
@@ -49,7 +55,7 @@ const RozdychaniPredBehemP = () => {
       {/* Pokračovat na cvičení */}
       <TouchableOpacity
         style={styles.startButton}
-        onPress={() => navigation.navigate("DenBezStresuC", { selectedTime })}
+        onPress={() => navigation.navigate("RozdychaniPredBehemC", { selectedTime })}
       >
         <Text style={styles.startButtonText}>Pokračovat</Text>
       </TouchableOpacity>
@@ -91,19 +97,27 @@ const styles = StyleSheet.create({
     elevation: 3, 
   },
   title: {
-    fontSize: width * 0.06, 
+    fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
     color: "#333",
-    marginLeft: width * 0.13,
-    marginTop: height * 0.03,
+    marginTop: height * 0.02,
   },
   description: {
     fontSize: width * 0.05,
     textAlign: "center",
-    marginTop: height * 0.1,
-    marginBottom: height * 0.1,
     color: "#444",
+  },
+  descriptionBox: {
+    borderWidth: 2,
+    borderColor: "#9B5DE5",
+    borderRadius: 12,
+    padding: width * 0.05,
+    marginTop: height * 0.13,
+    marginBottom: height * 0.05,
+    backgroundColor: "#EDE7F6",
+    width: "90%",
+    alignSelf: "center",
   },
   buttonGroup: {
     flexDirection: "row",
