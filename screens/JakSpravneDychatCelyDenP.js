@@ -24,12 +24,14 @@ const JakSpravneDychatCelyDenP = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.title}>JAK SPRÁVNĚ DÝCHAT CELÝ DEN</Text>
+        <Text style={styles.title}>JAK SPRÁVNĚ DÝCHAT{"\n"}CELÝ DEN</Text>
       </View>
 
+      <View style={styles.descriptionBox}>
       <Text style={styles.description}>
-      Správné dýchání během dne zahrnuje využití bráničního dýchání a dýchání nosem. Nosní dýchání pomáhá filtrovat a zvlhčovat vzduch, zatímco brániční dýchání umožňuje hlubší a efektivnější přísun kyslíku. Doporučuje se pravidelně kontrolovat svůj dechový vzorec a vyvarovat se povrchnímu dýchání do hrudníku, které může přispívat k napětí a stresu.
+      Správné dýchání pomáhá zůstat soustředěný, klidný a plný energie. Mnoho lidí dýchá příliš mělce a rychle, což může způsobovat únavu, napětí nebo dokonce stres. Nejlepší způsob, jak dýchat během dne, je hluboké a pomalé dýchání do břicha, které zajišťuje správnou výměnu kyslíku a oxidu uhličitého. Dýchání do břicha znamená, že při nádechu se zvedá břicho, ne hrudník. 
       </Text>
+      </View>
 
       {/* Výběr délky cvičení */}
       <View style={styles.buttonGroup}>
@@ -49,7 +51,7 @@ const JakSpravneDychatCelyDenP = () => {
       {/* Pokračovat na cvičení */}
       <TouchableOpacity
         style={styles.startButton}
-        onPress={() => navigation.navigate("DenBezStresuC", { selectedTime })}
+        onPress={() => navigation.navigate("JakSpravneDychatCelyDenC", { selectedTime })}
       >
         <Text style={styles.startButtonText}>Pokračovat</Text>
       </TouchableOpacity>
@@ -91,19 +93,28 @@ const styles = StyleSheet.create({
     elevation: 3, 
   },
   title: {
-    fontSize: width * 0.06, 
+    fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
     color: "#333",
-    marginLeft: width * 0.13,
-    marginTop: height * 0.03,
+    marginLeft: width * 0.05,
+    marginTop: height * 0.02,
   },
   description: {
     fontSize: width * 0.05,
     textAlign: "center",
-    marginTop: height * 0.1,
-    marginBottom: height * 0.1,
     color: "#444",
+  },
+  descriptionBox: {
+    borderWidth: 2,
+    borderColor: "#9B5DE5",
+    borderRadius: 12,
+    padding: width * 0.05,
+    marginTop: height * 0.13,
+    marginBottom: height * 0.05,
+    backgroundColor: "#EDE7F6",
+    width: "90%",
+    alignSelf: "center",
   },
   buttonGroup: {
     flexDirection: "row",

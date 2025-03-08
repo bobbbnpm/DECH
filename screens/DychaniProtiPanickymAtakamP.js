@@ -24,12 +24,14 @@ const DychaniProtiPanickymAtakamP = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.title}>DÝCHÁNÍ PROTI PANICKÝM ATAKÁM</Text>
+        <Text style={styles.title}>DÝCHÁNÍ PROTI{"\n"}PANICKÝM ATAKÁM</Text>
       </View>
 
+      <View style={styles.descriptionBox}>
       <Text style={styles.description}>
-      Panické ataky jsou často spojeny s hyperventilací, kdy dochází k přílišnému vydechování oxidu uhličitého, což může vést k pocitům dušnosti, závratím a dalším nepříjemným stavům. Dýchání do dlaní pomáhá obnovit rovnováhu CO₂ v krvi. Spočívá v pomalém a kontrolovaném dýchání do vlastních spojených dlaní, což umožňuje opětovné vdechování vydechnutého vzduchu a tím zabránění hyperventilaci. Tato metoda pomáhá rychle stabilizovat dech a uklidnit mysl.
+      Když máš panickou ataku, často začneš dýchat příliš rychle a můžeš se cítit jako bys neměl dostatek vzduchu. To může způsobit závratě, mravenčení nebo pocit na omdlení. Pomůže ti dýchání do dlaní – jednoduše spoj ruce před ústy a pomalu do nich dýchej. Tím si udržíš potřebnou rovnováhu v těle a rychleji se uklidníš.
       </Text>
+      </View>
 
       {/* Výběr délky cvičení */}
       <View style={styles.buttonGroup}>
@@ -48,7 +50,7 @@ const DychaniProtiPanickymAtakamP = () => {
 
       <TouchableOpacity
         style={styles.startButton}
-        onPress={() => navigation.navigate("DenBezStresuC", { selectedTime })}>
+        onPress={() => navigation.navigate("DychaniProtiPanickymAtakamC", { selectedTime })}>
         <Text style={styles.startButtonText}>Pokračovat</Text>
       </TouchableOpacity>
     </View>
@@ -93,15 +95,24 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "#333",
-    marginLeft: width * 0.13,
+    marginLeft: width * 0.02,
     marginTop: height * 0.02,
   },
   description: {
     fontSize: width * 0.05,
     textAlign: "center",
-    marginTop: height * 0.1,
-    marginBottom: height * 0.1,
     color: "#444",
+  },
+  descriptionBox: {
+    borderWidth: 2,
+    borderColor: "#9B5DE5",
+    borderRadius: 12,
+    padding: width * 0.05,
+    marginTop: height * 0.13,
+    marginBottom: height * 0.05,
+    backgroundColor: "#EDE7F6",
+    width: "90%",
+    alignSelf: "center",
   },
   buttonGroup: {
     flexDirection: "row",
