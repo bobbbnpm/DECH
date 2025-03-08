@@ -27,9 +27,11 @@ const ZmirneniStresuPredZkouskouP = () => {
         <Text style={styles.title}>ZMÍRNĚNÍ STRESU PŘED ZKOUŠKOU</Text>
       </View>
 
-      <Text style={styles.description}>
-      Technika 4-7-8 spočívá v nádechu nosem po dobu 4 sekund, zadržení dechu na 7 sekund a pomalém výdechu ústy po dobu 8 sekund. Tento způsob dýchání působí relaxačně na nervový systém, snižuje hladinu stresových hormonů a podporuje mentální soustředění. Pomalý výdech stimuluje parasympatický nervový systém, což vede k uvolnění napětí a snížení úzkosti.
-      </Text>
+      <View style={styles.descriptionBox}>
+        <Text style={styles.description}>
+          Technika 4-7-8 spočívá v nádechu nosem po dobu 4 sekund, zadržení dechu na 7 sekund a pomalém výdechu ústy po dobu 8 sekund. Tento způsob dýchání působí relaxačně na nervový systém, snižuje hladinu stresových hormonů a podporuje mentální soustředění. Pomalý výdech stimuluje parasympatický nervový systém, což vede k uvolnění napětí a snížení úzkosti.
+        </Text>
+      </View>
 
       {/* Výběr délky cvičení */}
       <View style={styles.buttonGroup}>
@@ -49,7 +51,7 @@ const ZmirneniStresuPredZkouskouP = () => {
       {/* Pokračovat na cvičení */}
       <TouchableOpacity
         style={styles.startButton}
-        onPress={() => navigation.navigate("DenBezStresuC", { selectedTime })}>
+        onPress={() => navigation.navigate("ZmirneniStresuPredZkouskouC", { selectedTime })}>
         <Text style={styles.startButtonText}>Pokračovat</Text>
       </TouchableOpacity>
     </View>
@@ -94,16 +96,25 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "#333",
-    marginLeft: width * 0.13,
-    marginTop: height * 0.02,
+    marginLeft: width * 0.08,
   },
   description: {
     fontSize: width * 0.05,
     textAlign: "center",
-    marginTop: height * 0.1,
-    marginBottom: height * 0.1,
     color: "#444",
   },
+  descriptionBox: {
+    borderWidth: 2,
+    borderColor: "#9B5DE5",
+    borderRadius: 12,
+    padding: width * 0.05,
+    marginTop: height * 0.13,
+    marginBottom: height * 0.05,
+    backgroundColor: "#EDE7F6",
+    width: "90%",
+    alignSelf: "center",
+  },
+  
   buttonGroup: {
     flexDirection: "row",
     justifyContent: "center",
