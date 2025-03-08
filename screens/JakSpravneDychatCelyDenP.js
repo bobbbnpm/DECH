@@ -29,7 +29,7 @@ const JakSpravneDychatCelyDenP = () => {
 
       <View style={styles.descriptionBox}>
       <Text style={styles.description}>
-      Správné dýchání pomáhá zůstat soustředěný, klidný a plný energie. Mnoho lidí dýchá příliš mělce a rychle, což může způsobovat únavu, napětí nebo dokonce stres. Nejlepší způsob, jak dýchat během dne, je hluboké a pomalé dýchání do břicha, které zajišťuje správnou výměnu kyslíku a oxidu uhličitého. Dýchání do břicha znamená, že při nádechu se zvedá břicho, ne hrudník. 
+        Správné dýchání pomáhá zůstat soustředěný, klidný a plný energie. Mnoho lidí dýchá příliš mělce a rychle, což může způsobovat únavu, napětí nebo dokonce stres. Nejlepší způsob, jak dýchat během dne, je hluboké a pomalé dýchání do břicha, které zajišťuje správnou výměnu kyslíku a oxidu uhličitého. Dýchání do břicha znamená, že při nádechu se zvedá břicho, ne hrudník. 
       </Text>
       </View>
 

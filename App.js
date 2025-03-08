@@ -28,8 +28,8 @@ import JakSpravneDychatCelyDenP from "./screens/JakSpravneDychatCelyDenP";
 import JakSpravneDychatCelyDenC from "./screens/JakSpravneDychatCelyDenC";
 import RozdychaniPredBehemP from "./screens/RozdychaniPredBehemP";
 import RozdychaniPredBehemC from "./screens/RozdychaniPredBehemC";
-import RozdychaniPredSportemP from "./screens/RozdychaniPredSportemP";
-import RozdychaniPredSportemC from "./screens/RozdychaniPredSportemC";
+import WimHofovaMetodaP from "./screens/WimHofovaMetodaP";
+import WimHofovaMetodaC from "./screens/WimHofovaMetodaC";
 import RozdychaniPredPotapenimP from "./screens/RozdychaniPredPotapenimP";
 import RozdychaniPredPotapenimC from "./screens/RozdychaniPredPotapenimC";
 
@@ -122,8 +122,8 @@ const App = () => {
         <Stack.Screen name="JakSpravneDychatCelyDenC" component={JakSpravneDychatCelyDenC} />
         <Stack.Screen name="RozdychaniPredBehemP" component={RozdychaniPredBehemP} />
         <Stack.Screen name="RozdychaniPredBehemC" component={RozdychaniPredBehemC} />
-        <Stack.Screen name="RozdychaniPredSportemP" component={RozdychaniPredSportemP} />
-        <Stack.Screen name="RozdychaniPredSportemC" component={RozdychaniPredSportemC} />
+        <Stack.Screen name="WimHofovaMetodaP" component={WimHofovaMetodaP} />
+        <Stack.Screen name="WimHofovaMetodaC" component={WimHofovaMetodaC} />
         <Stack.Screen name="RozdychaniPredPotapenimP" component={RozdychaniPredPotapenimP} />
         <Stack.Screen name="RozdychaniPredPotapenimC" component={RozdychaniPredPotapenimC} />
       </Stack.Navigator>

@@ -17,7 +17,7 @@ const ExercisesScreen = () => {
         { key: "DychaniProtiPanickymAtakamP", title: "DÝCHÁNÍ PROTI PANICKÝM ATAKÁM", description: "Dýchání do dlaní, Box breathing 4-4-4-4" },
         { key: "JakSpravneDychatCelyDenP", title: "JAK SPRÁVNĚ DÝCHAT CELÝ DEN", description: "Nauč se techniku, jak správně dýchat po celý den" },
         { key: "RozdychaniPredBehemP", title: "ROZDÝCHÁNÍ PŘED BĚHEM", description: "Rytmické dýchání (2-2), nosní dýchání pro vytrvalost, brániční dýchání" },
-        { key: "RozdychaniPredSportemP", title: "ROZDÝCHÁNÍ PŘED SPORTEM", description: "Dýchání do břicha, cyklické dýchání." },
+        { key: "WimHofovaMetodaP", title: "WIM HOFOVA METODA", description: "Dýchání do břicha, cyklické dýchání." },
         { key: "RozdychaniPredPotapenimP", title: "ROZDÝCHÁNÍ PŘED POTÁPENÍM", description: "Dýchání do břicha." }
       ].map((exercise) => (
         <View key={exercise.key} style={styles.card}>

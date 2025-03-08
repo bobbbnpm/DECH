@@ -6,7 +6,7 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 
 const { width, height } = Dimensions.get("window");
 
-const RozdychaniPredSportemP = () => {
+const WimHofovaMetodaP = () => {
   const navigation = useNavigation();
   const [selectedTime, setSelectedTime] = useState(5); // Výchozí hodnota 5 minut
   const insets = useSafeAreaInsets();
@@ -24,12 +24,15 @@ const RozdychaniPredSportemP = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.title}>ROZDÝCHÁNÍ PŘED SPORTEM</Text>
+        <Text style={styles.title}>WIM HOFOVA METODA</Text>
       </View>
 
+      <View style={styles.descriptionBox}>
       <Text style={styles.description}>
-      Dýchání do břicha pomáhá aktivovat parasympatický nervový systém a připravit tělo na fyzickou aktivitu. Cyklické dýchání pak zahrnuje kontrolovaný rytmus mezi nádechem a výdechem, což umožňuje tělu lépe regulovat kyslíkový deficit při fyzické zátěži. Tato metoda pomáhá snížit riziko křečí a zlepšit celkový výkon při sportu.
+        Wim Hofova dechová metoda je jednoduchá, ale velmi účinná technika, která pomáhá okysličit tělo, posílit imunitní systém a lépe zvládat stres. 
+        {"\n\n"}Je založena na vědomém hlubokém dýchání, zadržení dechu a postupném otužování, což dohromady aktivuje přirozené obranné mechanismy těla a zlepšuje jeho odolnost.
       </Text>
+      </View>
 
       {/* Výběr délky cvičení */}
       <View style={styles.buttonGroup}>
@@ -49,7 +52,7 @@ const RozdychaniPredSportemP = () => {
       {/* Pokračovat na cvičení */}
       <TouchableOpacity
         style={styles.startButton}
-        onPress={() => navigation.navigate("DenBezStresuC", { selectedTime })}>
+        onPress={() => navigation.navigate("WimHofovaMetodaC", { selectedTime })}>
         <Text style={styles.startButtonText}>Pokračovat</Text>
       </TouchableOpacity>
     </View>
@@ -90,19 +93,29 @@ const styles = StyleSheet.create({
     elevation: 3, 
   },
   title: {
-    fontSize: width * 0.06, 
+    fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
     color: "#333",
-    marginLeft: width * 0.09,
-    marginTop: height * 0.03,
+    marginLeft: width * 0.05,
+    marginTop: height * 0.02,
+    marginBottom: height * 0.02,
   },
   description: {
     fontSize: width * 0.05,
     textAlign: "center",
-    marginTop: height * 0.1,
-    marginBottom: height * 0.1,
     color: "#444",
+  },
+  descriptionBox: {
+    borderWidth: 2,
+    borderColor: "#9B5DE5",
+    borderRadius: 12,
+    padding: width * 0.05,
+    marginTop: height * 0.13,
+    marginBottom: height * 0.05,
+    backgroundColor: "#EDE7F6",
+    width: "90%",
+    alignSelf: "center",
   },
   buttonGroup: {
     flexDirection: "row",
@@ -144,4 +157,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RozdychaniPredSportemP;
+export default WimHofovaMetodaP;
