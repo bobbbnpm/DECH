@@ -2,26 +2,47 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("window");
 
 const breathCycle = [
   { phase: "Nádech", duration: 4000, scale: 1.3 },
   { phase: "Zadržet dech", duration: 4000, scale: 1.3 },
-  { phase: "Výdech", duration: 6000, scale: 1 },
+  { phase: "Výdech", duration: 4000, scale: 1 },
+  { phase: "Zadržet dech", duration: 4000, scale: 1 },
 ];
+
+const comfortingTexts = [
+  "Nadechni se nosem a vydechni ústy, pomůže ti to zpomalit dech.",
+  "Polož si ruku na břicho a vnímej, jak se zvedá při nádechu a klesá při výdechu.",
+  "Vydechuj pomaleji, než se nadechuješ.",
+  "Zadrž dech na pár vteřin po nádechu a vnímej klid mezi dechy.",
+  "Při výdechu si představuj, jak se z tebe odplavuje stres.",
+  "Dýchej do břicha, ne do hrudníku, pomůže ti to lépe se uvolnit.",
+  "Spočítej si nádechy a výdechy, udrží tě to soustředěného.",
+  "Vydechni všechen vzduch ven a nech tělo samo rozhodnout, kdy se nadechne.",
+  "Zkus 4-7-8 techniku: nadechni se na 4 doby, podrž dech na 7, vydechuj na 8.",
+  "Při nádechu si představuj, že do tebe proudí energie, při výdechu odchází napětí.",
+  "Jemné, pravidelné dýchání pomáhá zklidnit tep a mysl.",
+  "Dechové cvičení je jako meditace – soustřeď se jen na svůj dech.",
+  "Pokud se ti točí hlava, zpomal tempo a dýchej klidněji.",
+  "Dýchej nosem a vnímej, jak se vzduch jemně dotýká tvých nosních dírek.",
+  "Soustřeď se na prodloužené výdechy, zklidní to tvůj nervový systém.",
+];
+
 
 const DenBezStresuC = () => {
   const navigation = useNavigation();
   const route = useRoute();
-
-  // Převzetí vybrané délky cvičení z předchozí obrazovky
-  const selectedTime = (route.params?.selectedTime || 5) * 60000; // Defaultně 5 minut
+  const selectedTime = (route.params?.selectedTime || 5) * 60000;
+  const insets = useSafeAreaInsets(); 
   const [remainingTime, setRemainingTime] = useState(selectedTime);
   const [phaseIndex, setPhaseIndex] = useState(0);
   const [phaseTime, setPhaseTime] = useState(breathCycle[0].duration / 1000);
-  const scaleAnim = useState(new Animated.Value(1))[0];
   const [breathing, setBreathing] = useState(false);
+  const [textIndex, setTextIndex] = useState(0);
+  const scaleAnim = useState(new Animated.Value(1))[0];
 
   useEffect(() => {
     let phaseTimer;
@@ -29,7 +50,6 @@ const DenBezStresuC = () => {
 
     if (breathing) {
       const { duration, scale } = breathCycle[phaseIndex];
-
       Animated.timing(scaleAnim, {
         toValue: scale,
         duration: duration,
@@ -74,7 +94,18 @@ const DenBezStresuC = () => {
     };
   }, [breathing, phaseIndex]);
 
-  // Převod milisekund na minuty a sekundy
+    useEffect(() => {
+      if (breathing) {
+        const textChangeInterval = setInterval(() => {
+          setTextIndex((prevIndex) => (prevIndex + 1) % comfortingTexts.length);
+        }, 10000);
+  
+        return () => clearInterval(textChangeInterval);
+      } else {
+        setTextIndex(0);
+      }
+    }, [breathing]);
+
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60000);
     const seconds = ((time % 60000) / 1000).toFixed(0);
@@ -82,16 +113,22 @@ const DenBezStresuC = () => {
   };
 
   return (
+    <SafeAreaView style={[styles.safeContainer, { 
+          paddingTop: insets.top, 
+          paddingBottom: insets.bottom, 
+          paddingLeft: insets.left, 
+          paddingRight: insets.right }]}>
     <View style={styles.container}>
       {/* Hlavička s tlačítkem zpět */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={32} />
+          <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
         <Text style={styles.title}>DEN BEZ STRESU</Text>
       </View>
 
       {/* Časovač odpočítávající do konce cvičení */}
+      <Text style={styles.comfortingText}>{comfortingTexts[textIndex]}</Text>
       <Text style={styles.timer}>{formatTime(remainingTime)}</Text>
 
       {/* Animovaný kruh s odpočtem uvnitř */}
@@ -109,37 +146,63 @@ const DenBezStresuC = () => {
         <Text style={styles.buttonText}>{breathing ? "Zastavit" : "Začít"}</Text>
       </TouchableOpacity>
     </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    backgroundColor: "#121212",
+  },
   container: { 
     flex: 1, 
-    backgroundColor: "#F5F2F4",
-    paddingHorizontal: width * 0.05,
+    backgroundColor: "#121212", 
+    paddingHorizontal: width * 0.03,
     justifyContent: "space-between",
-    paddingVertical: height * 0.05
+    paddingVertical: height * 0.02
   },
   header: { 
-    flexDirection: "row", 
-    alignItems: "center", 
-    justifyContent: "center",
-    marginTop: height * 0.02
+  flexDirection: "row", 
+  alignItems: "center", 
+  justifyContent: "center",
+  marginTop: height * 0.02,
+  position: "relative",
   },
-  backButton: {
-    position: "absolute",
-    left: width * 0.02,
+  backButton: { 
+    position: "absolute", 
+    left: width * 0.05, 
+    backgroundColor: "#FFA500", 
+    borderRadius: 50, 
+    padding: 12,  
+    shadowOffset: { width: 0, height: 2 }, 
+    shadowOpacity: 0.2, 
+    shadowRadius: 4, 
+    elevation: 3, 
   },
-  title: { 
+  title: {
     fontSize: width * 0.06, 
-    fontWeight: "bold", 
+    fontWeight: "bold",
     textAlign: "center",
+    color: "#FFA500",
   },
+  comfortingText: {
+    fontSize: width * 0.05,
+    fontWeight: "500",
+    textAlign: "center",
+    color: "#FFA500",
+    marginTop: height * 0.04, 
+    marginBottom: height * 0.02, 
+    maxWidth: "80%",
+    alignSelf: "center",
+    lineHeight: width * 0.06,
+  },  
   timer: { 
     fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: height * 0.02
+    marginBottom: height * 0.02,
+    color: "#FFA500", 
   },
   circleContainer: {
     alignItems: "center",
@@ -150,31 +213,34 @@ const styles = StyleSheet.create({
     width: width * 0.6,
     height: width * 0.6,
     borderRadius: width * 0.3,
-    backgroundColor: "#A0A0A0",
+    backgroundColor: "#1E1E1E", // Tmavě šedé pozadí pro kontrast
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: "#FFA500", // Modrý okraj pro lepší viditelnost
   },
   circleText: {
     fontSize: width * 0.09,
     fontWeight: "bold",
-    color: "#fff"
+    color: "#FFA500", // Světle modrá pro lepší viditelnost
   },
   phaseText: { 
     fontSize: width * 0.05, 
     fontWeight: "bold", 
     textAlign: "center",
-    marginBottom: height * 0.02
+    marginBottom: height * 0.02,
+    color: "#FFA500", // Modrá pro dobrý kontrast
   },
   button: { 
-    backgroundColor: "#8D8891", 
-    padding: height * 0.015, 
+    backgroundColor: "#FFA500", // Modrá pro lepší viditelnost
+    padding: height * 0.02, 
     borderRadius: 10, 
     width: "90%", 
     alignSelf: "center",
-    alignItems: "center" 
+    alignItems: "center",
   },
   buttonText: { 
-    color: "#FFF", 
+    color: "#121212", // Černá, aby to bylo čitelné na světlém tlačítku
     fontSize: width * 0.045, 
     fontWeight: "bold" 
   },

@@ -26,10 +26,12 @@ const GoodMorningDescript = () => {
           <Text style={styles.title}>DOBRÉ RÁNO</Text>
         </View>
 
-        <Text style={styles.description}>
-          Wim Hofova metoda je intenzivní dechová technika, která pomáhá probudit
-          tělo a mysl. Podporuje okysličení, zvyšuje soustředění a dodává energii na celý den.
-        </Text>
+        <View style={styles.descriptionBox}>
+          <Text style={styles.description}>
+            Wim Hofova metoda je intenzivní dechová technika, která pomáhá probudit tělo i mysl.
+            Podporuje okysličení, zvyšuje soustředění a dodává energii na celý den.
+          </Text>
+        </View>
 
         <View style={styles.buttonGroup}>
           {[2, 5, 10].map((time) => (
@@ -95,11 +97,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#333",
   },
+  descriptionBox: {
+    borderWidth: 2,
+    borderColor: "#9B5DE5",
+    borderRadius: 12,
+    padding: width * 0.05,
+    marginVertical: height * 0.15,
+    backgroundColor: "#EDE7F6",
+    width: "90%",
+  },
   description: {
-    fontSize: width * 0.07,
+    fontSize: width * 0.05,
     textAlign: "center",
-    marginTop: height * 0.1,
-    marginBottom: height * 0.1,
     color: "#444",
   },
   buttonGroup: {

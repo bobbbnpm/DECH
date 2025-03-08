@@ -26,9 +26,11 @@ const DychaniPredSpanimP = () => {
         <Text style={styles.title}>DÝCHÁNÍ PŘED SPANÍM</Text>
       </View>
 
-      <Text style={styles.description}>
-      Stejně jako při zvládání stresu se i před spaním doporučuje technika 4-7-8, která pomáhá zpomalit srdeční rytmus a připravit tělo na hluboký spánek. Pomalé výdechy aktivují parasympatický nervový systém, což snižuje stres a napomáhá rychlejšímu usnutí. Tato metoda je účinná zejména pro lidi trpící nespavostí nebo úzkostí.
-      </Text>
+      <View style={styles.descriptionBox}>
+       <Text style={styles.description}>
+          Stejně jako při zvládání stresu se i před spaním doporučuje technika 4-7-8, která pomáhá zpomalit srdeční rytmus a připravit tělo na hluboký spánek. Pomalé výdechy aktivují parasympatický nervový systém, což snižuje stres a napomáhá rychlejšímu usnutí. Tato metoda je účinná zejména pro lidi trpící nespavostí nebo úzkostí.
+        </Text>
+      </View>
 
       <View style={styles.buttonGroup}>
         {[2, 5, 10].map((time) => (
@@ -38,8 +40,7 @@ const DychaniPredSpanimP = () => {
               styles.timeButton,
               selectedTime === time && styles.timeButtonSelected]}
             onPress={() => setSelectedTime(time)}>
-            <Text
-              style={[styles.timeButtonText, selectedTime === time && styles.timeButtonTextSelected]}>
+            <Text style={[styles.timeButtonText, selectedTime === time && styles.timeButtonTextSelected]}>
               {time} min
             </Text>
           </TouchableOpacity>
@@ -48,7 +49,7 @@ const DychaniPredSpanimP = () => {
 
       <TouchableOpacity
         style={styles.startButton}
-        onPress={() => navigation.navigate("DenBezStresuC", { selectedTime })}>
+        onPress={() => navigation.navigate("DychaniPredSpanimC", { selectedTime })}>
         <Text style={styles.startButtonText}>Pokračovat</Text>
       </TouchableOpacity>
     </View>
@@ -98,9 +99,17 @@ const styles = StyleSheet.create({
   description: {
     fontSize: width * 0.05,
     textAlign: "center",
-    marginTop: height * 0.1,
-    marginBottom: height * 0.1,
     color: "#444",
+  },
+  descriptionBox: {
+    borderWidth: 2,
+    borderColor: "#9B5DE5",
+    borderRadius: 12,
+    padding: width * 0.05,
+    marginVertical: height * 0.05,
+    backgroundColor: "#EDE7F6",
+    width: "90%",
+    alignSelf: "center",
   },
   buttonGroup: {
     flexDirection: "row",

@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: height * 0.02,
-    color: "white", // Bílé písmo
+    color: "#FFA500", 
   },
   circleContainer: {
     alignItems: "center",
@@ -239,10 +239,6 @@ const styles = StyleSheet.create({
     width: "90%", 
     alignSelf: "center",
     alignItems: "center",
-    shadowColor: "#9B5DE5",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
   },
   buttonText: { 
     color: "#121212", // Černá, aby to bylo čitelné na světlém tlačítku

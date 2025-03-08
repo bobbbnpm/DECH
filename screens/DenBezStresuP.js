@@ -26,9 +26,12 @@ const DenBezStresuP = () => {
         <Text style={styles.title}>DEN BEZ STRESU</Text>
       </View>
 
-      <Text style={styles.description}>
-      Box Breathing je technika používaná i speciálními jednotkami pro zvládání stresu. Spočívá v rovnoměrných fázích dýchání: nádech po dobu 4 sekund, zadržení dechu na 4 sekundy, výdech po dobu 4 sekund a opět zadržení na 4 sekundy. Tento cyklus se několikrát opakuje. Tato metoda pomáhá stabilizovat srdeční tep, snižovat hladinu kortizolu a udržovat klidnou a soustředěnou mysl, což je ideální pro stresové situace během dne.
-      </Text>
+      <View style={styles.descriptionBox}>
+        <Text style={styles.description}>
+          Box Breathing je technika používaná i speciálními jednotkami pro zvládání stresu. Spočívá v rovnoměrných fázích dýchání: nádech po dobu 4 sekund, zadržení dechu na 4 sekundy, výdech po dobu 4 sekund a opět zadržení na 4 sekundy. Tento cyklus se několikrát opakuje. Tato metoda pomáhá stabilizovat srdeční tep, snižovat hladinu kortizolu a udržovat klidnou a soustředěnou mysl, což je ideální pro stresové situace během dne.
+        </Text>
+      </View>
+
 
       <View style={styles.buttonGroup}>
         {[2, 5, 10].map((time) => (
@@ -36,7 +39,6 @@ const DenBezStresuP = () => {
             key={time}
             style={[styles.timeButton, selectedTime === time && styles.timeButtonSelected]}
             onPress={() => setSelectedTime(time)}>
-
             <Text style={[styles.timeButtonText, selectedTime === time && styles.timeButtonTextSelected]}>
               {time} min
             </Text>
@@ -46,8 +48,7 @@ const DenBezStresuP = () => {
 
       <TouchableOpacity
         style={styles.startButton}
-        onPress={() => navigation.navigate("DenBezStresuC", { selectedTime })}
-      >
+        onPress={() => navigation.navigate("DenBezStresuC", { selectedTime })}>
         <Text style={styles.startButtonText}>Pokračovat</Text>
       </TouchableOpacity>
     </View>
@@ -94,11 +95,19 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   description: {
-    fontSize: width * 0.05,
+    fontSize: width * 0.045,
     textAlign: "center",
-    marginTop: height * 0.1,
-    marginBottom: height * 0.1,
     color: "#444",
+  },
+  descriptionBox: {
+    borderWidth: 2,
+    borderColor: "#9B5DE5",
+    borderRadius: 12,
+    padding: width * 0.05,
+    marginVertical: height * 0.05,
+    backgroundColor: "#EDE7F6",
+    width: "90%",
+    alignSelf: "center",
   },
   buttonGroup: {
     flexDirection: "row",
