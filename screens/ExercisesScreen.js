@@ -10,7 +10,7 @@ const ExercisesScreen = () => {
       <Text style={styles.header}>VYBER SI CVIČENÍ</Text>
 
       {[
-        { key: "GoodMorningDescript", title: "DOBRÉ RÁNO", description: "Probuzení pomocí Wim Hofovy metody." },
+        { key: "GoodMorningDescript", title: "DOBRÉ RÁNO", description: "Probuzení pomocí dýchání 4-4-8-2, které okysličuje tělo a nastartuje den v klidu a rovnováze." },
         { key: "DenBezStresuP", title: "DEN BEZ STRESU", description: "Box breathing 4-4-4-4 pro redukci stresu." },
         { key: "DychaniPredSpanimP", title: "DÝCHÁNÍ PŘED SPANÍM", description: "4-7-8 dýchání pro lepší spánek." },
         { key: "ZmirneniStresuPredZkouskouP", title: "ZMÍRNĚNÍ STRESU PŘED ZKOUŠKOU", description: "3-3-3-3 Box Breathing" },

@@ -28,8 +28,9 @@ const GoodMorningDescript = () => {
 
         <View style={styles.descriptionBox}>
           <Text style={styles.description}>
-            Wim Hofova metoda je intenzivní dechová technika, která pomáhá probudit tělo i mysl.
-            Podporuje okysličení, zvyšuje soustředění a dodává energii na celý den.
+          Tato dechová technika pomáhá začít den v klidu a pohodě, uvolňuje napětí po probuzení a dodává energii. Pomalý výdech navozuje pocit uvolnění, což pomáhá tělu i mysli přejít do nového dne bez stresu.
+          {"\n\n"}
+          Kontrolované dýchání zlepšuje soustředění a pomáhá cítit se svěže, klidně. Připraví tělo na vše, co den přinese.
           </Text>
         </View>
 
@@ -105,6 +106,8 @@ const styles = StyleSheet.create({
     marginVertical: height * 0.15,
     backgroundColor: "#EDE7F6",
     width: "90%",
+    marginBottom: height * 0.04,
+    marginTop: height * 0.02,
   },
   description: {
     fontSize: width * 0.05,

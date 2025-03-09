@@ -3,34 +3,32 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions } from "
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 
 const { width, height } = Dimensions.get("window");
 
-// Dechová technika – Wim Hof metoda
 const breathCycle = [
-  { phase: "Nádech", duration: 4000, scale: 1.2 }, // 4 sekundy nádech
-  { phase: "Zadržet dech", duration: 4000, scale: 1.2 }, // 4 sekundy držení
-  { phase: "Výdech", duration: 8000, scale: 1 }, // 6–8 sekund výdech
-  { phase: "Zadržet dech", duration: 2000, scale: 1 }, // 2 sekundy pauza
+  { phase: "Nádech", duration: 4000, scale: 1.2 }, 
+  { phase: "Zadržet dech", duration: 4000, scale: 1.2 }, 
+  { phase: "Výdech", duration: 8000, scale: 1 }, 
+  { phase: "Zadržet dech", duration: 2000, scale: 1 }, 
 ];
 
 const comfortingTexts = [
   "Nadechuj se zhluboka.",
   "Uvolni ramena.",
-  "S každým výdechem nech odcházet napětí.",
   "Dýchej nosem, pomáhá to tělu lépe se okysličit.",
   "Soustřeď se na rytmus svého dechu, buď tady a teď.",
   "Pomalý výdech uklidňuje nervový systém.",
-  "Ráno je nový začátek, nadechni se s úsměvem.",
   "Dýchej vědomě a pomalu.",
   "Hýbej prsty na rukou i nohou, aktivuješ tak krevní oběh.",
   "Po dechovém cvičení se napij čisté vody.",
   "Soustřeď se jen na svůj dech, nic jiného teď není důležité.",
-  "Nech myšlenky volně plynout, teď se věnuj jen dýchání.",
+  "Nech myšlenky volně plynout, soustřeď se jen na dýchání.",
   "Dýchej hluboko do břicha.",
-  "Po cvičení se připrav na nový den, začni ho klidně.",
+  "Při každém nádechu by se mělo břicho mírně rozpínat.",
+  "Po cvičení začni nový den v klidu.",
 ];
-
 
 const GoodMorningExercise = () => {
   const navigation = useNavigation();
@@ -68,7 +66,6 @@ const GoodMorningExercise = () => {
         });
       }, 1000);
 
-      // Hlavní časovač podle vybraného času
       countdown = setInterval(() => {
         setRemainingTime((prev) => {
           if (prev <= 1000) {
@@ -106,7 +103,6 @@ const GoodMorningExercise = () => {
       }
     }, [breathing]);
 
-  // Převod milisekund na minuty a sekundy
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60000);
     const seconds = ((time % 60000) / 1000).toFixed(0);
@@ -120,29 +116,25 @@ const GoodMorningExercise = () => {
           paddingLeft: insets.left, 
           paddingRight: insets.right }]}>
     <View style={styles.container}>
-      {/* Hlavička s tlačítkem zpět */}
+
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#FFF" />
+          <Ionicons name="arrow-back" size={24} color="#0D1B2A" />
         </TouchableOpacity>
         <Text style={styles.title}>DOBRÉ RÁNO</Text>
       </View>
 
-      {/* Časovač odpočítávající do konce cvičení */}
       <Text style={styles.comfortingText}>{comfortingTexts[textIndex]}</Text>
       <Text style={styles.timer}>{formatTime(remainingTime)}</Text>
 
-      {/* Animovaný kruh s odpočtem uvnitř */}
       <View style={styles.circleContainer}>
         <Animated.View style={[styles.circle, { transform: [{ scale: scaleAnim }] }]}>
           <Text style={styles.circleText}>{phaseTime}</Text>
         </Animated.View>
       </View>
 
-      {/* Text fáze dýchání pod kruhem */}
       <Text style={styles.phaseText}>{breathCycle[phaseIndex].phase}</Text>
 
-      {/* Tlačítko Start/Stop */}
       <TouchableOpacity style={styles.button} onPress={() => setBreathing(!breathing)}>
         <Text style={styles.buttonText}>{breathing ? "Zastavit" : "Začít"}</Text>
       </TouchableOpacity>
@@ -154,56 +146,56 @@ const GoodMorningExercise = () => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: "#121212",
+    backgroundColor: "#0D1B2A", // Jemná noční modř přecházející do rána
   },
   container: { 
     flex: 1, 
-    backgroundColor: "#121212", 
     paddingHorizontal: width * 0.03,
     justifyContent: "space-between",
     paddingVertical: height * 0.02
   },
   header: { 
-  flexDirection: "row", 
-  alignItems: "center", 
-  justifyContent: "center",
-  marginTop: height * 0.02,
-  position: "relative",
+    flexDirection: "row", 
+    alignItems: "center", 
+    justifyContent: "center",
+    marginTop: height * 0.02,
+    position: "relative",
   },
   backButton: { 
     position: "absolute", 
     left: width * 0.05, 
-    backgroundColor: "#FFA500", 
+    backgroundColor: "#FFC47E", 
     borderRadius: 50, 
     padding: 12,  
-    shadowOffset: { width: 0, height: 2 }, 
-    shadowOpacity: 0.2, 
-    shadowRadius: 4, 
-    elevation: 3, 
+    shadowOffset: { width: 0, height: 4 }, 
+    shadowOpacity: 0.3, 
+    shadowRadius: 5, 
+    elevation: 4, 
   },
   title: {
     fontSize: width * 0.06, 
     fontWeight: "bold",
     textAlign: "center",
-    color: "#FFA500",
+    color: "#FFC47E",
   },
   comfortingText: {
     fontSize: width * 0.05,
     fontWeight: "500",
     textAlign: "center",
-    color: "#FFA500",
+    color: "#FFC47E",
     marginTop: height * 0.04, 
     marginBottom: height * 0.02, 
     maxWidth: "80%",
     alignSelf: "center",
     lineHeight: width * 0.06,
+    fontStyle: "italic", // Jemnější ranní pocit
   },  
   timer: { 
     fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: height * 0.02,
-    color: "#FFA500", 
+    color: "#FFC47E", 
   },
   circleContainer: {
     alignItems: "center",
@@ -214,34 +206,42 @@ const styles = StyleSheet.create({
     width: width * 0.6,
     height: width * 0.6,
     borderRadius: width * 0.3,
-    backgroundColor: "#1E1E1E", // Tmavě šedé pozadí pro kontrast
+    backgroundColor: "#1B263B", 
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#FFA500", // Modrý okraj pro lepší viditelnost
+    borderColor: "#FFC47E", 
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
+    elevation: 5,
   },
   circleText: {
     fontSize: width * 0.09,
     fontWeight: "bold",
-    color: "#FFA500", // Světle modrá pro lepší viditelnost
+    color: "#FFC47E", 
   },
   phaseText: { 
     fontSize: width * 0.05, 
     fontWeight: "bold", 
     textAlign: "center",
     marginBottom: height * 0.02,
-    color: "#FFA500", // Modrá pro dobrý kontrast
+    color: "#FFC47E", 
   },
   button: { 
-    backgroundColor: "#FFA500", // Modrá pro lepší viditelnost
+    backgroundColor: "#FFC47E", 
     padding: height * 0.02, 
     borderRadius: 10, 
     width: "90%", 
     alignSelf: "center",
     alignItems: "center",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 4,
   },
   buttonText: { 
-    color: "#121212", // Černá, aby to bylo čitelné na světlém tlačítku
+    color: "#1B263B", 
     fontSize: width * 0.045, 
     fontWeight: "bold" 
   },
