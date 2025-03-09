@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ConfettiCannon from "react-native-confetti-cannon";
+
 
 const tasksData = {
   Stres: [
@@ -51,6 +52,9 @@ const TasksScreen = () => {
   const [tasks, setTasks] = useState([]);
   const [confettiPosition, setConfettiPosition] = useState(null);
   const confettiRef = useRef(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [newTaskDescription, setNewTaskDescription] = useState("");
 
   useEffect(() => {
     const loadCategory = async () => {
@@ -65,7 +69,7 @@ const TasksScreen = () => {
   useEffect(() => {
     const loadTasks = async () => {
       const savedTasks = await AsyncStorage.getItem("tasksData");
-      setTasks(savedTasks ? JSON.parse(savedTasks)[selectedCategory] : []);
+      setTasks(savedTasks ? JSON.parse(savedTasks)[selectedCategory] || [] : []);
     };
     loadTasks();
   }, [selectedCategory]);
@@ -75,26 +79,52 @@ const TasksScreen = () => {
     await AsyncStorage.setItem("selectedCategory", category);
   };
 
-  const toggleTask = (taskId, event) => {
+  const toggleTask = async (taskId, event) => {
     const { pageX, pageY } = event.nativeEvent;
     const updatedTasks = tasks.map((task) => {
       if (task.id === taskId) {
         if (!task.completed) {
-          setConfettiPosition({ x: pageX, y: pageY });
-          if (confettiRef.current) confettiRef.current.start();
+          setConfettiPosition(null); // Reset efektu před novým odpálením
+          setTimeout(() => setConfettiPosition({ x: pageX, y: pageY }), 10); // Po 10 ms nastaví novou pozici
         }
         return { ...task, completed: !task.completed };
       }
       return task;
     });
-
+  
     setTasks(updatedTasks);
+    await AsyncStorage.setItem("tasksData", JSON.stringify({ 
+      ...JSON.parse(await AsyncStorage.getItem("tasksData")), 
+      [selectedCategory]: updatedTasks 
+    }));
+  };    
+
+  const addTask = async () => {
+    if (newTaskTitle.trim()) {
+      const newTask = {
+        id: Date.now(),
+        title: newTaskTitle,
+        description: newTaskDescription,
+        completed: false,
+        userAdded: true
+      };
+      const updatedTasks = [...tasks, newTask];
+      setTasks(updatedTasks);
+      await AsyncStorage.setItem("tasksData", JSON.stringify({ ...JSON.parse(await AsyncStorage.getItem("tasksData")), [selectedCategory]: updatedTasks }));
+      setModalVisible(false);
+      setNewTaskTitle("");
+      setNewTaskDescription("");
+    }
+  };
+
+  const deleteTask = async (taskId) => {
+    const updatedTasks = tasks.filter((task) => task.id !== taskId);
+    setTasks(updatedTasks);
+    await AsyncStorage.setItem("tasksData", JSON.stringify({ ...JSON.parse(await AsyncStorage.getItem("tasksData")), [selectedCategory]: updatedTasks }));
   };
 
   return (
     <View style={styles.container}>
-
-      {/* 📌 nad vybranou kategorií */}
       <View style={styles.filterWrapper}>
         {["Stres", "Panika", "Spánek"].map((category) => (
           <View key={category} style={styles.filterColumn}>
@@ -113,32 +143,61 @@ const TasksScreen = () => {
         ))}
       </View>
 
-      {/* Seznam úkolů */}
       <ScrollView contentContainerStyle={styles.taskList}>
         {tasks.map((task) => (
-          <TouchableOpacity
-            key={task.id}
-            style={[styles.taskCard, task.completed && styles.taskCompleted]}
-            onPress={(event) => toggleTask(task.id, event)}
-          >
-            <Text style={[styles.taskTitle, task.completed && styles.taskTitleCompleted]}>{task.title}</Text>
-            <Text style={styles.taskDescription}>{task.description}</Text>
-            {task.completed && <Text style={styles.completedText}>✔️ Splněno!</Text>}
-          </TouchableOpacity>
+          <View key={task.id} style={[styles.taskCard, task.completed && styles.taskCompleted]}>
+            {task.userAdded && (
+              <TouchableOpacity style={styles.deleteButton} onPress={() => deleteTask(task.id)}>
+                <Text style={styles.deleteButtonText}>✖</Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity onPress={(event) => toggleTask(task.id, event)} style={styles.taskContent}>
+              <Text style={[styles.taskTitle, task.completed && styles.taskTitleCompleted]}>{task.title}</Text>
+              <Text style={styles.taskDescription}>{task.description}</Text>
+              {task.completed && <Text style={styles.completedText}>✔️ Splněno!</Text>}
+            </TouchableOpacity>
+          </View>
         ))}
+        <TouchableOpacity style={styles.addTaskCard} onPress={() => setModalVisible(true)}>
+          <Text style={styles.addTaskText}>➕ Přidat nový úkol</Text>
+        </TouchableOpacity>
       </ScrollView>
 
-      {/* Animace konfet */}
       {confettiPosition && (
         <ConfettiCannon
+          key={confettiPosition.x + confettiPosition.y} // Dynamický klíč
           count={40}
           origin={{ x: confettiPosition.x, y: confettiPosition.y }}
-          fadeOut={true}
-          autoStart={false}
-          ref={confettiRef}
-        />
+          fadeOut={true}/>
       )}
 
+      <Modal visible={modalVisible} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Nový úkol</Text>
+            <TextInput
+              placeholder="Název úkolu"
+              style={styles.input}
+              value={newTaskTitle}
+              onChangeText={setNewTaskTitle}
+            />
+            <TextInput
+              placeholder="Popis úkolu"
+              style={styles.input}
+              value={newTaskDescription}
+              onChangeText={setNewTaskDescription}
+            />
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
+                <Text style={styles.cancelButtonText}>Zrušit</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.addButton} onPress={addTask}>
+                <Text style={styles.addButtonText}>Přidat</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -194,6 +253,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     alignSelf: "center", 
     alignItems: "center",
+    justifyContent: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
@@ -202,6 +262,11 @@ const styles = StyleSheet.create({
   },
   taskCompleted: {
     backgroundColor: "#C7F9CC",
+  },
+  taskContent: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
   },
   taskTitle: {
     fontSize: 16,
@@ -222,7 +287,112 @@ const styles = StyleSheet.create({
   completedText: {
     fontSize: 14,
     color: "#2F7336",
-    marginTop: 5,
+    marginTop: 10,
+    fontWeight: "bold",
+    textAlign: "center",
+    alignSelf: "center",
+    width: "100%",
+  },
+  addTaskCard: {
+    width: "100%", 
+    maxWidth: 350,
+    minWidth: 350,
+    backgroundColor: "#ECE4FF",
+    padding: 20,
+    borderRadius: 15,
+    marginBottom: 15,
+    alignSelf: "center", 
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  addTaskText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#4A148C",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContent: {
+    width: "85%",
+    backgroundColor: "#ECE4FF",
+    padding: 20,
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#4A148C",
+    marginBottom: 10,
+  },
+  input: {
+    width: "100%",
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  cancelButton: {
+    flex: 1,
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    marginRight: 5,
+  },
+  cancelButtonText: {
+    fontSize: 16,
+    color: "#4A148C",
+    fontWeight: "bold",
+  },
+  addButton: {
+    flex: 1,
+    backgroundColor: "#9B5DE5",
+    padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    marginLeft: 5,
+  },
+  addButtonText: {
+    fontSize: 16,
+    color: "white",
+    fontWeight: "bold",
+  },
+  deleteButton: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    borderRadius: 12,
+    width: 26,
+    height: 26,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 10,
+  },
+  deleteButtonText: {
+    color: "white",
+    fontSize: 16,
     fontWeight: "bold",
   },
 });
