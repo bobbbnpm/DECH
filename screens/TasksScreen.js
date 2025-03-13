@@ -120,7 +120,8 @@ const TasksScreen = () => {
   const deleteTask = async (taskId) => {
     const updatedTasks = tasks.filter((task) => task.id !== taskId);
     setTasks(updatedTasks);
-    await AsyncStorage.setItem("tasksData", JSON.stringify({ ...JSON.parse(await AsyncStorage.getItem("tasksData")), [selectedCategory]: updatedTasks }));
+    await AsyncStorage.setItem("tasksData", JSON.stringify({ 
+      ...JSON.parse(await AsyncStorage.getItem("tasksData")), [selectedCategory]: updatedTasks }));
   };
 
   return (
@@ -158,6 +159,7 @@ const TasksScreen = () => {
             </TouchableOpacity>
           </View>
         ))}
+
         <TouchableOpacity style={styles.addTaskCard} onPress={() => setModalVisible(true)}>
           <Text style={styles.addTaskText}>➕ Přidat nový úkol</Text>
         </TouchableOpacity>
@@ -165,7 +167,7 @@ const TasksScreen = () => {
 
       {confettiPosition && (
         <ConfettiCannon
-          key={confettiPosition.x + confettiPosition.y} // Dynamický klíč
+          key={confettiPosition.x + confettiPosition.y} 
           count={40}
           origin={{ x: confettiPosition.x, y: confettiPosition.y }}
           fadeOut={true}/>
@@ -179,14 +181,12 @@ const TasksScreen = () => {
               placeholder="Název úkolu"
               style={styles.input}
               value={newTaskTitle}
-              onChangeText={setNewTaskTitle}
-            />
+              onChangeText={setNewTaskTitle}/>
             <TextInput
               placeholder="Popis úkolu"
               style={styles.input}
               value={newTaskDescription}
-              onChangeText={setNewTaskDescription}
-            />
+              onChangeText={setNewTaskDescription}/>
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
                 <Text style={styles.cancelButtonText}>Zrušit</Text>

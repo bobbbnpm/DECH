@@ -28,7 +28,8 @@ const GoodMorningDescript = () => {
 
         <View style={styles.descriptionBox}>
           <Text style={styles.description}>
-          Tato dechová technika pomáhá začít den v klidu a pohodě, uvolňuje napětí po probuzení a dodává energii. Pomalý výdech navozuje pocit uvolnění, což pomáhá tělu i mysli přejít do nového dne bez stresu.
+          Tato dechová technika pomáhá začít den v klidu a pohodě, uvolňuje napětí po probuzení a dodává energii. 
+          Pomalý výdech navozuje pocit uvolnění, což pomáhá tělu i mysli přejít do nového dne bez stresu.
           {"\n\n"}
           Kontrolované dýchání zlepšuje soustředění a pomáhá cítit se svěže, klidně. Připraví tělo na vše, co den přinese.
           </Text>
@@ -48,7 +49,6 @@ const GoodMorningDescript = () => {
           ))}
         </View>
 
-        {/* Pokračovat na cvičení */}
         <TouchableOpacity
           style={styles.startButton}
           onPress={() => navigation.navigate("GoodMorningExercise", { selectedTime })}
