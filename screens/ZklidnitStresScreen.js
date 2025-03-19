@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,7 +7,6 @@ import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
-// Správná cesta k souboru deště
 const rainSoundUri = require("../assets/rain.mp3");
 
 const breathCycle = [
@@ -17,17 +16,17 @@ const breathCycle = [
   { phase: "Zadržet dech", duration: 2000, scale: 1 }
 ];
 
-const totalExerciseTime = 300000; // 5 minut v milisekundách
+const totalExerciseTime = 300000; // 5 minut
 
 const ZklidnitStresScreen = () => {
   const navigation = useNavigation();
-  const insets = useSafeAreaInsets(); 
+  const insets = useSafeAreaInsets();
   const [breathing, setBreathing] = useState(false);
   const [phaseIndex, setPhaseIndex] = useState(0);
   const [remainingTime, setRemainingTime] = useState(totalExerciseTime);
   const [phaseTime, setPhaseTime] = useState(breathCycle[0].duration / 1000);
-  const [rainSound, setRainSound] = useState(null);
   const [rainPlaying, setRainPlaying] = useState(false);
+  const rainSound = useRef(null);
   const scaleAnim = useState(new Animated.Value(1))[0];
 
   useEffect(() => {
@@ -81,86 +80,94 @@ const ZklidnitStresScreen = () => {
     };
   }, [breathing, phaseIndex]);
 
-  // Automatické zastavení zvuku při opuštění obrazovky
+  // 🚀 **Zastavení zvuku při odchodu z obrazovky**
   useEffect(() => {
-    return () => {
-      stopRain(); 
+    const stopAndUnload = async () => {
+      if (rainSound.current) {
+        try {
+          await rainSound.current.stopAsync();
+          await rainSound.current.unloadAsync();
+          rainSound.current = null;
+          setRainPlaying(false);
+        } catch (error) {
+          // Chybu ignorujeme, aby se neobjevila žádná hláška
+        }
+      }
     };
-  }, []);  
 
-  // Spuštění/zastavení deště
+    const unsubscribe = navigation.addListener("beforeRemove", stopAndUnload);
+
+    return () => {
+      unsubscribe();
+      stopAndUnload();
+    };
+  }, [navigation]);
+
+  // ✅ **Spuštění a vypnutí zvuku**
   const toggleRain = async () => {
     if (rainPlaying) {
       stopRain();
     } else {
-      const { sound } = await Audio.Sound.createAsync(rainSoundUri, {
-        isLooping: true,
-        volume: 1.0,
-        shouldPlay: true,
-      });
-      setRainSound(sound);
-      await sound.playAsync();
-      setRainPlaying(true);
+      try {
+        const { sound } = await Audio.Sound.createAsync(rainSoundUri, { isLooping: true });
+        rainSound.current = sound;
+        await sound.playAsync();
+        setRainPlaying(true);
+      } catch (error) {
+        // Chybu ignorujeme
+      }
     }
   };
 
-  // Zastavení zvuku deště
+  // ✅ **Zastavení zvuku**
   const stopRain = async () => {
-    if (rainSound) {
-      await rainSound.stopAsync();
-      await rainSound.unloadAsync();
-      setRainSound(null);
+    if (rainSound.current) {
+      try {
+        await rainSound.current.stopAsync();
+        await rainSound.current.unloadAsync();
+        rainSound.current = null;
+        setRainPlaying(false);
+      } catch (error) {
+        // Chybu ignorujeme
+      }
     }
-    setRainPlaying(false);
-  };
-
-  // Převod milisekund na minuty a sekundy
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60000);
-    const seconds = ((time % 60000) / 1000).toFixed(0);
-    return `${minutes}:${seconds.padStart(2, "0")}`;
-  };
-
-  // Zastavení cvičení i zvuku deště
-  const stopExercise = () => {
-    setBreathing(false);
-    stopRain();
   };
 
   return (
-     <SafeAreaView style={[styles.safeContainer, { 
-          paddingTop: insets.top, 
-          paddingBottom: insets.bottom, 
-          paddingLeft: insets.left, 
-          paddingRight: insets.right }]}>
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={32} />
+    <SafeAreaView style={[styles.safeContainer, { 
+      paddingTop: insets.top, 
+      paddingBottom: insets.bottom, 
+      paddingLeft: insets.left, 
+      paddingRight: insets.right 
+    }]}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => { stopRain(); navigation.goBack(); }} style={styles.backButton}>
+            <Ionicons name="arrow-back" size={32} />
+          </TouchableOpacity>
+          <Text style={styles.title}>ZKLIDNIT STRES</Text>
+        </View>
+
+        <View style={styles.iconRow}>
+          <TouchableOpacity onPress={toggleRain} style={styles.soundToggle}>
+            <Ionicons name={rainPlaying ? "cloud" : "cloud-offline"} size={32} color="#445D48" />
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.timer}>{Math.floor(remainingTime / 60000)}:{(remainingTime % 60000 / 1000).toFixed(0).padStart(2, "0")}</Text>
+
+        <View style={styles.circleContainer}>
+          <Animated.View style={[styles.circle, { transform: [{ scale: scaleAnim }] }]}>
+            <Text style={styles.circleText}>{phaseTime}</Text>
+          </Animated.View>
+        </View>
+
+        <Text style={styles.phaseText}>{breathCycle[phaseIndex].phase}</Text>
+
+        <TouchableOpacity style={styles.button} onPress={breathing ? () => { stopRain(); setBreathing(false); } : () => setBreathing(true)}>
+          <Text style={styles.buttonText}>{breathing ? "Zastavit" : "Začít"}</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>ZKLIDNIT STRES</Text>
       </View>
-
-      <View style={styles.iconRow}>
-      <TouchableOpacity onPress={toggleRain} style={styles.soundToggle}>
-        <Ionicons name={rainPlaying ? "cloud" : "cloud-offline"} size={32} color="#445D48" />
-      </TouchableOpacity>
-      </View>
-
-      <Text style={styles.timer}>{formatTime(remainingTime)}</Text>
-
-      <View style={styles.circleContainer}>
-        <Animated.View style={[styles.circle, { transform: [{ scale: scaleAnim }] }]}>
-          <Text style={styles.circleText}>{phaseTime}</Text>
-        </Animated.View>
-      </View>
-
-      <Text style={styles.phaseText}>{breathCycle[phaseIndex].phase}</Text>
-
-      <TouchableOpacity style={styles.button} onPress={breathing ? stopExercise : () => setBreathing(true)}>
-        <Text style={styles.buttonText}>{breathing ? "Zastavit" : "Začít"}</Text>
-      </TouchableOpacity>
-    </View>
     </SafeAreaView>
   );
 };
