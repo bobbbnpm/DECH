@@ -31,7 +31,7 @@ const WimHofovaMetodaP = () => {
       <Text style={styles.description}>
         Wim Hofova dechová metoda je jednoduchá, ale velmi účinná technika, která pomáhá okysličit tělo, posílit imunitní systém a lépe zvládat stres. 
         {"\n\n"}
-        Je založena na vědomém hlubokém dýchání, zadržení dechu a postupném otužování, což dohromady aktivuje přirozené obranné mechanismy těla a zlepšuje jeho odolnost.
+        Je založena na vědomém hlubokém dýchání a dlouhém zadržení dechu, což dohromady aktivuje přirozené obranné mechanismy těla a zlepšuje jeho odolnost.
       </Text>
       </View>
 

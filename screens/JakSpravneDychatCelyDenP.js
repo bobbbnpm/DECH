@@ -29,7 +29,10 @@ const JakSpravneDychatCelyDenP = () => {
 
       <View style={styles.descriptionBox}>
       <Text style={styles.description}>
-        Správné dýchání pomáhá zůstat soustředěný, klidný a plný energie. Mnoho lidí dýchá příliš mělce a rychle, což může způsobovat únavu, napětí nebo dokonce stres. Nejlepší způsob, jak dýchat během dne, je hluboké a pomalé dýchání do břicha, které zajišťuje správnou výměnu kyslíku a oxidu uhličitého. Dýchání do břicha znamená, že při nádechu se zvedá břicho, ne hrudník. 
+        Tato dechová technika slouží k vytvoření zdravého dechového návyku. Ideální je dýchat výhradně nosem, který vzduch filtruje, zvlhčuje a ohřívá. Doporučený rytmus je nádech nosem po dobu 4 sekund, zadržení dechu na 4 sekundy a pomalý výdech po dobu 6 sekund.
+        {"\n\n"}
+        Tento způsob dýchání zpomaluje dech, dýcháte tak klidněji a víc do břicha, ne jen do hrudníku.
+        Aby si tělo přirozeně zvyklo na nový dechový vzorec, je potřeba ho trénovat každý den několikrát.
       </Text>
       </View>
 
@@ -101,7 +104,7 @@ const styles = StyleSheet.create({
     marginTop: height * 0.02,
   },
   description: {
-    fontSize: width * 0.05,
+    fontSize: width * 0.045,
     textAlign: "center",
     color: "#444",
   },
@@ -110,8 +113,8 @@ const styles = StyleSheet.create({
     borderColor: "#9B5DE5",
     borderRadius: 12,
     padding: width * 0.05,
-    marginTop: height * 0.13,
-    marginBottom: height * 0.05,
+    marginTop: height * 0.15,
+    marginBottom: height * 0.04,
     backgroundColor: "#EDE7F6",
     width: "90%",
     alignSelf: "center",

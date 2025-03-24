@@ -29,7 +29,11 @@ const DychaniProtiPanickymAtakamP = () => {
 
       <View style={styles.descriptionBox}>
       <Text style={styles.description}>
-      Když máš panickou ataku, často začneš dýchat příliš rychle a můžeš se cítit jako bys neměl dostatek vzduchu. To může způsobit závratě, mravenčení nebo pocit na omdlení. Pomůže ti dýchání do dlaní – jednoduše spoj ruce před ústy a pomalu do nich dýchej. Tím si udržíš potřebnou rovnováhu v těle a rychleji se uklidníš.
+      Tato dýchací technika je určena ke zklidnění při panických atakách.
+      Při této dechové technice je doporučeno dýchat do spojených dlaní přiložených těsně před ústa a nos.
+      Nádech nosem trvá 4 sekundy, dech se krátce zadrží na 2 sekundy a následuje pomalý výdech ústy do dlaní po dobu 6 sekund. 
+      {"\n\n"}
+      Tím se obnovuje hladina oxidu uhličitého v krvi, což pomáhá zmírnit příznaky jako je dušnost, závratě nebo mravenčení.
       </Text>
       </View>
 
@@ -108,8 +112,8 @@ const styles = StyleSheet.create({
     borderColor: "#9B5DE5",
     borderRadius: 12,
     padding: width * 0.05,
-    marginTop: height * 0.13,
-    marginBottom: height * 0.05,
+    marginTop: height * 0.15,
+    marginBottom: height * 0.03,
     backgroundColor: "#EDE7F6",
     width: "90%",
     alignSelf: "center",

@@ -28,7 +28,10 @@ const DychaniPredSpanimP = () => {
 
       <View style={styles.descriptionBox}>
        <Text style={styles.description}>
-          Stejně jako při zvládání stresu se i před spaním doporučuje technika 4-7-8, která pomáhá zpomalit srdeční rytmus a připravit tělo na hluboký spánek. Pomalé výdechy aktivují parasympatický nervový systém, což snižuje stres a napomáhá rychlejšímu usnutí. Tato metoda je účinná zejména pro lidi trpící nespavostí nebo úzkostí.
+       Tato dechová technika se doporučuje především před spaním, protože pomáhá zpomalit srdeční rytmus a připravit tělo na hluboký a klidný spánek.
+       Nádech trvá 4 sekundy, následuje zadržení dechu na 7 sekund a poté pomalý výdech po dobu 8 sekund.
+       {"\n\n"}
+       Díky aktivaci parasympatického nervového systému snižuje stres, navozuje pocit uvolnění a usnadňuje usínání, zejména u lidí trpících nespavostí nebo úzkostí.
         </Text>
       </View>
 
@@ -110,6 +113,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#EDE7F6",
     width: "90%",
     alignSelf: "center",
+    marginBottom: height * 0.04,
+    marginTop: height * 0.1,
   },
   buttonGroup: {
     flexDirection: "row",

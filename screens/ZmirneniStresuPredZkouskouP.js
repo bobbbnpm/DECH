@@ -24,12 +24,16 @@ const ZmirneniStresuPredZkouskouP = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.title}>ZMÍRNĚNÍ STRESU{"\n"}PŘED ZKOUŠKOU</Text>
+        <Text style={styles.title}>ZMÍRNĚNÍ STRESUPŘED ZKOUŠKOU</Text>
       </View>
 
       <View style={styles.descriptionBox}>
         <Text style={styles.description}>
-          Technika 4-7-8 spočívá v nádechu nosem po dobu 4 sekund, zadržení dechu na 7 sekund a pomalém výdechu ústy po dobu 8 sekund. Tento způsob dýchání působí relaxačně na nervový systém, snižuje hladinu stresových hormonů a podporuje mentální soustředění. Pomalý výdech stimuluje parasympatický nervový systém, což vede k uvolnění napětí a snížení úzkosti.
+        Tato dýchací technika je účinná pro zmírnění stresu, například před zkouškou.
+        Spočívá v nádechu nosem po dobu 4 sekund, zadržení dechu na 7 sekund a pomalém výdechu ústy po dobu 8 sekund. 
+        {"\n\n"}
+        Tento rytmus dýchání působí relaxačně na nervový systém, snižuje hladinu stresových hormonů a podporuje soustředění.
+        Pomalý výdech aktivuje parasympatický nervový systém, což napomáhá uvolnění napětí a snížení úzkosti.
         </Text>
       </View>
 
@@ -108,8 +112,8 @@ const styles = StyleSheet.create({
     borderColor: "#9B5DE5",
     borderRadius: 12,
     padding: width * 0.05,
-    marginTop: height * 0.13,
-    marginBottom: height * 0.05,
+    marginBottom: height * 0.03,
+    marginTop: height * 0.15,
     backgroundColor: "#EDE7F6",
     width: "90%",
     alignSelf: "center",

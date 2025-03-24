@@ -29,9 +29,9 @@ const RozdychaniPredPotapenimP = () => {
 
       <View style={styles.descriptionBox}>
       <Text style={styles.description}>
-        Než se ponoříš pod vodu, je důležité zklidnit dech a připravit tělo na zadržení dechu. Správné dýchání ti pomůže zvýšit množství kyslíku v krvi a snížit jeho spotřebu pod vodou, takže vydržíš déle bez nádechu.
+        Tato dechová technika slouží k přípravě těla i mysli před potápěním. Pomáhá zklidnit dech, zpomalit srdeční rytmus a naladit se na potápění. Využívá se hluboké dýchání, kdy je nádech nosem po dobu 5 sekund, krátké zadržení dechu na 2 sekundy a pomalý výdech ústy po dobu 8 sekund. 
         {"\n\n"}
-        Klíčem je hluboké a pomalé dýchání do břicha, díky kterému se tělo lépe okysličí a zároveň zpomalí srdeční tep. Nádechy musí být klidné a plynulé, výdechy dlouhé a kontrolované. Nesmíš prudce vydechnout, jinak tělo přijde o příliš mnoho kyslíku.
+        Tím se snižuje potřeba kyslíku a tělo se lépe připraví na zadržení dechu pod hladinou.
       </Text>
       </View>
 

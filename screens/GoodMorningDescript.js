@@ -28,10 +28,10 @@ const GoodMorningDescript = () => {
 
         <View style={styles.descriptionBox}>
           <Text style={styles.description}>
-          Toto dechové cvičení začni nádechem nosem po dobu 4 sekund a následuj pomalým výdechem trvajícím 6 sekund.
-          Poté přejdi do fáze rychlého dýchání, kde se nádech i výdech střídají každou sekundu.
+          Tato dechová technika začíná nádechem nosem po dobu 4 sekund, následovaným pomalým výdechem po dobu 6 sekund.
+          Poté přechází do fáze rychlého dýchání v rytmu 1-1, kdy se nádechy a výdechy pravidelně střídají každou sekundu.
           {"\n\n"}
-          Tento rytmus dýchání stimuluje nervový systém, zvyšuje hladinu kyslíku v krvi, podporuje bdělost a napomáhá efektivnímu nastartování dne.
+          Tento rytmus dýchání stimuluje nervový systém, zvyšuje hladinu kyslíku v krvi a napomáhá efektivně nastartovat den.
           </Text>
         </View>
 
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EDE7F6",
     width: "90%",
     marginBottom: height * 0.04,
-    marginTop: height * 0.02,
+    marginTop: height * 0.1,
   },
   description: {
     fontSize: width * 0.05,

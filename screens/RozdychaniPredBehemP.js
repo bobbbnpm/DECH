@@ -29,10 +29,9 @@ const RozdychaniPredBehemP = () => {
 
       <View style={styles.descriptionBox}>
       <Text style={styles.description}>
-      Správné dýchání před během pomáhá připravit tělo na výkon, zlepšit okysličení svalů a snížit riziko rychlého vyčerpání. 
-      Pokud se rozdýcháš před během, tvé tělo lépe zvládne zátěž a budeš se cítit méně unaveně.{"\n\n"}
-      Při této dechové technice se doporučuje chodit. Nadechni se na dva kroky, vydechni na dva kroky. 
-      Dýchej nosem pro lepší filtraci vzduchu.
+      Tato dechová technika se doporučuje při běhu. Dýchá se tak, že se nadechnete na dva kroky a vydechnete na další dva.
+      {"\n\n"}
+      Pomáhá zklidnit dech, zlepšit výkon, šetřit energii a snižuje napětí v těle. Díky pravidelnému rytmu se běží plynuleji a s větší lehkostí.
       </Text>
       </View>
 

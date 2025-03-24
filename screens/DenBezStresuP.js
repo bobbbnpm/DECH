@@ -28,7 +28,11 @@ const DenBezStresuP = () => {
 
       <View style={styles.descriptionBox}>
         <Text style={styles.description}>
-          Box Breathing je technika používaná i speciálními jednotkami pro zvládání stresu. Spočívá v rovnoměrných fázích dýchání: nádech po dobu 4 sekund, zadržení dechu na 4 sekundy, výdech po dobu 4 sekund a opět zadržení na 4 sekundy. Tento cyklus se několikrát opakuje. Tato metoda pomáhá stabilizovat srdeční tep, snižovat hladinu kortizolu a udržovat klidnou a soustředěnou mysl, což je ideální pro stresové situace během dne.
+        Tato dechová technika je založená na rovnoměrném rytmu.
+        Nádech trvá 4 sekundy, poté následuje zadržení dechu na 4 sekundy, výdech po dobu 4 sekund a opět zadržení na 4 sekundy.
+        Tento cyklus se několikrát opakuje.
+        {"\n\n"}
+        Technika napomáhá stabilizaci srdečního tepu, snižuje hladinu stresového hormonu a podporuje vnitřní klid, soustředění a mentální odolnost v náročných nebo stresových situacích během dne.
         </Text>
       </View>
 
