@@ -7,9 +7,9 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 const { width, height } = Dimensions.get("window");
 
 const breathCycle = [
-  { phase: "Nádech nosem", duration: 4000, scale: 1.3 },
-  { phase: "Zadržet dech", duration: 4000, scale: 1.3 },
-  { phase: "Výdech ústy", duration: 4000, scale: 1 },
+  { phase: "Nádech", duration: 4000, scale: 1.2 },
+  { phase: "Zadržet dech", duration: 7000, scale: 1.2 },
+  { phase: "Výdech", duration: 8000, scale: 1 },
 ];
 
 const comfortingTexts = [

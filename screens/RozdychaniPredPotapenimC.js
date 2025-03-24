@@ -8,10 +8,8 @@ const { width, height } = Dimensions.get("window");
 
 const breathCycle = [
   { phase: "Nádech", duration: 5000, scale: 1.3 },
-  { phase: "Výdech", duration: 10000, scale: 1 },
-  { phase: "Nádech", duration: 5000, scale: 1.3 },
-  { phase: "Zadržet dech", duration: 30000, scale: 1.3 },
-  { phase: "Výdech", duration: 10000, scale: 1 }, 
+  { phase: "Zadržet dech", duration: 2000, scale: 1.3 },
+  { phase: "Výdech", duration: 8000, scale: 1 }, 
 ];
 
 const comfortingTexts = [

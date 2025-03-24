@@ -24,7 +24,7 @@ const ZmirneniStresuPredZkouskouP = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.title}>ZMÍRNĚNÍ STRESUPŘED ZKOUŠKOU</Text>
+        <Text style={styles.title}>ZMÍRNĚNÍ STRESU{"\n"}PŘED ZKOUŠKOU</Text>
       </View>
 
       <View style={styles.descriptionBox}>
