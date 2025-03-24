@@ -8,10 +8,10 @@ import { LinearGradient } from "expo-linear-gradient";
 const { width, height } = Dimensions.get("window");
 
 const breathCycle = [
-  { phase: "Nádech", duration: 4000, scale: 1.2 }, 
-  { phase: "Zadržet dech", duration: 4000, scale: 1.2 }, 
-  { phase: "Výdech", duration: 8000, scale: 1 }, 
-  { phase: "Zadržet dech", duration: 2000, scale: 1 }, 
+  { phase: "Nádech nosem", duration: 4000, scale: 1.2 }, 
+  { phase: "Výdech", duration: 6000, scale: 1 }, 
+  { phase: "Nádech", duration: 1000, scale: 1.2 }, 
+  { phase: "Výdech", duration: 1000, scale: 1 }, 
 ];
 
 const comfortingTexts = [
@@ -146,7 +146,7 @@ const GoodMorningExercise = () => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: "#0D1B2A", // Jemná noční modř přecházející do rána
+    backgroundColor: "#F3ECE7", // světlý, jemně teplý základ
   },
   container: { 
     flex: 1, 
@@ -164,11 +164,11 @@ const styles = StyleSheet.create({
   backButton: { 
     position: "absolute", 
     left: width * 0.05, 
-    backgroundColor: "#FFC47E", 
+    backgroundColor: "#FFD29D", // jemná broskvová
     borderRadius: 50, 
     padding: 12,  
     shadowOffset: { width: 0, height: 4 }, 
-    shadowOpacity: 0.3, 
+    shadowOpacity: 0.2, 
     shadowRadius: 5, 
     elevation: 4, 
   },
@@ -176,75 +176,77 @@ const styles = StyleSheet.create({
     fontSize: width * 0.06, 
     fontWeight: "bold",
     textAlign: "center",
-    color: "#FFC47E",
+    color: "#4C3A2D", // teplá hnědá pro kontrast
   },
   comfortingText: {
     fontSize: width * 0.05,
     fontWeight: "500",
     textAlign: "center",
-    color: "#FFC47E",
+    color: "#7D5A50", // tlumená teplá hnědorůžová
     marginTop: height * 0.04, 
     marginBottom: height * 0.02, 
     maxWidth: "80%",
     alignSelf: "center",
     lineHeight: width * 0.06,
-    fontStyle: "italic", // Jemnější ranní pocit
+    fontStyle: "italic", 
   },  
   timer: { 
     fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: height * 0.02,
-    color: "#FFC47E", 
+    color: "#4C3A2D", 
   },
   circleContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: height * 0.015
+    marginVertical: height * 0.02
   },
   circle: {
-    width: width * 0.6,
-    height: width * 0.6,
-    borderRadius: width * 0.3,
-    backgroundColor: "#1B263B", 
+    width: width * 0.55,
+    height: width * 0.55,
+    borderRadius: width * 0.275,
+    backgroundColor: "#FFEBD9", // jemný broskvový tón
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#FFC47E", 
+    borderColor: "#FFD29D", 
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 5,
   },
   circleText: {
     fontSize: width * 0.09,
     fontWeight: "bold",
-    color: "#FFC47E", 
+    color: "#4C3A2D", 
   },
   phaseText: { 
     fontSize: width * 0.05, 
     fontWeight: "bold", 
     textAlign: "center",
+    marginTop: height * 0.04,
     marginBottom: height * 0.02,
-    color: "#FFC47E", 
+    color: "#7D5A50", 
   },
   button: { 
-    backgroundColor: "#FFC47E", 
+    backgroundColor: "#FFD29D", 
     padding: height * 0.02, 
     borderRadius: 10, 
     width: "90%", 
     alignSelf: "center",
     alignItems: "center",
     shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 4,
   },
   buttonText: { 
-    color: "#1B263B", 
+    color: "#4C3A2D", 
     fontSize: width * 0.045, 
     fontWeight: "bold" 
   },
 });
+
 
 export default GoodMorningExercise;

@@ -123,7 +123,7 @@ const RozdychaniPredBehemC = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} />
         </TouchableOpacity>
-        <Text style={styles.title}>DEN BEZ STRESU</Text>
+        <Text style={styles.title}>ROZDÝCHÁNÍ{"\n"}PŘED BĚHEM</Text>
       </View>
 
       {/* Časovač odpočítávající do konce cvičení */}
@@ -152,26 +152,26 @@ const RozdychaniPredBehemC = () => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: "#121212",
+    backgroundColor: "#1F2B26", // tmavý lesní základ, jako stín stromů
   },
   container: { 
     flex: 1, 
-    backgroundColor: "#121212", 
+    backgroundColor: "#1F2B26", 
     paddingHorizontal: width * 0.03,
     justifyContent: "space-between",
     paddingVertical: height * 0.02
   },
   header: { 
-  flexDirection: "row", 
-  alignItems: "center", 
-  justifyContent: "center",
-  marginTop: height * 0.02,
-  position: "relative",
+    flexDirection: "row", 
+    alignItems: "center", 
+    justifyContent: "center",
+    marginTop: height * 0.02,
+    position: "relative",
   },
   backButton: { 
     position: "absolute", 
     left: width * 0.05, 
-    backgroundColor: "#FFA500", 
+    backgroundColor: "#8EA98E", // pastelová zelená – mech a lístky
     borderRadius: 50, 
     padding: 12,  
     shadowOffset: { width: 0, height: 2 }, 
@@ -183,47 +183,46 @@ const styles = StyleSheet.create({
     fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
-    color: "#FFA500",
-    marginLeft: width * 0.05,
-    marginTop: height * 0.02,
+    color: "#D8E6D3",
   },
   comfortingText: {
     fontSize: width * 0.05,
     fontWeight: "500",
     textAlign: "center",
-    color: "#FFA500",
+    color: "#A8C1A0", // listová pastelová zeleň
     marginTop: height * 0.04, 
     marginBottom: height * 0.02, 
     maxWidth: "80%",
     alignSelf: "center",
     lineHeight: width * 0.06,
+    fontStyle: "italic",
   },  
   timer: { 
     fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: height * 0.02,
-    color: "#FFA500", 
+    color: "#D8E6D3", 
   },
   circleContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: height * 0.015
+    marginVertical: height * 0.015,
   },
   circle: {
-    width: width * 0.6,
-    height: width * 0.6,
+    width: width * 0.5,
+    height: width * 0.5,
     borderRadius: width * 0.3,
-    backgroundColor: "#1E1E1E", // Tmavě šedé pozadí pro kontrast
+    backgroundColor: "#2E3B33", // Hlubší fialovošedá – jemný kontrast
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#FFA500", // Modrý okraj pro lepší viditelnost
+    borderColor: "#8EA98E",
   },
   circleText: {
     fontSize: width * 0.09,
     fontWeight: "bold",
-    color: "#FFA500", // Světle modrá pro lepší viditelnost
+    color: "#D8E6D3",
   },
   phaseText: { 
     fontSize: width * 0.05, 
@@ -231,21 +230,26 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: height * 0.02,
     marginTop: height * 0.05,
-    color: "#FFA500", 
+    color: "#A8C1A0", 
   },
   button: { 
-    backgroundColor: "#FFA500", 
+    backgroundColor: "#8EA98E", 
     padding: height * 0.02, 
-    borderRadius: 10, 
+    borderRadius: 12, 
     width: "90%", 
     alignSelf: "center",
     alignItems: "center",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 3,
   },
   buttonText: { 
-    color: "#121212", // Černá, aby to bylo čitelné na světlém tlačítku
+    color: "#1F2B26", 
     fontSize: width * 0.045, 
     fontWeight: "bold" 
   },
 });
+
 
 export default RozdychaniPredBehemC;

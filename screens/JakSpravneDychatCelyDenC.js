@@ -152,26 +152,26 @@ const JakSpravneDychatCelyDenC = () => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: "#121212",
+    backgroundColor: "#2C1F25", // tmavý tón květinového stínu (tmavě růžově-hnědá)
   },
   container: { 
     flex: 1, 
-    backgroundColor: "#121212", 
+    backgroundColor: "#2C1F25", 
     paddingHorizontal: width * 0.03,
     justifyContent: "space-between",
     paddingVertical: height * 0.02
   },
   header: { 
-  flexDirection: "row", 
-  alignItems: "center", 
-  justifyContent: "center",
-  marginTop: height * 0.02,
-  position: "relative",
+    flexDirection: "row", 
+    alignItems: "center", 
+    justifyContent: "center",
+    marginTop: height * 0.02,
+    position: "relative",
   },
   backButton: { 
     position: "absolute", 
     left: width * 0.05, 
-    backgroundColor: "#FFA500", 
+    backgroundColor: "#F2B5A8", // jemná květinová meruňková
     borderRadius: 50, 
     padding: 12,  
     shadowOffset: { width: 0, height: 2 }, 
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
-    color: "#FFA500",
+    color: "#FFE9D6", // krémová/slunečně světlá
     marginLeft: width * 0.05,
     marginTop: height * 0.02,
   },
@@ -191,58 +191,63 @@ const styles = StyleSheet.create({
     fontSize: width * 0.05,
     fontWeight: "500",
     textAlign: "center",
-    color: "#FFA500",
+    color: "#F2B5A8",
     marginTop: height * 0.04, 
     marginBottom: height * 0.02, 
     maxWidth: "80%",
     alignSelf: "center",
     lineHeight: width * 0.06,
+    fontStyle: "italic"
   },  
   timer: { 
     fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: height * 0.02,
-    color: "#FFA500", 
+    color: "#FFE9D6", 
   },
   circleContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: height * 0.015
+    marginVertical: height * 0.015,
   },
   circle: {
-    width: width * 0.6,
-    height: width * 0.6,
+    width: width * 0.5,
+    height: width * 0.5,
     borderRadius: width * 0.3,
-    backgroundColor: "#1E1E1E", // Tmavě šedé pozadí pro kontrast
+    backgroundColor: "#3D2B33", // Hlubší fialovošedá – jemný kontrast
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#FFA500", // Modrý okraj pro lepší viditelnost
+    borderColor: "#F2B5A8",
   },
   circleText: {
     fontSize: width * 0.09,
     fontWeight: "bold",
-    color: "#FFA500", // Světle modrá pro lepší viditelnost
+    color: "#FFE9D6",
   },
   phaseText: { 
     fontSize: width * 0.05, 
     fontWeight: "bold", 
     textAlign: "center",
-    marginBottom: height * 0.02,
     marginTop: height * 0.05,
-    color: "#FFA500", 
+    marginBottom: height * 0.02,
+    color: "#F2B5A8", 
   },
   button: { 
-    backgroundColor: "#FFA500", 
+    backgroundColor: "#F2B5A8", 
     padding: height * 0.02, 
-    borderRadius: 10, 
+    borderRadius: 12, 
     width: "90%", 
     alignSelf: "center",
     alignItems: "center",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 3,
   },
   buttonText: { 
-    color: "#121212", // Černá, aby to bylo čitelné na světlém tlačítku
+    color: "#2C1F25", 
     fontSize: width * 0.045, 
     fontWeight: "bold" 
   },

@@ -10,15 +10,15 @@ const ExercisesScreen = () => {
       <Text style={styles.header}>VYBER SI CVIČENÍ</Text>
 
       {[
-        { key: "GoodMorningDescript", title: "DOBRÉ RÁNO", description: "Probuzení pomocí dýchání 4-4-8-2, které okysličuje tělo a nastartuje den v klidu a rovnováze." },
-        { key: "DenBezStresuP", title: "DEN BEZ STRESU", description: "Box breathing 4-4-4-4 pro redukci stresu." },
-        { key: "DychaniPredSpanimP", title: "DÝCHÁNÍ PŘED SPANÍM", description: "4-7-8 dýchání pro lepší spánek." },
-        { key: "ZmirneniStresuPredZkouskouP", title: "ZMÍRNĚNÍ STRESU PŘED ZKOUŠKOU", description: "3-3-3-3 Box Breathing" },
-        { key: "DychaniProtiPanickymAtakamP", title: "DÝCHÁNÍ PROTI PANICKÝM ATAKÁM", description: "Dýchání do dlaní, Box breathing 4-4-4-4" },
-        { key: "JakSpravneDychatCelyDenP", title: "JAK SPRÁVNĚ DÝCHAT CELÝ DEN", description: "Nauč se techniku, jak správně dýchat po celý den" },
-        { key: "RozdychaniPredBehemP", title: "ROZDÝCHÁNÍ PŘED BĚHEM", description: "Rytmické dýchání (2-2), nosní dýchání pro vytrvalost, brániční dýchání" },
-        { key: "WimHofovaMetodaP", title: "WIM HOFOVA METODA", description: "Dýchání do břicha, cyklické dýchání." },
-        { key: "RozdychaniPredPotapenimP", title: "ROZDÝCHÁNÍ PŘED POTÁPENÍM", description: "Dýchání do břicha." }
+        { key: "GoodMorningDescript", title: "DOBRÉ RÁNO", description: "Ranní dechový rituál pro rovnováhu, vitalitu a pozitivní naladění na celý den." },
+        { key: "DenBezStresuP", title: "DEN BEZ STRESU", description: "Technika pro zklidnění mysli a udržení rovnováhy během dne." },
+        { key: "DychaniPredSpanimP", title: "DÝCHÁNÍ PŘED SPANÍM", description: "Uklidňující dechová technika pro zklidnění těla a přípravu na klidný spánek." },
+        { key: "ZmirneniStresuPredZkouskouP", title: "ZMÍRNĚNÍ STRESU PŘED ZKOUŠKOU", description: "Dechové cvičení, které uklidňuje a zlepšuje soustředění." },
+        { key: "DychaniProtiPanickymAtakamP", title: "DÝCHÁNÍ PROTI PANICKÝM ATAKÁM", description: "Dechová technika pro udržení klidu a prevenci panické ataky." },
+        { key: "JakSpravneDychatCelyDenP", title: "JAK SPRÁVNĚ DÝCHAT CELÝ DEN", description: "Nauč se dýchat přirozeně a efektivně po celý den." },
+        { key: "RozdychaniPredBehemP", title: "ROZDÝCHÁNÍ PŘED BĚHEM", description: "Rytmické dýchání pro stabilní tempo a efektivní běh." },
+        { key: "WimHofovaMetodaP", title: "WIM HOFOVA METODA", description: "Dechová technika pro okysličení těla a podporu imunity." },
+        { key: "RozdychaniPredPotapenimP", title: "ROZDÝCHÁNÍ PŘED POTÁPENÍM", description: "Rozdýchání pro efektivní zadržení dechu při potápění." }
       ].map((exercise) => (
         <View key={exercise.key} style={styles.card}>
           <Text style={styles.title}>{exercise.title}</Text>

@@ -28,10 +28,10 @@ const GoodMorningDescript = () => {
 
         <View style={styles.descriptionBox}>
           <Text style={styles.description}>
-          Tato dechová technika pomáhá začít den v klidu a pohodě, uvolňuje napětí po probuzení a dodává energii. 
-          Pomalý výdech navozuje pocit uvolnění, což pomáhá tělu i mysli přejít do nového dne bez stresu.
+          Toto dechové cvičení začni nádechem nosem po dobu 4 sekund a následuj pomalým výdechem trvajícím 6 sekund.
+          Poté přejdi do fáze rychlého dýchání, kde se nádech i výdech střídají každou sekundu.
           {"\n\n"}
-          Kontrolované dýchání zlepšuje soustředění a pomáhá cítit se svěže, klidně. Připraví tělo na vše, co den přinese.
+          Tento rytmus dýchání stimuluje nervový systém, zvyšuje hladinu kyslíku v krvi, podporuje bdělost a napomáhá efektivnímu nastartování dne.
           </Text>
         </View>
 

@@ -114,7 +114,7 @@ const ZmirneniStresuPredZkouskouC = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.title}>ZMÍRNĚNÍ STRESU PŘED ZKOUŠKOU</Text>
+        <Text style={styles.title}>ZMÍRNĚNÍ STRESU{"\n"}PŘED ZKOUŠKOU</Text>
       </View>
 
       {/* Časovač odpočítávající do konce cvičení */}
@@ -143,98 +143,109 @@ const ZmirneniStresuPredZkouskouC = () => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: "#121212",
+    backgroundColor: "#1D1625", // hlubší, teplá temně fialová
   },
-  container: { 
-    flex: 1, 
-    backgroundColor: "#121212", 
+  container: {
+    flex: 1,
+    backgroundColor: "#1D1625",
     paddingHorizontal: width * 0.03,
     justifyContent: "space-between",
-    paddingVertical: height * 0.02
+    paddingVertical: height * 0.02,
   },
-  header: { 
-  flexDirection: "row", 
-  alignItems: "center", 
-  justifyContent: "center",
-  marginTop: height * 0.02,
-  position: "relative",
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: height * 0.02,
+    position: "relative",
   },
-  backButton: { 
-    position: "absolute", 
-    left: width * 0.05, 
-    backgroundColor: "#FFA500", 
-    borderRadius: 50, 
-    padding: 12,  
-    shadowOffset: { width: 0, height: 2 }, 
-    shadowOpacity: 0.2, 
-    shadowRadius: 4, 
-    elevation: 3, 
+  backButton: {
+    position: "absolute",
+    left: width * 0.05,
+    backgroundColor: "#B98EBF", // jemná tlumená fialovo-růžová
+    borderRadius: 50,
+    padding: 12,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 3,
   },
   title: {
-    fontSize: width * 0.05, 
+    fontSize: width * 0.05,
     fontWeight: "bold",
     textAlign: "center",
-    color: "#FFA500",
+    color: "#E9E3EF", // jemná světlá lila
     marginLeft: width * 0.08,
   },
   comfortingText: {
     fontSize: width * 0.05,
     fontWeight: "500",
     textAlign: "center",
-    color: "#FFA500",
-    marginTop: height * 0.04, 
-    marginBottom: height * 0.02, 
+    color: "#C2B4CC", // měkký šeříkový tón
+    marginTop: height * 0.04,
+    marginBottom: height * 0.02,
     maxWidth: "80%",
     alignSelf: "center",
     lineHeight: width * 0.06,
-  },  
-  timer: { 
-    fontSize: width * 0.05, 
+    fontStyle: "italic",
+  },
+  timer: {
+    fontSize: width * 0.05,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: height * 0.02,
-    color: "#FFA500", 
+    color: "#E9E3EF",
   },
   circleContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: height * 0.015
+    marginVertical: height * 0.02,
   },
   circle: {
-    width: width * 0.6,
-    height: width * 0.6,
-    borderRadius: width * 0.3,
-    backgroundColor: "#1E1E1E", // Tmavě šedé pozadí pro kontrast
+    width: width * 0.5,
+    height: width * 0.5,
+    borderRadius: width * 0.25,
+    backgroundColor: "#2B2038", // hlubší tón s jemným odstínem lila
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#FFA500", // Modrý okraj pro lepší viditelnost
+    borderColor: "#B98EBF",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.25,
+    shadowRadius: 5,
+    elevation: 4,
   },
   circleText: {
     fontSize: width * 0.09,
     fontWeight: "bold",
-    color: "#FFA500", // Světle modrá pro lepší viditelnost
+    color: "#E9E3EF",
   },
-  phaseText: { 
-    fontSize: width * 0.05, 
-    fontWeight: "bold", 
+  phaseText: {
+    fontSize: width * 0.05,
+    fontWeight: "bold",
     textAlign: "center",
+    marginTop: height * 0.05,
     marginBottom: height * 0.02,
-    color: "#FFA500", // Modrá pro dobrý kontrast
+    color: "#C2B4CC",
   },
-  button: { 
-    backgroundColor: "#FFA500", // Modrá pro lepší viditelnost
-    padding: height * 0.02, 
-    borderRadius: 10, 
-    width: "90%", 
+  button: {
+    backgroundColor: "#B98EBF",
+    padding: height * 0.02,
+    borderRadius: 12,
+    width: "90%",
     alignSelf: "center",
     alignItems: "center",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  buttonText: { 
-    color: "#121212", // Černá, aby to bylo čitelné na světlém tlačítku
-    fontSize: width * 0.045, 
-    fontWeight: "bold" 
+  buttonText: {
+    color: "#1D1625",
+    fontSize: width * 0.045,
+    fontWeight: "bold",
   },
 });
+
 
 export default ZmirneniStresuPredZkouskouC;

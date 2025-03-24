@@ -7,8 +7,8 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 const { width, height } = Dimensions.get("window");
 
 const breathCycle = [
-  { phase: "Nádech", duration: 4000, scale: 1.3 },
-  { phase: "Zadržet dech", duration: 7000, scale: 1.3 },
+  { phase: "Nádech", duration: 4000, scale: 1.2 },
+  { phase: "Zadržet dech", duration: 7000, scale: 1.2 },
   { phase: "Výdech", duration: 8000, scale: 1 },
 ];
 
@@ -142,26 +142,25 @@ const DychaniPredSpanimC = () => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: "#121212",
+    backgroundColor: "#0B1D3A", // hluboká noční modř
   },
-  container: { 
+  container: {
     flex: 1, 
-    backgroundColor: "#121212", 
     paddingHorizontal: width * 0.03,
     justifyContent: "space-between",
     paddingVertical: height * 0.02
   },
-  header: { 
-  flexDirection: "row", 
-  alignItems: "center", 
-  justifyContent: "center",
-  marginTop: height * 0.02,
-  position: "relative",
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: height * 0.02,
+    position: "relative",
   },
-  backButton: { 
+  backButton: {
     position: "absolute", 
     left: width * 0.05, 
-    backgroundColor: "#FFA500", 
+    backgroundColor: "#A78BFA", // jemná fialová
     borderRadius: 50, 
     padding: 12,  
     shadowOffset: { width: 0, height: 2 }, 
@@ -173,67 +172,72 @@ const styles = StyleSheet.create({
     fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
-    color: "#FFA500",
-    marginLeft: width * 0.08,
+    color: "#E8E6FF", // světle fialová jako měsíční svit
+    marginLeft: width * 0.05,
+    marginTop: height * 0.02,
+    marginBottom: height * 0.02,
   },
   comfortingText: {
     fontSize: width * 0.05,
     fontWeight: "500",
     textAlign: "center",
-    color: "#FFA500",
+    color: "#C3B9FF", // jemnější tón pro uklidnění
     marginTop: height * 0.04, 
     marginBottom: height * 0.02, 
     maxWidth: "80%",
     alignSelf: "center",
     lineHeight: width * 0.06,
+    fontStyle: "italic",
   },  
-  timer: { 
+  timer: {
     fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: height * 0.02,
-    color: "#FFA500", 
+    marginBottom: height * 0.04,
+    color: "#C3B9FF", 
   },
   circleContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: height * 0.015
+    marginVertical: height * 0.015,
   },
   circle: {
-    width: width * 0.6,
-    height: width * 0.6,
+    width: width * 0.5,
+    height: width * 0.5,
     borderRadius: width * 0.3,
-    backgroundColor: "#1E1E1E", // Tmavě šedé pozadí pro kontrast
+    backgroundColor: "#1E2C4C", // tmavší ale jemné
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#FFA500", // Modrý okraj pro lepší viditelnost
+    borderColor: "#A78BFA",
   },
   circleText: {
     fontSize: width * 0.09,
     fontWeight: "bold",
-    color: "#FFA500", // Světle modrá pro lepší viditelnost
+    color: "#E8E6FF",
   },
-  phaseText: { 
+  phaseText: {
     fontSize: width * 0.05, 
     fontWeight: "bold", 
     textAlign: "center",
     marginBottom: height * 0.02,
-    color: "#FFA500", // Modrá pro dobrý kontrast
+    marginTop: height * 0.05,
+    color: "#E8E6FF", 
   },
-  button: { 
-    backgroundColor: "#FFA500", // Modrá pro lepší viditelnost
+  button: {
+    backgroundColor: "#A78BFA", 
     padding: height * 0.02, 
     borderRadius: 10, 
     width: "90%", 
     alignSelf: "center",
     alignItems: "center",
   },
-  buttonText: { 
-    color: "#121212", // Černá, aby to bylo čitelné na světlém tlačítku
+  buttonText: {
+    color: "#0B1D3A", 
     fontSize: width * 0.045, 
     fontWeight: "bold" 
   },
 });
+
 
 export default DychaniPredSpanimC;

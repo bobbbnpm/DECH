@@ -153,26 +153,25 @@ const DenBezStresuC = () => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: "#121212",
+    backgroundColor: "#1E2A38", // Klidné tmavé pozadí
   },
-  container: { 
+  container: {
     flex: 1, 
-    backgroundColor: "#121212", 
     paddingHorizontal: width * 0.03,
     justifyContent: "space-between",
     paddingVertical: height * 0.02
   },
-  header: { 
-  flexDirection: "row", 
-  alignItems: "center", 
-  justifyContent: "center",
-  marginTop: height * 0.02,
-  position: "relative",
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: height * 0.02,
+    position: "relative",
   },
-  backButton: { 
+  backButton: {
     position: "absolute", 
     left: width * 0.05, 
-    backgroundColor: "#FFA500", 
+    backgroundColor: "#6CC9B9", // Jemná mentolová
     borderRadius: 50, 
     padding: 12,  
     shadowOffset: { width: 0, height: 2 }, 
@@ -181,69 +180,75 @@ const styles = StyleSheet.create({
     elevation: 3, 
   },
   title: {
-    fontSize: width * 0.06, 
+    fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
-    color: "#FFA500",
+    color: "#EAFDFC",
+    marginLeft: width * 0.03,
+    marginTop: height * 0.02,
+    marginBottom: height * 0.02,
   },
   comfortingText: {
     fontSize: width * 0.05,
     fontWeight: "500",
     textAlign: "center",
-    color: "#FFA500",
+    color: "#B2DFDB", // Jemná varianta akcentu
     marginTop: height * 0.04, 
     marginBottom: height * 0.02, 
     maxWidth: "80%",
     alignSelf: "center",
     lineHeight: width * 0.06,
+    fontStyle: "italic",
   },  
-  timer: { 
+  timer: {
     fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: height * 0.02,
-    color: "#FFA500", 
+    marginBottom: height * 0.04,
+    color: "#B2DFDB", 
   },
   circleContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: height * 0.015
+    marginVertical: height * 0.015,
   },
   circle: {
-    width: width * 0.6,
-    height: width * 0.6,
+    width: width * 0.5,
+    height: width * 0.5,
     borderRadius: width * 0.3,
-    backgroundColor: "#1E1E1E", // Tmavě šedé pozadí pro kontrast
+    backgroundColor: "#2F3E4D", // Tmavě šedá s nádechem moře
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#FFA500", // Modrý okraj pro lepší viditelnost
+    borderColor: "#6CC9B9",
   },
   circleText: {
     fontSize: width * 0.09,
     fontWeight: "bold",
-    color: "#FFA500", // Světle modrá pro lepší viditelnost
+    color: "#EAFDFC",
   },
-  phaseText: { 
+  phaseText: {
     fontSize: width * 0.05, 
     fontWeight: "bold", 
     textAlign: "center",
     marginBottom: height * 0.02,
-    color: "#FFA500", // Modrá pro dobrý kontrast
+    marginTop: height * 0.05,
+    color: "#EAFDFC", 
   },
-  button: { 
-    backgroundColor: "#FFA500", // Modrá pro lepší viditelnost
+  button: {
+    backgroundColor: "#6CC9B9", 
     padding: height * 0.02, 
     borderRadius: 10, 
     width: "90%", 
     alignSelf: "center",
     alignItems: "center",
   },
-  buttonText: { 
-    color: "#121212", // Černá, aby to bylo čitelné na světlém tlačítku
+  buttonText: {
+    color: "#1E2A38", 
     fontSize: width * 0.045, 
     fontWeight: "bold" 
   },
 });
+
 
 export default DenBezStresuC;
