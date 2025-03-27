@@ -13,62 +13,77 @@ const breathCycle = [
 ];
 
 const comfortingTexts = [
-  "Vydechuj dlouze a představuj si, jak se každá část těla uvolňuje.",
-  "Počítej nádechy do deseti a pak začni znovu, pomalu a klidně.",
-  "Představ si jemné vlny, které s každým výdechem odnášejí napětí.",
-  "Začni u prstů na nohou a postupně uvolňuj celé tělo až k hlavě.",
-  "Dýchej jako bys už spal – pomalu, pravidelně a bez námahy.",
-  "Představ si, že jsi v měkké, teplé dece a všechno kolem se rozplývá."
+  "Zaměř se na nádech a výdech – právě teď není nic důležitějšího.",
+  "Každý výdech ti pomáhá pustit napětí a obavy.",
+  "Tvoje hodnota nezávisí na výsledku zkoušky, ale na tom, kdo jsi.",
+  "Už teď děláš to nejlepší, co můžeš – a to stačí.",
+  "Představ si, že s každým nádechem přijímáš klid a jistotu.",
+  "Soustřeď se jen na tento okamžik. Všechno ostatní může počkat.",
+  "Tvoje mysl se uklidňuje, tvé tělo se uvolňuje, jsi v bezpečí.",
+  "Každý nádech ti přináší větší rovnováhu a soustředění.",
+  "Důvěřuj si. Připravoval ses a jsi připraven zvládnout cokoli.",
+  "Zkouška je jen situace. Dýchej. Všechno zvládneš krok za krokem."
 ];
 
 const ZmirneniStresuPredZkouskouC = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
-  const selectedTime = (route.params?.selectedTime || 5) * 60000;
-  const insets = useSafeAreaInsets(); 
-  const [remainingTime, setRemainingTime] = useState(selectedTime);
-  const [phaseIndex, setPhaseIndex] = useState(0);
-  const [phaseTime, setPhaseTime] = useState(breathCycle[0].duration / 1000);
-  const [breathing, setBreathing] = useState(false);
-  const [textIndex, setTextIndex] = useState(0);
-  const scaleAnim = useState(new Animated.Value(1))[0];
+  const navigation = useNavigation(); // Hook pro navigaci mezi obrazovkami
+  const route = useRoute(); // Hook pro přístup k parametrům předané navigací
 
+  // Čas cvičení (v milisekundách), výchozí hodnota je 5 minut
+  const selectedTime = (route.params?.selectedTime || 5) * 60000;
+
+  const insets = useSafeAreaInsets(); // Bezpečné okraje (např. na iPhone s notchem)
+
+  // Stavy cvičení
+  const [remainingTime, setRemainingTime] = useState(selectedTime); // Čas do konce
+  const [phaseIndex, setPhaseIndex] = useState(0); // Aktuální fáze v cyklu
+  const [phaseTime, setPhaseTime] = useState(breathCycle[0].duration / 1000); // Čas aktuální fáze v sekundách
+  const [breathing, setBreathing] = useState(false); // Cvičení zapnuto/vypnuto
+  const [textIndex, setTextIndex] = useState(0); // Index aktuální uklidňující fráze
+  const scaleAnim = useState(new Animated.Value(1))[0]; // Animace měnící velikost kruhu
+
+  // Efekt pro správu cyklu dýchání a celkového času
   useEffect(() => {
     let phaseTimer;
     let countdown;
 
     if (breathing) {
       const { duration, scale } = breathCycle[phaseIndex];
+
+      // Spustí animaci zvětšení/zmenšení kruhu
       Animated.timing(scaleAnim, {
         toValue: scale,
         duration: duration,
         useNativeDriver: true,
       }).start();
 
-      setPhaseTime(duration / 1000);
+      setPhaseTime(duration / 1000); // Nastaví délku aktuální fáze v sekundách
+
+      // Časovač pro přepnutí na další fázi dýchání
       phaseTimer = setInterval(() => {
         setPhaseTime((prev) => {
           if (prev <= 1) {
-            clearInterval(phaseTimer);
+            clearInterval(phaseTimer); // Konec fáze – přechod na další
             setPhaseIndex((prevIndex) => (prevIndex + 1) % breathCycle.length);
             return breathCycle[(phaseIndex + 1) % breathCycle.length].duration / 1000;
           }
-          return prev - 1;
+          return prev - 1; // Jinak odečítání sekund
         });
       }, 1000);
 
-      // Hlavní časovač podle vybraného času
+      // Hlavní časovač pro celé cvičení (odpočítává zvolený čas)
       countdown = setInterval(() => {
         setRemainingTime((prev) => {
           if (prev <= 1000) {
-            clearInterval(countdown);
+            clearInterval(countdown); // Po dokončení zastaví cvičení
             setBreathing(false);
             return 0;
           }
-          return prev - 1000;
+          return prev - 1000; // Jinak odečítá 1 sekundu
         });
       }, 1000);
     } else {
+      // Reset při zastavení cvičení
       clearInterval(countdown);
       clearInterval(phaseTimer);
       setRemainingTime(selectedTime);
@@ -78,24 +93,26 @@ const ZmirneniStresuPredZkouskouC = () => {
     }
 
     return () => {
+      // Vyčištění timerů při odchodu nebo restartu
       clearInterval(phaseTimer);
       clearInterval(countdown);
     };
   }, [breathing, phaseIndex]);
 
-    useEffect(() => {
-      if (breathing) {
-        const textChangeInterval = setInterval(() => {
-          setTextIndex((prevIndex) => (prevIndex + 1) % comfortingTexts.length);
-        }, 10000);
-  
-        return () => clearInterval(textChangeInterval);
-      } else {
-        setTextIndex(0);
-      }
-    }, [breathing]);
+  // Efekt pro pravidelné střídání uklidňujících textů (každých 10 s)
+  useEffect(() => {
+    if (breathing) {
+      const textChangeInterval = setInterval(() => {
+        setTextIndex((prevIndex) => (prevIndex + 1) % comfortingTexts.length);
+      }, 10000);
 
-  // Převod milisekund na minuty a sekundy
+      return () => clearInterval(textChangeInterval);
+    } else {
+      setTextIndex(0); // Reset při zastavení
+    }
+  }, [breathing]);
+
+  // Pomocná funkce – převede milisekundy na formát mm:ss
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60000);
     const seconds = ((time % 60000) / 1000).toFixed(0);
@@ -104,38 +121,39 @@ const ZmirneniStresuPredZkouskouC = () => {
 
   return (
     <SafeAreaView style={[styles.safeContainer, { 
-                  paddingTop: insets.top, 
-                  paddingBottom: insets.bottom, 
-                  paddingLeft: insets.left, 
-                  paddingRight: insets.right }]}>
-    <View style={styles.container}>
-      {/* Hlavička s tlačítkem zpět */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#FFF" />
+      paddingTop: insets.top, 
+      paddingBottom: insets.bottom, 
+      paddingLeft: insets.left, 
+      paddingRight: insets.right }]}>
+
+      <View style={styles.container}>
+        {/* Hlavička s názvem a tlačítkem zpět */}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+            <Ionicons name="arrow-back" size={24} color="#FFF" />
+          </TouchableOpacity>
+          <Text style={styles.title}>ZMÍRNĚNÍ STRESU{"\n"}PŘED ZKOUŠKOU</Text>
+        </View>
+
+        {/* Uklidňující věta a čas do konce */}
+        <Text style={styles.comfortingText}>{comfortingTexts[textIndex]}</Text>
+        <Text style={styles.timer}>{formatTime(remainingTime)}</Text>
+
+        {/* Animovaný kruh s odpočtem fáze */}
+        <View style={styles.circleContainer}>
+          <Animated.View style={[styles.circle, { transform: [{ scale: scaleAnim }] }]}>
+            <Text style={styles.circleText}>{phaseTime}</Text>
+          </Animated.View>
+        </View>
+
+        {/* Text s názvem fáze dýchání (např. Nádech, Výdech) */}
+        <Text style={styles.phaseText}>{breathCycle[phaseIndex].phase}</Text>
+
+        {/* Tlačítko pro spuštění nebo zastavení cvičení */}
+        <TouchableOpacity style={styles.button} onPress={() => setBreathing(!breathing)}>
+          <Text style={styles.buttonText}>{breathing ? "Zastavit" : "Začít"}</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>ZMÍRNĚNÍ STRESU{"\n"}PŘED ZKOUŠKOU</Text>
       </View>
-
-      {/* Časovač odpočítávající do konce cvičení */}
-      <Text style={styles.comfortingText}>{comfortingTexts[textIndex]}</Text>
-      <Text style={styles.timer}>{formatTime(remainingTime)}</Text>
-
-      {/* Animovaný kruh s odpočtem uvnitř */}
-      <View style={styles.circleContainer}>
-        <Animated.View style={[styles.circle, { transform: [{ scale: scaleAnim }] }]}>
-          <Text style={styles.circleText}>{phaseTime}</Text>
-        </Animated.View>
-      </View>
-
-      {/* Text fáze dýchání pod kruhem */}
-      <Text style={styles.phaseText}>{breathCycle[phaseIndex].phase}</Text>
-
-      {/* Tlačítko Start/Stop */}
-      <TouchableOpacity style={styles.button} onPress={() => setBreathing(!breathing)}>
-        <Text style={styles.buttonText}>{breathing ? "Zastavit" : "Začít"}</Text>
-      </TouchableOpacity>
-    </View>
     </SafeAreaView>
   );
 };

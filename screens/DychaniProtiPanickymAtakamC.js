@@ -25,37 +25,41 @@ const comfortingTexts = [
   "Řekni si nahlas: 'Jsem v bezpečí, nic mi nehrozí.'",
 ];
 
-
 const DychaniProtiPanickymAtakamC = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
-  const selectedTime = (route.params?.selectedTime || 5) * 60000;
-  const insets = useSafeAreaInsets(); 
-  const [remainingTime, setRemainingTime] = useState(selectedTime);
-  const [phaseIndex, setPhaseIndex] = useState(0);
-  const [phaseTime, setPhaseTime] = useState(breathCycle[0].duration / 1000);
-  const [breathing, setBreathing] = useState(false);
-  const [textIndex, setTextIndex] = useState(0);
-  const scaleAnim = useState(new Animated.Value(1))[0];
+  const navigation = useNavigation(); // Hook pro navigaci – slouží k návratu zpět
+  const route = useRoute(); // Hook pro získání parametrů předaných z předchozí obrazovky
+
+  const selectedTime = (route.params?.selectedTime || 5) * 60000; // Vybraný čas (v minutách) převedený na milisekundy, výchozí hodnota je 5 minut
+  const insets = useSafeAreaInsets(); // Získání bezpečných okrajů zařízení (notch, zaoblené rohy atd.)
+
+  const [remainingTime, setRemainingTime] = useState(selectedTime); // Stav pro zbývající čas cvičení
+  const [phaseIndex, setPhaseIndex] = useState(0); // Index aktuální fáze dechového cyklu
+  const [phaseTime, setPhaseTime] = useState(breathCycle[0].duration / 1000); // Čas zbývající do konce aktuální fáze (v sekundách)
+  const [breathing, setBreathing] = useState(false); // Boolean: zda je cvičení spuštěno
+  const [textIndex, setTextIndex] = useState(0); // Index uklidňujícího textu
+  const scaleAnim = useState(new Animated.Value(1))[0]; // Animovaná hodnota pro měnící se velikost kruhu
 
   useEffect(() => {
-    let phaseTimer;
-    let countdown;
+    let phaseTimer; // Timer pro jednotlivé fáze dýchání
+    let countdown; // Hlavní odpočítávání celkového času
 
     if (breathing) {
-      const { duration, scale } = breathCycle[phaseIndex];
+      const { duration, scale } = breathCycle[phaseIndex]; // Načtení aktuální fáze (nádech, výdech atd.)
 
+      // Animace – zvětšování/zmenšování kruhu podle fáze
       Animated.timing(scaleAnim, {
         toValue: scale,
         duration: duration,
         useNativeDriver: true,
       }).start();
 
-      setPhaseTime(duration / 1000);
+      setPhaseTime(duration / 1000); // Nastavení času pro aktuální fázi (v sekundách)
+
+      // Timer pro fázi – každou sekundu snižuje zbývající čas fáze
       phaseTimer = setInterval(() => {
         setPhaseTime((prev) => {
           if (prev <= 1) {
-            clearInterval(phaseTimer);
+            clearInterval(phaseTimer); // Po dokončení fáze přejde na další
             setPhaseIndex((prevIndex) => (prevIndex + 1) % breathCycle.length);
             return breathCycle[(phaseIndex + 1) % breathCycle.length].duration / 1000;
           }
@@ -63,11 +67,11 @@ const DychaniProtiPanickymAtakamC = () => {
         });
       }, 1000);
 
-      // Hlavní časovač podle vybraného času
+      // Timer pro celkový čas cvičení – každou sekundu odečte 1s
       countdown = setInterval(() => {
         setRemainingTime((prev) => {
           if (prev <= 1000) {
-            clearInterval(countdown);
+            clearInterval(countdown); // Po vypršení času cvičení skončí
             setBreathing(false);
             return 0;
           }
@@ -75,6 +79,7 @@ const DychaniProtiPanickymAtakamC = () => {
         });
       }, 1000);
     } else {
+      // Resetuje všechny hodnoty, pokud uživatel cvičení zastaví
       clearInterval(countdown);
       clearInterval(phaseTimer);
       setRemainingTime(selectedTime);
@@ -83,6 +88,7 @@ const DychaniProtiPanickymAtakamC = () => {
       setPhaseIndex(0);
     }
 
+    // Vyčištění timerů při opuštění komponenty nebo změně stavu
     return () => {
       clearInterval(phaseTimer);
       clearInterval(countdown);
@@ -90,18 +96,19 @@ const DychaniProtiPanickymAtakamC = () => {
   }, [breathing, phaseIndex]);
 
   useEffect(() => {
+    // Změna uklidňujícího textu každých 10 sekund
     if (breathing) {
       const textChangeInterval = setInterval(() => {
         setTextIndex((prevIndex) => (prevIndex + 1) % comfortingTexts.length);
       }, 10000);
 
-      return () => clearInterval(textChangeInterval);
+      return () => clearInterval(textChangeInterval); // Vyčistí interval
     } else {
-      setTextIndex(0);
+      setTextIndex(0); // Pokud se nedýchá, nastaví první text
     }
   }, [breathing]);
 
-  // Převod milisekund na minuty a sekundy
+  // Převod času z ms na formát MM:SS
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60000);
     const seconds = ((time % 60000) / 1000).toFixed(0);
@@ -123,18 +130,18 @@ const DychaniProtiPanickymAtakamC = () => {
         <Text style={styles.title}>DÝCHÁNÍ PROTI{"\n"}PANICKÝM ATAKÁM</Text>
       </View>
 
-      {/* Časovač odpočítávající do konce cvičení */}
+      {/* Uklidňující text a časovač zbývajícího času */}
       <Text style={styles.comfortingText}>{comfortingTexts[textIndex]}</Text>
       <Text style={styles.timer}>{formatTime(remainingTime)}</Text>
 
-      {/* Animovaný kruh s odpočtem uvnitř */}
+      {/* Kruh s animací a zbývajícím časem fáze */}
       <View style={styles.circleContainer}>
         <Animated.View style={[styles.circle, { transform: [{ scale: scaleAnim }] }]}>
           <Text style={styles.circleText}>{phaseTime}</Text>
         </Animated.View>
       </View>
 
-      {/* Text fáze dýchání pod kruhem */}
+      {/* Název aktuální fáze */}
       <Text style={styles.phaseText}>{breathCycle[phaseIndex].phase}</Text>
 
       {/* Tlačítko Start/Stop */}

@@ -1,15 +1,18 @@
+// Import potřebných knihoven a komponent
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
+// Získání šířky a výšky obrazovky
 const { width, height } = Dimensions.get("window");
 
+// Hlavní komponenta popisu cvičení "Dobré ráno"
 const GoodMorningDescript = () => {
-  const navigation = useNavigation();
-  const [selectedTime, setSelectedTime] = useState(5); 
-  const insets = useSafeAreaInsets();
+  const navigation = useNavigation(); // Hook pro navigaci
+  const [selectedTime, setSelectedTime] = useState(5); // Výchozí čas cvičení (5 minut)
+  const insets = useSafeAreaInsets(); // Získání bezpečných okrajů zařízení
 
   return (
     <SafeAreaView style={[styles.safeContainer, { 
@@ -19,6 +22,7 @@ const GoodMorningDescript = () => {
       paddingRight: insets.right 
     }]}>
       <View style={styles.container}>
+        {/* Hlavička s tlačítkem zpět a názvem */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <Ionicons name="arrow-back" size={24} color="#FFF" />
@@ -26,6 +30,7 @@ const GoodMorningDescript = () => {
           <Text style={styles.title}>DOBRÉ RÁNO</Text>
         </View>
 
+        {/* Textový box s popisem dechové techniky */}
         <View style={styles.descriptionBox}>
           <Text style={styles.description}>
           Tato dechová technika začíná nádechem nosem po dobu 4 sekund, následovaným pomalým výdechem po dobu 6 sekund.
@@ -35,13 +40,13 @@ const GoodMorningDescript = () => {
           </Text>
         </View>
 
+        {/* Výběr délky cvičení */}
         <View style={styles.buttonGroup}>
           {[2, 5, 10].map((time) => (
             <TouchableOpacity
               key={time}
               style={[styles.timeButton, selectedTime === time && styles.timeButtonSelected]}
               onPress={() => setSelectedTime(time)}>
-
               <Text style={[styles.timeButtonText, selectedTime === time && styles.timeButtonTextSelected]}>
                 {time} min
               </Text>
@@ -49,10 +54,10 @@ const GoodMorningDescript = () => {
           ))}
         </View>
 
+        {/* Tlačítko pro přechod do samotného cvičení */}
         <TouchableOpacity
           style={styles.startButton}
-          onPress={() => navigation.navigate("GoodMorningExercise", { selectedTime })}
-        >
+          onPress={() => navigation.navigate("GoodMorningExercise", { selectedTime })}>
           <Text style={styles.startButtonText}>Pokračovat</Text>
         </TouchableOpacity>
       </View>
@@ -60,6 +65,7 @@ const GoodMorningDescript = () => {
   );
 };
 
+// Stylování komponent
 const styles = StyleSheet.create({
   safeContainer: { 
     flex: 1, 

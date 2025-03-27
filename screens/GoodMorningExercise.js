@@ -31,22 +31,29 @@ const comfortingTexts = [
 ];
 
 const GoodMorningExercise = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
-  const selectedTime = (route.params?.selectedTime || 5) * 60000;
-  const insets = useSafeAreaInsets(); 
-  const [remainingTime, setRemainingTime] = useState(selectedTime);
-  const [phaseIndex, setPhaseIndex] = useState(0);
-  const [phaseTime, setPhaseTime] = useState(breathCycle[0].duration / 1000);
-  const [breathing, setBreathing] = useState(false);
-  const [textIndex, setTextIndex] = useState(0);
-  const scaleAnim = useState(new Animated.Value(1))[0];
+  const navigation = useNavigation(); // Navigace zpět
+  const route = useRoute(); // Přístup k parametrům z předchozí obrazovky
 
+  // Získání vybraného času nebo výchozí hodnota 5 minut
+  const selectedTime = (route.params?.selectedTime || 5) * 60000;
+
+  const insets = useSafeAreaInsets(); // Zajištění bezpečné oblasti obrazovky na různých zařízeních
+
+  // Stavové proměnné
+  const [remainingTime, setRemainingTime] = useState(selectedTime); // Zbývající čas
+  const [phaseIndex, setPhaseIndex] = useState(0); // Index aktuální fáze dýchání
+  const [phaseTime, setPhaseTime] = useState(breathCycle[0].duration / 1000); // Čas zbývající v aktuální fázi
+  const [breathing, setBreathing] = useState(false); // Indikace, zda je cvičení aktivní
+  const [textIndex, setTextIndex] = useState(0); // Index aktuální uklidňující věty
+  const scaleAnim = useState(new Animated.Value(1))[0]; // Animace škálování kruhu
+
+  // Efekt, který řídí animaci dýchání a časovač
   useEffect(() => {
     let phaseTimer;
     let countdown;
 
     if (breathing) {
+      // Spuštění animace škálování kruhu dle fáze
       const { duration, scale } = breathCycle[phaseIndex];
       Animated.timing(scaleAnim, {
         toValue: scale,
@@ -54,6 +61,7 @@ const GoodMorningExercise = () => {
         useNativeDriver: true,
       }).start();
 
+      // Odpočítávání času fáze
       setPhaseTime(duration / 1000);
       phaseTimer = setInterval(() => {
         setPhaseTime((prev) => {
@@ -66,6 +74,7 @@ const GoodMorningExercise = () => {
         });
       }, 1000);
 
+      // Odpočítávání celkové doby cvičení
       countdown = setInterval(() => {
         setRemainingTime((prev) => {
           if (prev <= 1000) {
@@ -77,6 +86,7 @@ const GoodMorningExercise = () => {
         });
       }, 1000);
     } else {
+      // Reset všech hodnot po zastavení
       clearInterval(countdown);
       clearInterval(phaseTimer);
       setRemainingTime(selectedTime);
@@ -91,18 +101,20 @@ const GoodMorningExercise = () => {
     };
   }, [breathing, phaseIndex]);
 
-    useEffect(() => {
-      if (breathing) {
-        const textChangeInterval = setInterval(() => {
-          setTextIndex((prevIndex) => (prevIndex + 1) % comfortingTexts.length);
-        }, 10000);
-  
-        return () => clearInterval(textChangeInterval);
-      } else {
-        setTextIndex(0);
-      }
-    }, [breathing]);
+  // Efekt pro přepínání uklidňujících vět
+  useEffect(() => {
+    if (breathing) {
+      const textChangeInterval = setInterval(() => {
+        setTextIndex((prevIndex) => (prevIndex + 1) % comfortingTexts.length);
+      }, 10000);
 
+      return () => clearInterval(textChangeInterval);
+    } else {
+      setTextIndex(0);
+    }
+  }, [breathing]);
+
+  // Pomocná funkce pro zformátování zbývajícího času do mm:ss
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60000);
     const seconds = ((time % 60000) / 1000).toFixed(0);
@@ -111,34 +123,40 @@ const GoodMorningExercise = () => {
 
   return (
     <SafeAreaView style={[styles.safeContainer, { 
-          paddingTop: insets.top, 
-          paddingBottom: insets.bottom, 
-          paddingLeft: insets.left, 
-          paddingRight: insets.right }]}>
-    <View style={styles.container}>
+      paddingTop: insets.top, 
+      paddingBottom: insets.bottom, 
+      paddingLeft: insets.left, 
+      paddingRight: insets.right 
+    }]}>
+      <View style={styles.container}>
+        
+        {/* Hlavička s tlačítkem zpět */}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+            <Ionicons name="arrow-back" size={24} color="#0D1B2A" />
+          </TouchableOpacity>
+          <Text style={styles.title}>DOBRÉ RÁNO</Text>
+        </View>
 
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#0D1B2A" />
+        {/* Uklidňující věta a hlavní časovač */}
+        <Text style={styles.comfortingText}>{comfortingTexts[textIndex]}</Text>
+        <Text style={styles.timer}>{formatTime(remainingTime)}</Text>
+
+        {/* Animovaný kruh s počtem sekund v aktuální fázi */}
+        <View style={styles.circleContainer}>
+          <Animated.View style={[styles.circle, { transform: [{ scale: scaleAnim }] }]}>
+            <Text style={styles.circleText}>{phaseTime}</Text>
+          </Animated.View>
+        </View>
+
+        {/* Název aktuální fáze dýchání */}
+        <Text style={styles.phaseText}>{breathCycle[phaseIndex].phase}</Text>
+
+        {/* Tlačítko pro spuštění/zastavení cvičení */}
+        <TouchableOpacity style={styles.button} onPress={() => setBreathing(!breathing)}>
+          <Text style={styles.buttonText}>{breathing ? "Zastavit" : "Začít"}</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>DOBRÉ RÁNO</Text>
       </View>
-
-      <Text style={styles.comfortingText}>{comfortingTexts[textIndex]}</Text>
-      <Text style={styles.timer}>{formatTime(remainingTime)}</Text>
-
-      <View style={styles.circleContainer}>
-        <Animated.View style={[styles.circle, { transform: [{ scale: scaleAnim }] }]}>
-          <Text style={styles.circleText}>{phaseTime}</Text>
-        </Animated.View>
-      </View>
-
-      <Text style={styles.phaseText}>{breathCycle[phaseIndex].phase}</Text>
-
-      <TouchableOpacity style={styles.button} onPress={() => setBreathing(!breathing)}>
-        <Text style={styles.buttonText}>{breathing ? "Zastavit" : "Začít"}</Text>
-      </TouchableOpacity>
-    </View>
     </SafeAreaView>
   );
 };

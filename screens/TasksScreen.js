@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ConfettiCannon from "react-native-confetti-cannon";
 
-
 const tasksData = {
   Stres: [
     { id: 1, title: "Pochval se za malé úspěchy", description: "Každý splněný úkol je krok vpřed. Oceň i drobné pokroky, protože posilují pozitivní myšlení.", completed: false },
@@ -47,89 +46,105 @@ const tasksData = {
   ],
 };
 
+// Hlavní komponenta obrazovky s úkoly
 const TasksScreen = () => {
-  const [selectedCategory, setSelectedCategory] = useState("Stres");
-  const [tasks, setTasks] = useState([]);
-  const [confettiPosition, setConfettiPosition] = useState(null);
-  const confettiRef = useRef(null);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [newTaskTitle, setNewTaskTitle] = useState("");
-  const [newTaskDescription, setNewTaskDescription] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("Stres");   // Kategorie vybraná uživatelem (Stres / Panika / Spánek)
+  const [tasks, setTasks] = useState([]);   // Pole úkolů v aktuální kategorii
+  const [confettiPosition, setConfettiPosition] = useState(null); // Pozice pro konfety (efekt splnění úkolu). Výchozí hodnota null (nic se nezobrazuje)
+  const confettiRef = useRef(null); // Výchozí hodnota null. 
+  const [modalVisible, setModalVisible] = useState(false); // Viditelnost modálního okna pro přidání úkolu. Modal skrytý
+  const [newTaskTitle, setNewTaskTitle] = useState(""); // Název nového úkolu. Prázdný string
+  const [newTaskDescription, setNewTaskDescription] = useState(""); //   // Popis nového úkolu. Prázdný string
 
+  // useEffect pro načtení uložené kategorie při načtení komponenty
   useEffect(() => {
     const loadCategory = async () => {
-      const savedCategory = await AsyncStorage.getItem("selectedCategory");
+      const savedCategory = await AsyncStorage.getItem("selectedCategory"); // Načte uloženou kategorii
       if (savedCategory) {
-        setSelectedCategory(savedCategory);
+        setSelectedCategory(savedCategory); // Nastaví ji jako aktuální
       }
     };
-    loadCategory();
-  }, []);
+    loadCategory(); // Spuštění funkce
+  }, []); // Pouze při prvním načtení
 
+  // useEffect pro načtení úkolů podle vybrané kategorie
   useEffect(() => {
     const loadTasks = async () => {
-      const savedTasks = await AsyncStorage.getItem("tasksData");
-      setTasks(savedTasks ? JSON.parse(savedTasks)[selectedCategory] || [] : []);
+      const savedTasks = await AsyncStorage.getItem("tasksData"); // Načtení všech uložených úkolů
+      setTasks(savedTasks ? JSON.parse(savedTasks)[selectedCategory] || [] : []); // Nastavení podle kategorie
     };
-    loadTasks();
-  }, [selectedCategory]);
+    loadTasks(); // Spuštění funkce
+  }, [selectedCategory]); // Spustí se při změně vybrané kategorie
 
+  // Funkce pro změnu kategorie a uložení nové volby
   const changeCategory = async (category) => {
-    setSelectedCategory(category);
-    await AsyncStorage.setItem("selectedCategory", category);
+    setSelectedCategory(category); // Změní kategorii
+    await AsyncStorage.setItem("selectedCategory", category); // Uloží ji
   };
 
+  // Přepínání stavu úkolu mezi hotovým a nehotovým + spuštění konfet
   const toggleTask = async (taskId, event) => {
-    const { pageX, pageY } = event.nativeEvent;
+    const { pageX, pageY } = event.nativeEvent; // Získání pozice kliknutí
     const updatedTasks = tasks.map((task) => {
       if (task.id === taskId) {
         if (!task.completed) {
-          setConfettiPosition(null); // Reset efektu před novým odpálením
-          setTimeout(() => setConfettiPosition({ x: pageX, y: pageY }), 10); // Po 10 ms nastaví novou pozici
+          setConfettiPosition(null); // Reset před efektem
+          setTimeout(() => setConfettiPosition({ x: pageX, y: pageY }), 10); // Nastaví novou pozici konfet
         }
-        return { ...task, completed: !task.completed };
+        return { ...task, completed: !task.completed }; // Přepnutí completed
       }
-      return task;
+      return task; // Ostatní nechá beze změny
     });
-  
-    setTasks(updatedTasks);
+
+    setTasks(updatedTasks); // Aktualizuje stav
     await AsyncStorage.setItem("tasksData", JSON.stringify({ 
       ...JSON.parse(await AsyncStorage.getItem("tasksData")), 
       [selectedCategory]: updatedTasks 
-    }));
-  };    
+    })); // Uloží změnu do paměti
+  };
 
+  // Funkce pro přidání nového úkolu
   const addTask = async () => {
-    if (newTaskTitle.trim()) {
+    if (newTaskTitle.trim()) { // Pokud je vyplněný název
       const newTask = {
-        id: Date.now(),
-        title: newTaskTitle,
-        description: newTaskDescription,
-        completed: false,
-        userAdded: true
+        id: Date.now(), // Unikátní ID
+        title: newTaskTitle, // Název úkolu
+        description: newTaskDescription, // Popis úkolu
+        completed: false, // Výchozí stav
+        userAdded: true // Označení, že úkol přidal uživatel
       };
-      const updatedTasks = [...tasks, newTask];
-      setTasks(updatedTasks);
-      await AsyncStorage.setItem("tasksData", JSON.stringify({ ...JSON.parse(await AsyncStorage.getItem("tasksData")), [selectedCategory]: updatedTasks }));
-      setModalVisible(false);
-      setNewTaskTitle("");
-      setNewTaskDescription("");
+      const updatedTasks = [...tasks, newTask]; // Přidá nový úkol do pole
+      setTasks(updatedTasks); // Aktualizuje stav
+      await AsyncStorage.setItem("tasksData", JSON.stringify({ 
+        ...JSON.parse(await AsyncStorage.getItem("tasksData")), 
+        [selectedCategory]: updatedTasks 
+      })); // Uloží úkoly
+      setModalVisible(false); // Zavře modal
+      setNewTaskTitle(""); // Resetuje formulář
+      setNewTaskDescription(""); // Resetuje formulář
     }
   };
 
+  // Funkce pro smazání úkolu podle ID
   const deleteTask = async (taskId) => {
-    const updatedTasks = tasks.filter((task) => task.id !== taskId);
-    setTasks(updatedTasks);
+    const updatedTasks = tasks.filter((task) => task.id !== taskId); // Odfiltruje smazaný úkol
+    setTasks(updatedTasks); // Aktualizuje stav
     await AsyncStorage.setItem("tasksData", JSON.stringify({ 
-      ...JSON.parse(await AsyncStorage.getItem("tasksData")), [selectedCategory]: updatedTasks }));
+      ...JSON.parse(await AsyncStorage.getItem("tasksData")), 
+      [selectedCategory]: updatedTasks 
+    })); // Uloží nové pole úkolů
   };
 
   return (
+    // Hlavní kontejner celé obrazovky
     <View style={styles.container}>
+      {/* Výběr kategorie */}
       <View style={styles.filterWrapper}>
         {["Stres", "Panika", "Spánek"].map((category) => (
           <View key={category} style={styles.filterColumn}>
+            {/* Ikona připnuté kategorie */}
             {selectedCategory === category && <Text style={styles.pin}>📌</Text>}
+            {/* Tlačítko pro změnu kategorie */}
             <TouchableOpacity
               style={[
                 styles.filterButton,
@@ -138,41 +153,50 @@ const TasksScreen = () => {
               ]}
               onPress={() => changeCategory(category)}
             >
+              {/* Název kategorie */}
               <Text style={styles.filterText}>{category}</Text>
             </TouchableOpacity>
           </View>
         ))}
       </View>
 
+      {/* Výpis úkolů */}
       <ScrollView contentContainerStyle={styles.taskList}>
         {tasks.map((task) => (
           <View key={task.id} style={[styles.taskCard, task.completed && styles.taskCompleted]}>
+            {/* Tlačítko pro smazání úkolu */}
             {task.userAdded && (
               <TouchableOpacity style={styles.deleteButton} onPress={() => deleteTask(task.id)}>
                 <Text style={styles.deleteButtonText}>✖</Text>
               </TouchableOpacity>
             )}
+            {/* Klikatelné tělo úkolu */}
             <TouchableOpacity onPress={(event) => toggleTask(task.id, event)} style={styles.taskContent}>
               <Text style={[styles.taskTitle, task.completed && styles.taskTitleCompleted]}>{task.title}</Text>
               <Text style={styles.taskDescription}>{task.description}</Text>
+              {/* Označení úkolu jako splněný */}
               {task.completed && <Text style={styles.completedText}>✔️ Splněno!</Text>}
             </TouchableOpacity>
           </View>
         ))}
 
+        {/* Tlačítko pro přidání nového úkolu */}
         <TouchableOpacity style={styles.addTaskCard} onPress={() => setModalVisible(true)}>
           <Text style={styles.addTaskText}>➕ Přidat nový úkol</Text>
         </TouchableOpacity>
       </ScrollView>
 
+      {/* Efekt konfet */}
       {confettiPosition && (
         <ConfettiCannon
-          key={confettiPosition.x + confettiPosition.y} 
+          key={confettiPosition.x + confettiPosition.y}
           count={40}
           origin={{ x: confettiPosition.x, y: confettiPosition.y }}
-          fadeOut={true}/>
+          fadeOut={true}
+        />
       )}
 
+      {/* Modální okno pro přidání úkolu */}
       <Modal visible={modalVisible} transparent animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -181,12 +205,14 @@ const TasksScreen = () => {
               placeholder="Název úkolu"
               style={styles.input}
               value={newTaskTitle}
-              onChangeText={setNewTaskTitle}/>
+              onChangeText={setNewTaskTitle}
+            />
             <TextInput
               placeholder="Popis úkolu"
               style={styles.input}
               value={newTaskDescription}
-              onChangeText={setNewTaskDescription}/>
+              onChangeText={setNewTaskDescription}
+            />
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
                 <Text style={styles.cancelButtonText}>Zrušit</Text>
@@ -201,6 +227,7 @@ const TasksScreen = () => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

@@ -5,10 +5,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 import { useNavigation } from "@react-navigation/native";
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window"); // Získání šířky a výšky obrazovky
 
-const rainSoundUri = require("../assets/rain.mp3");
+const rainSoundUri = require("../assets/rain.mp3"); // Zvukový soubor deště
 
+// Definice dechového cyklu – fáze, délka trvání, změna měřítka animace
 const breathCycle = [
   { phase: "Nádech", duration: 4000, scale: 1.3 },
   { phase: "Zadržet dech", duration: 4000, scale: 1.3 },
@@ -16,33 +17,36 @@ const breathCycle = [
   { phase: "Zadržet dech", duration: 2000, scale: 1 }
 ];
 
-const totalExerciseTime = 300000; // 5 minut
+const totalExerciseTime = 300000; // Celkový čas cvičení – 5 minut
 
 const ZklidnitStresScreen = () => {
-  const navigation = useNavigation();
-  const insets = useSafeAreaInsets();
-  const [breathing, setBreathing] = useState(false);
-  const [phaseIndex, setPhaseIndex] = useState(0);
-  const [remainingTime, setRemainingTime] = useState(totalExerciseTime);
-  const [phaseTime, setPhaseTime] = useState(breathCycle[0].duration / 1000);
-  const [rainPlaying, setRainPlaying] = useState(false);
-  const rainSound = useRef(null);
-  const scaleAnim = useState(new Animated.Value(1))[0];
+  const navigation = useNavigation(); // Hook pro navigaci
+  const insets = useSafeAreaInsets(); // Okraje bezpečné oblasti
+  const [breathing, setBreathing] = useState(false); // Stav dýchání – spuštěno/zastaveno
+  const [phaseIndex, setPhaseIndex] = useState(0); // Index aktuální fáze dýchání
+  const [remainingTime, setRemainingTime] = useState(totalExerciseTime); // Zbývající čas cvičení
+  const [phaseTime, setPhaseTime] = useState(breathCycle[0].duration / 1000); // Čas aktuální fáze v sekundách
+  const [rainPlaying, setRainPlaying] = useState(false); // Stav přehrávání deště
+  const rainSound = useRef(null); // Ref na zvukový objekt
+  const scaleAnim = useState(new Animated.Value(1))[0]; // Animovaná hodnota pro měřítko kruhu
 
   useEffect(() => {
-    let phaseTimer;
-    let countdown;
+    let phaseTimer; // Timer pro fáze dýchání
+    let countdown; // Timer pro odpočet cvičení
 
     if (breathing) {
       const { duration, scale } = breathCycle[phaseIndex];
 
+      // Spuštění animace měřítka
       Animated.timing(scaleAnim, {
         toValue: scale,
         duration: duration,
         useNativeDriver: true,
       }).start();
 
-      setPhaseTime(duration / 1000);
+      setPhaseTime(duration / 1000); // Nastavení délky aktuální fáze
+
+      // Interval pro přepínání fází
       phaseTimer = setInterval(() => {
         setPhaseTime((prev) => {
           if (prev <= 1) {
@@ -54,18 +58,20 @@ const ZklidnitStresScreen = () => {
         });
       }, 1000);
 
+      // Interval pro celkový odpočet
       countdown = setInterval(() => {
         setRemainingTime((prev) => {
           if (prev <= 1000) {
             clearInterval(countdown);
             setBreathing(false);
-            stopRain();
+            stopRain(); // Po dokončení se vypne déšť
             return 0;
           }
           return prev - 1000;
         });
       }, 1000);
     } else {
+      // Reset po zastavení
       clearInterval(countdown);
       clearInterval(phaseTimer);
       setRemainingTime(totalExerciseTime);
@@ -80,8 +86,8 @@ const ZklidnitStresScreen = () => {
     };
   }, [breathing, phaseIndex]);
 
-  // 🚀 **Zastavení zvuku při odchodu z obrazovky**
   useEffect(() => {
+    // Zastavení zvuku při odchodu z obrazovky
     const stopAndUnload = async () => {
       if (rainSound.current) {
         try {
@@ -90,7 +96,6 @@ const ZklidnitStresScreen = () => {
           rainSound.current = null;
           setRainPlaying(false);
         } catch (error) {
-          // Chybu ignorujeme, aby se neobjevila žádná hláška
         }
       }
     };
@@ -103,8 +108,8 @@ const ZklidnitStresScreen = () => {
     };
   }, [navigation]);
 
-  // ✅ **Spuštění a vypnutí zvuku**
   const toggleRain = async () => {
+    // Přepínač deště (spustí nebo zastaví zvuk)
     if (rainPlaying) {
       stopRain();
     } else {
@@ -114,13 +119,12 @@ const ZklidnitStresScreen = () => {
         await sound.playAsync();
         setRainPlaying(true);
       } catch (error) {
-        // Chybu ignorujeme
       }
     }
   };
 
-  // ✅ **Zastavení zvuku**
   const stopRain = async () => {
+    // Zastavení a uvolnění zvuku
     if (rainSound.current) {
       try {
         await rainSound.current.stopAsync();
@@ -128,7 +132,6 @@ const ZklidnitStresScreen = () => {
         rainSound.current = null;
         setRainPlaying(false);
       } catch (error) {
-        // Chybu ignorujeme
       }
     }
   };
@@ -196,14 +199,14 @@ const styles = StyleSheet.create({
     left: width * 0.02,
     top: height * 0.01, 
     padding: 10, 
-    backgroundColor: "#A8B5A2", // Jemná přírodní zelená
+    backgroundColor: "#A8B5A2", 
     borderRadius: 50, 
   },
   title: { 
     fontSize: width * 0.06, 
     position: "absolute",
     top: height * 0.02, 
-    alignSelf: "center", // Zarovná text na střed v rámci `header`
+    alignSelf: "center",
     fontWeight: "bold", 
     color: "#445D48",
   },
@@ -224,7 +227,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.05, 
     fontWeight: "bold",
     textAlign: "center",
-    color: "#3C493F", // Jemnější tmavá zelená
+    color: "#3C493F", 
     marginBottom: height * 0.02
   },
   circleContainer: {
@@ -236,11 +239,11 @@ const styles = StyleSheet.create({
     width: width * 0.6,
     height: width * 0.6,
     borderRadius: width * 0.3,
-    backgroundColor: "#DDE2C6", // Jemná pastelová zelená místo hnědé
+    backgroundColor: "#DDE2C6",
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#445D48", // Kontrastní tlumená zelená
+    borderColor: "#445D48",
     shadowColor: "#A8B5A2",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
@@ -249,7 +252,7 @@ const styles = StyleSheet.create({
   circleText: {
     fontSize: width * 0.09,
     fontWeight: "bold",
-    color: "#445D48", // Kontrastní tmavší zelená
+    color: "#445D48",
   },
   phaseText: { 
     fontSize: width * 0.05, 
@@ -259,7 +262,7 @@ const styles = StyleSheet.create({
     marginBottom: height * 0.02
   },
   button: { 
-    backgroundColor: "#445D48", // Zklidňující tmavší zelená
+    backgroundColor: "#445D48",
     paddingVertical: height * 0.02, 
     borderRadius: 10, 
     width: "90%", 
@@ -271,7 +274,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   buttonText: { 
-    color: "#F1F0EB", // Světlejší béžová pro dobrý kontrast
+    color: "#F1F0EB", 
     fontSize: width * 0.045, 
     fontWeight: "bold" 
   },

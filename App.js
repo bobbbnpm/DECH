@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Ionicons } from "@expo/vector-icons";
+// Importuje potřebné knihovny a hooky z Reactu a dalších balíčků
+import React, { useState, useEffect } from "react"; // React komponenta + hooky useState a useEffect
+import { NavigationContainer } from "@react-navigation/native"; // Hlavní kontejner pro navigaci
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"; // Spodní navigační menu (tabs)
+import { createStackNavigator } from "@react-navigation/stack"; // Zásobníková (stack) navigace
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Ukládání dat na zařízení
+import { Ionicons } from "@expo/vector-icons"; // Ikony z knihovny Ionicons
 
-// Import obrazovek
+// Import jednotlivých obrazovek aplikace
 import HomeScreen from "./screens/HomeScreen";
 import ExercisesScreen from "./screens/ExercisesScreen";
 import TasksScreen from "./screens/TasksScreen";
@@ -33,11 +34,12 @@ import WimHofovaMetodaC from "./screens/WimHofovaMetodaC";
 import RozdychaniPredPotapenimP from "./screens/RozdychaniPredPotapenimP";
 import RozdychaniPredPotapenimC from "./screens/RozdychaniPredPotapenimC";
 
-const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
-const OnboardingStack = createStackNavigator();
+// Vytvoření navigačních objektů pro spodní menu a stack navigaci
+const Tab = createBottomTabNavigator(); // Spodní navigace (tabs)
+const Stack = createStackNavigator(); // Hlavní stack navigace
+const OnboardingStack = createStackNavigator(); // Stack navigace pro onboarding
 
-// **Spodní menu (hlavní aplikace)**
+// Funkce definující spodní menu aplikace
 const TabNavigator = () => {
   return (
     <Tab.Navigator
@@ -61,7 +63,7 @@ const TabNavigator = () => {
   );
 };
 
-// **Navigace pro onboarding**
+// Navigace pro onboarding – zobrazuje se při prvním spuštění
 const OnboardingNavigator = ({ setShowOnboarding }) => {
   return (
     <OnboardingStack.Navigator screenOptions={{ headerShown: false }}>
@@ -74,28 +76,30 @@ const OnboardingNavigator = ({ setShowOnboarding }) => {
   );
 };
 
-// **Hlavní navigace aplikace**
+// Hlavní komponenta aplikace
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
+    // Po spuštění zkontroluje, zda uživatel viděl onboarding
     const checkOnboarding = async () => {
       try {
-        const seen = await AsyncStorage.getItem("hasSeenOnboarding");
-        setShowOnboarding(seen !== "true"); 
+        const seen = await AsyncStorage.getItem("hasSeenOnboarding"); // Načte stav z úložiště
+        setShowOnboarding(seen !== "true"); // Pokud nebyl onboarding zobrazen, nastaví na true
       } catch (error) {
-        console.error("Chyba při načítání onboardingu:", error);
+        console.error("Chyba při načítání onboardingu:", error); // Vypíše chybu v konzoli
       }
-      setIsLoading(false);
+      setIsLoading(false); // Ukončí načítání
     };
 
-    checkOnboarding();
-  }, []);
+    checkOnboarding(); // Zavolání funkce při prvním renderu
+  }, []); // Prázdné pole = jen při načtení komponenty
 
-  if (isLoading) return null;
+  if (isLoading) return null; // Pokud se načítá, nevracej nic
 
   return (
+    // Hlavní navigační kontejner celé aplikace
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {showOnboarding ? (
@@ -131,4 +135,5 @@ const App = () => {
   );
 };
 
+// Export hlavní komponenty aplikace
 export default App;
